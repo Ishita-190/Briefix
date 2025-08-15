@@ -40,6 +40,7 @@ export default function Index() {
           backgroundImage: `
           linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), 
           url("/bgpic.jpg")
+          ,
         }}
       >
         <div className="container mx-auto px-4">
