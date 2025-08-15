@@ -12,8 +12,8 @@ export function Footer() {
               <span className="text-xl font-bold">Briefix</span>
             </Link>
             <p className="text-primary-foreground/80 mb-4 max-w-md">
-              Making legal help accessible through AI-powered explanations and guidance. 
-              Understand complex legal concepts at your level.
+              Simplifying legal complexity through intelligent briefings and AI-powered guidance.
+              Get clear, level-appropriate explanations for any legal matter.
             </p>
             <p className="text-sm text-primary-foreground/60">
               ⚠️ This is an AI assistant for educational purposes only. Not a substitute for professional legal advice.
