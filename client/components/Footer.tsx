@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { Scale } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { Scale } from "lucide-react";
 
 export function Footer() {
   return (
@@ -12,31 +12,89 @@ export function Footer() {
               <span className="text-xl font-bold">Briefix</span>
             </Link>
             <p className="text-primary-foreground/80 mb-4 max-w-md">
-              Simplifying legal complexity through intelligent briefings and AI-powered guidance.
-              Get clear, level-appropriate explanations for any legal matter.
+              Simplifying legal complexity through intelligent briefings and
+              AI-powered guidance. Get clear, level-appropriate explanations for
+              any legal matter.
             </p>
             <p className="text-sm text-primary-foreground/60">
-              ⚠️ This is an AI assistant for educational purposes only. Not a substitute for professional legal advice.
+              ⚠️ This is an AI assistant for educational purposes only. Not a
+              substitute for professional legal advice.
             </p>
           </div>
 
           <div>
             <h3 className="font-semibold mb-4">Features</h3>
             <ul className="space-y-2 text-primary-foreground/80">
-              <li><Link to="/explain" className="hover:text-primary-foreground transition-colors">AI Explanation</Link></li>
-              <li><Link to="/documents" className="hover:text-primary-foreground transition-colors">Document Analysis</Link></li>
-              <li><Link to="/procedures" className="hover:text-primary-foreground transition-colors">Legal Procedures</Link></li>
-              <li><Link to="/chat" className="hover:text-primary-foreground transition-colors">Ask AI</Link></li>
+              <li>
+                <Link
+                  to="/explain"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  AI Explanation
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/documents"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  Document Analysis
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/procedures"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  Legal Procedures
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/chat"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  Ask AI
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-semibold mb-4">Support</h3>
             <ul className="space-y-2 text-primary-foreground/80">
-              <li><Link to="/help" className="hover:text-primary-foreground transition-colors">Help Center</Link></li>
-              <li><Link to="/contact" className="hover:text-primary-foreground transition-colors">Contact Us</Link></li>
-              <li><Link to="/privacy" className="hover:text-primary-foreground transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/terms" className="hover:text-primary-foreground transition-colors">Terms of Service</Link></li>
+              <li>
+                <Link
+                  to="/help"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  Help Center
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/privacy"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/terms"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  Terms of Service
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

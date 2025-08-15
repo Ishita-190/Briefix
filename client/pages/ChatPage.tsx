@@ -1,40 +1,47 @@
-import { useState, useRef, useEffect } from 'react';
-import { Button } from '../components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Textarea } from '../components/ui/textarea';
-import { Badge } from '../components/ui/badge';
-import { ScrollArea } from '../components/ui/scroll-area';
-import { 
-  MessageSquare, 
-  Send, 
-  Bot, 
-  User, 
+import { useState, useRef, useEffect } from "react";
+import { Button } from "../components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import { Textarea } from "../components/ui/textarea";
+import { Badge } from "../components/ui/badge";
+import { ScrollArea } from "../components/ui/scroll-area";
+import {
+  MessageSquare,
+  Send,
+  Bot,
+  User,
   Lightbulb,
   FileText,
   Scale,
   Clock,
-  Loader2
-} from 'lucide-react';
+  Loader2,
+} from "lucide-react";
 
 type Message = {
   id: string;
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
   timestamp: Date;
-  type?: 'explanation' | 'document' | 'procedure' | 'general';
+  type?: "explanation" | "document" | "procedure" | "general";
 };
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([
     {
-      id: '1',
-      role: 'assistant',
-      content: "Hello! I'm your AI legal assistant. I can help explain legal concepts, analyze documents, guide you through procedures, and answer your legal questions. What would you like to know?",
+      id: "1",
+      role: "assistant",
+      content:
+        "Hello! I'm your AI legal assistant. I can help explain legal concepts, analyze documents, guide you through procedures, and answer your legal questions. What would you like to know?",
       timestamp: new Date(),
-      type: 'general'
-    }
+      type: "general",
+    },
   ]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -45,7 +52,7 @@ export default function ChatPage() {
     "What are my rights during a police stop?",
     "How does bankruptcy work?",
     "What should I do if I'm being sued?",
-    "How do I file a restraining order?"
+    "How do I file a restraining order?",
   ];
 
   useEffect(() => {
@@ -59,25 +66,27 @@ export default function ChatPage() {
 
     const userMessage: Message = {
       id: Date.now().toString(),
-      role: 'user',
+      role: "user",
       content: content.trim(),
       timestamp: new Date(),
-      type: 'general'
+      type: "general",
     };
 
-    setMessages(prev => [...prev, userMessage]);
-    setInput('');
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
     setIsLoading(true);
 
     // Simulate AI response
-    await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 1000));
+    await new Promise((resolve) =>
+      setTimeout(resolve, 1500 + Math.random() * 1000),
+    );
 
     // Generate contextual response based on content
-    let responseContent = '';
-    let responseType: Message['type'] = 'general';
+    let responseContent = "";
+    let responseType: Message["type"] = "general";
 
-    if (content.toLowerCase().includes('contract')) {
-      responseType = 'document';
+    if (content.toLowerCase().includes("contract")) {
+      responseType = "document";
       responseContent = `A contract is a legally binding agreement between two or more parties. Here are the key elements:
 
 **Essential Elements:**
@@ -99,8 +108,11 @@ export default function ChatPage() {
 • Illegal subject matter
 
 Would you like me to explain any specific aspect of contracts in more detail, or help you understand a particular contract you're dealing with?`;
-    } else if (content.toLowerCase().includes('rights') && content.toLowerCase().includes('police')) {
-      responseType = 'procedure';
+    } else if (
+      content.toLowerCase().includes("rights") &&
+      content.toLowerCase().includes("police")
+    ) {
+      responseType = "procedure";
       responseContent = `Here are your fundamental rights during a police encounter:
 
 **Your Constitutional Rights:**
@@ -125,8 +137,11 @@ Would you like me to explain any specific aspect of contracts in more detail, or
 **Important:** Stay calm, be polite, and never run or resist. You can challenge illegal police actions later in court with an attorney's help.
 
 Do you have a specific situation you'd like guidance on?`;
-    } else if (content.toLowerCase().includes('misdemeanor') || content.toLowerCase().includes('felony')) {
-      responseType = 'explanation';
+    } else if (
+      content.toLowerCase().includes("misdemeanor") ||
+      content.toLowerCase().includes("felony")
+    ) {
+      responseType = "explanation";
       responseContent = `Here's the key difference between misdemeanors and felonies:
 
 **Misdemeanors (Less Serious Crimes):**
@@ -154,8 +169,11 @@ Do you have a specific situation you'd like guidance on?`;
 • Some crimes are "wobblers" - can be charged as either depending on circumstances
 
 The distinction matters because felonies carry much more serious long-term consequences for your rights, employment, and other aspects of life.`;
-    } else if (content.toLowerCase().includes('lawyer') || content.toLowerCase().includes('attorney')) {
-      responseType = 'general';
+    } else if (
+      content.toLowerCase().includes("lawyer") ||
+      content.toLowerCase().includes("attorney")
+    ) {
+      responseType = "general";
       responseContent = `Here's when you should consider getting a lawyer:
 
 **Definitely Need a Lawyer:**
@@ -218,40 +236,46 @@ This will help me give you the most relevant and useful information.`;
 
     const assistantMessage: Message = {
       id: (Date.now() + 1).toString(),
-      role: 'assistant',
+      role: "assistant",
       content: responseContent,
       timestamp: new Date(),
-      type: responseType
+      type: responseType,
     };
 
-    setMessages(prev => [...prev, assistantMessage]);
+    setMessages((prev) => [...prev, assistantMessage]);
     setIsLoading(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage(input);
     }
   };
 
-  const getMessageIcon = (type?: Message['type']) => {
+  const getMessageIcon = (type?: Message["type"]) => {
     switch (type) {
-      case 'explanation': return <Lightbulb className="h-4 w-4 text-yellow-500" />;
-      case 'document': return <FileText className="h-4 w-4 text-blue-500" />;
-      case 'procedure': return <Scale className="h-4 w-4 text-purple-500" />;
-      default: return <Bot className="h-4 w-4 text-accent" />;
+      case "explanation":
+        return <Lightbulb className="h-4 w-4 text-yellow-500" />;
+      case "document":
+        return <FileText className="h-4 w-4 text-blue-500" />;
+      case "procedure":
+        return <Scale className="h-4 w-4 text-purple-500" />;
+      default:
+        return <Bot className="h-4 w-4 text-accent" />;
     }
   };
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-primary mb-4">AI Legal Assistant</h1>
+        <h1 className="text-4xl font-bold text-primary mb-4">
+          AI Legal Assistant
+        </h1>
         <p className="text-xl text-muted-foreground">
           Get immediate answers to your legal questions in plain English
         </p>
@@ -264,7 +288,8 @@ This will help me give you the most relevant and useful information.`;
             Legal Chat Assistant
           </CardTitle>
           <CardDescription>
-            Ask questions, request explanations, or get guidance on legal matters
+            Ask questions, request explanations, or get guidance on legal
+            matters
           </CardDescription>
         </CardHeader>
 
@@ -276,23 +301,23 @@ This will help me give you the most relevant and useful information.`;
                 <div
                   key={message.id}
                   className={`flex gap-3 ${
-                    message.role === 'user' ? 'justify-end' : 'justify-start'
+                    message.role === "user" ? "justify-end" : "justify-start"
                   }`}
                 >
-                  {message.role === 'assistant' && (
+                  {message.role === "assistant" && (
                     <div className="flex-shrink-0 w-8 h-8 bg-accent text-accent-foreground rounded-full flex items-center justify-center">
                       {getMessageIcon(message.type)}
                     </div>
                   )}
-                  
+
                   <div
                     className={`max-w-[80%] rounded-lg p-3 ${
-                      message.role === 'user'
-                        ? 'bg-primary text-primary-foreground ml-12'
-                        : 'bg-muted mr-12'
+                      message.role === "user"
+                        ? "bg-primary text-primary-foreground ml-12"
+                        : "bg-muted mr-12"
                     }`}
                   >
-                    {message.type && message.role === 'assistant' && (
+                    {message.type && message.role === "assistant" && (
                       <Badge variant="outline" className="mb-2 text-xs">
                         {message.type}
                       </Badge>
@@ -300,15 +325,17 @@ This will help me give you the most relevant and useful information.`;
                     <div className="whitespace-pre-wrap text-sm leading-relaxed">
                       {message.content}
                     </div>
-                    <div className={`text-xs mt-2 opacity-70 ${
-                      message.role === 'user' ? 'text-right' : 'text-left'
-                    }`}>
+                    <div
+                      className={`text-xs mt-2 opacity-70 ${
+                        message.role === "user" ? "text-right" : "text-left"
+                      }`}
+                    >
                       <Clock className="inline h-3 w-3 mr-1" />
                       {formatTime(message.timestamp)}
                     </div>
                   </div>
 
-                  {message.role === 'user' && (
+                  {message.role === "user" && (
                     <div className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center">
                       <User className="h-4 w-4" />
                     </div>
@@ -383,8 +410,9 @@ This will help me give you the most relevant and useful information.`;
       {/* Disclaimer */}
       <div className="mt-6 p-4 bg-muted/50 rounded-lg">
         <p className="text-sm text-muted-foreground text-center">
-          ⚠️ <strong>Important:</strong> This AI provides educational information only. 
-          Responses are not legal advice. For specific legal matters, consult with a qualified attorney.
+          ⚠️ <strong>Important:</strong> This AI provides educational
+          information only. Responses are not legal advice. For specific legal
+          matters, consult with a qualified attorney.
         </p>
       </div>
     </div>
