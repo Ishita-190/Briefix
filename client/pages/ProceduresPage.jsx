@@ -43,8 +43,8 @@ import {
 
 export default function ProceduresPage() {
   const [selectedProcedure, setSelectedProcedure] =
-    useState<LegalProcedure | null>(null);
-  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+    useState(null);
+  const [completedSteps, setCompletedSteps] = useState([]);
 
   const procedures[] = [
     {
