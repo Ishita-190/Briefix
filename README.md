@@ -24,34 +24,40 @@
 Briefix is an AI-powered legal assistant designed to make legal concepts accessible to everyone. Whether you're 12 years old trying to understand your rights, a teenager learning about contracts, or a legal professional seeking quick clarification, Briefix adapts its explanations to your level of understanding.
 
 ### 🎨 Design Philosophy
+
 Briefix features a vintage scroll-inspired design that evokes the gravitas and tradition of legal documents while maintaining modern usability and accessibility.
 
 ## ✨ Features
 
 ### 🧠 **Smart AI Explanations**
+
 - **Adaptive Complexity**: Choose your comprehension level (12-year-old, 15-year-old, or lawyer)
 - **Contextual Responses**: AI provides relevant examples and explanations based on your question
 - **Educational Focus**: Designed for learning and understanding, not legal advice
 
 ### 📄 **Document Analysis**
+
 - **Upload Support**: PDF, DOC, DOCX, and TXT files
 - **Intelligent Parsing**: Extracts key points, potential concerns, and recommendations
 - **Plain English Summaries**: Complex legal documents explained in accessible language
 - **Risk Assessment**: Identifies potential issues and suggests next steps
 
 ### 📋 **Legal Procedures Guide**
+
 - **Step-by-Step Guidance**: Complete walkthroughs for common legal processes
 - **Progress Tracking**: Check off completed steps and track your progress
 - **Time Estimates**: Realistic timelines for each step and overall process
 - **Difficulty Indicators**: Visual cues for complexity levels
 
 ### 💬 **AI Chat Interface**
+
 - **Natural Language**: Ask questions in plain English
 - **Contextual Understanding**: AI remembers conversation context
 - **Multiple Response Types**: Explanations, document help, procedure guidance
 - **Quick Questions**: Pre-populated common legal questions
 
 ### 🔒 **Privacy & Security**
+
 - **Educational Focus**: Clear disclaimers about the educational nature of responses
 - **No Legal Advice**: Emphasizes the need for professional consultation
 - **Secure Processing**: Document analysis with privacy considerations
@@ -59,6 +65,7 @@ Briefix features a vintage scroll-inspired design that evokes the gravitas and t
 ## 🛠️ Tech Stack
 
 ### **Frontend**
+
 - **React 18** - Modern React with hooks and functional components
 - **Vite** - Fast build tool and development server
 - **React Router 6** - Client-side routing with SPA mode
@@ -66,15 +73,18 @@ Briefix features a vintage scroll-inspired design that evokes the gravitas and t
 - **Lucide React** - Beautiful, customizable icons
 
 ### **Backend**
+
 - **Express.js** - Node.js web framework
 - **Integrated Development** - Single-port setup with Vite proxy
 
 ### **UI Components**
+
 - **Radix UI** - Accessible, unstyled UI primitives
 - **Custom Design System** - Built on shadcn/ui patterns
 - **Responsive Design** - Mobile-first approach
 
 ### **Development Tools**
+
 - **JavaScript (ES6+)** - Converted from TypeScript for simplicity
 - **PNPM** - Fast, disk space efficient package manager
 - **Vitest** - Unit testing framework
@@ -83,18 +93,21 @@ Briefix features a vintage scroll-inspired design that evokes the gravitas and t
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - **Node.js** (v18 or higher)
 - **PNPM** (recommended) or npm
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/Ishita-190/Briefix.git
    cd Briefix
    ```
 
 2. **Install dependencies**
+
    ```bash
    pnpm install
    # or
@@ -102,6 +115,7 @@ Briefix features a vintage scroll-inspired design that evokes the gravitas and t
    ```
 
 3. **Start the development server**
+
    ```bash
    pnpm dev
    # or
@@ -136,7 +150,7 @@ pnpm format.fix   # Format code with Prettier
 ```
 Briefix/
 ├── client/                     # React frontend
-│   ├── components/            
+│   ├── components/
 │   │   ├── ui/               # Reusable UI components (buttons, cards, etc.)
 │   │   ├── Header.jsx        # Navigation header
 │   │   └── Footer.jsx        # Site footer
@@ -164,29 +178,34 @@ Briefix/
 ## 📖 Usage
 
 ### 🏠 **Homepage**
+
 - Overview of Briefix capabilities
 - Quick access to all major features
 - Getting started guide
 
 ### 🧠 **AI Explanations** (`/explain`)
+
 1. Enter your legal question
 2. Select complexity level (12-year-old, 15-year-old, lawyer)
 3. Receive tailored explanation
 4. Ask follow-up questions for clarification
 
 ### 📄 **Document Analysis** (`/documents`)
+
 1. Upload legal document (PDF, DOC, DOCX, TXT)
 2. Wait for AI analysis (simulated processing)
 3. Review document overview, key points, and concerns
 4. Follow provided recommendations
 
 ### 📋 **Legal Procedures** (`/procedures`)
+
 1. Browse available legal procedures
 2. Select a procedure to view detailed steps
 3. Check off completed steps to track progress
 4. Follow important notes and disclaimers
 
 ### 💬 **AI Chat** (`/chat`)
+
 1. Start conversation with AI assistant
 2. Ask questions about legal topics
 3. Receive contextual responses
@@ -197,6 +216,7 @@ Briefix/
 We welcome contributions to Briefix! Here's how you can help:
 
 ### **Development Setup**
+
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Follow the installation steps above
@@ -207,6 +227,7 @@ We welcome contributions to Briefix! Here's how you can help:
 8. Open a Pull Request
 
 ### **Contribution Guidelines**
+
 - **Code Style**: Follow existing patterns and conventions
 - **Components**: Break large components into smaller, reusable pieces
 - **Testing**: Add tests for new functionality
@@ -214,6 +235,7 @@ We welcome contributions to Briefix! Here's how you can help:
 - **Security**: Never commit API keys or sensitive information
 
 ### **Areas for Contribution**
+
 - 🎨 UI/UX improvements
 - 🧠 Enhanced AI response patterns
 - 📱 Mobile responsiveness
@@ -236,6 +258,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - ✅ **Encourages consultation with qualified attorneys for legal matters**
 
 ### **When to Seek Professional Help**
+
 - Before signing any legal documents
 - When facing legal action or litigation
 - For complex legal matters affecting your rights
