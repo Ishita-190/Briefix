@@ -143,11 +143,11 @@ export default function Index() {
 
       {/* How It Works Section */}
       <section
-        className="relative py-24 lg:py-32 bg-cover bg-center"
+        className="py-20 border-y border-border/50 bg-cover bg-center"
         style={{
           backgroundImage: `
             linear-gradient(45deg, rgba(139, 120, 93, 0.03) 0%, transparent 100%),
-            url("/bgpic2.jpg")
+            url("/image4.jpg")
           `,
         }}
       >
