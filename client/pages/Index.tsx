@@ -39,7 +39,7 @@ export default function Index() {
         style={{
           backgroundImage: `
           linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), 
-          url("/bgpic.jpg")
+          url("/bgpic.webp")
           ,
         }}
       >
