@@ -22,16 +22,9 @@ import {
   Loader2,
 } from "lucide-react";
 
-type Message = {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-  timestamp: Date;
-  type?: "explanation" | "document" | "procedure" | "general";
-};
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState<Message[]>([
+  const [messages, setMessages] = useState([
     {
       id: "1",
       role: "assistant",
@@ -64,7 +57,7 @@ export default function ChatPage() {
   const sendMessage = async (content: string) => {
     if (!content.trim()) return;
 
-    const userMessage: Message = {
+    const userMessage = {
       id: Date.now().toString(),
       role: "user",
       content: content.trim(),
@@ -83,7 +76,7 @@ export default function ChatPage() {
 
     // Generate contextual response based on content
     let responseContent = "";
-    let responseType: Message["type"] = "general";
+    let responseType = "general";
 
     if (content.toLowerCase().includes("contract")) {
       responseType = "document";
@@ -234,7 +227,7 @@ Could you provide more specific details about your situation? For example:
 This will help me give you the most relevant and useful information.`;
     }
 
-    const assistantMessage: Message = {
+    const assistantMessage = {
       id: (Date.now() + 1).toString(),
       role: "assistant",
       content: responseContent,
@@ -246,14 +239,14 @@ This will help me give you the most relevant and useful information.`;
     setIsLoading(false);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage(input);
     }
   };
 
-  const getMessageIcon = (type?: Message["type"]) => {
+  const getMessageIcon = (type?) => {
     switch (type) {
       case "explanation":
         return <Lightbulb className="h-4 w-4 text-yellow-500" />;
@@ -266,7 +259,7 @@ This will help me give you the most relevant and useful information.`;
     }
   };
 
-  const formatTime = (date: Date) => {
+  const formatTime = (date) => {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
