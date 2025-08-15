@@ -146,7 +146,7 @@ export default function Index() {
         className="py-20 border-y border-border/50 bg-cover bg-center"
         style={{
           backgroundImage: `
-            linear-gradient(45deg, rgba(139, 120, 93, 0.01) 0%, transparent 100%),
+            linear-gradient(45deg, rgba(139, 120, 93, 0.005) 0%, transparent 100%),
             url("/image4.jpg")
           `,
         }}
