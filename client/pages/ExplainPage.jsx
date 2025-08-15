@@ -20,12 +20,12 @@ import {
   Sparkles,
 } from "lucide-react";
 
-type ComplexityLevel = "12-year-old" | "15-year-old" | "lawyer";
+// ComplexityLevel types: 12-year-old, 15-year-old, lawyer
 
 export default function ExplainPage() {
   const [question, setQuestion] = useState("");
   const [complexityLevel, setComplexityLevel] =
-    useState<ComplexityLevel>("15-year-old");
+    useState("15-year-old");
   const [explanation, setExplanation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -74,7 +74,7 @@ Recommend consulting primary sources, recent case law, and jurisdiction-specific
     setIsLoading(false);
   };
 
-  const getLevelInfo = (level: ComplexityLevel) => {
+  const getLevelInfo = (level) => {
     switch (level) {
       case "12-year-old":
         return {
@@ -140,11 +140,11 @@ Recommend consulting primary sources, recent case law, and jurisdiction-specific
                   <RadioGroup
                     value={complexityLevel}
                     onValueChange={(value) =>
-                      setComplexityLevel(value as ComplexityLevel)
+                      setComplexityLevel(value)
                     }
                     className="space-y-4"
                   >
-                    {(["12-year-old", "15-year-old", "lawyer"] as const).map(
+                    {(["12-year-old", "15-year-old", "lawyer"]).map(
                       (level) => {
                         const info = getLevelInfo(level);
                         return (
