@@ -38,8 +38,8 @@ export default function Index() {
         className="relative py-24 lg:py-32 bg-gradient-to-b from-accent/10 to-background/80"
         style={{
           backgroundImage: `
-          linear-gradient(45deg, rgba(139, 120, 93, 0.03) 0%, transparent 100%),
-          url("/bgpic2.jpeg")`,
+          linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), 
+          url("/bgpic.jpg")
         }}
       >
         <div className="container mx-auto px-4">
