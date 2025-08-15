@@ -144,12 +144,12 @@ export default function Index() {
       {/* How It Works Section */}
       <section
         className="py-20 border-y border-border/50 bg-cover bg-center"
-        style={{
+        {/*style={{
           backgroundImage: `
             linear-gradient(45deg, rgba(139, 120, 93, 0.0005) 0%, transparent 100%),
             url("/image4.jpg")
           `,
-        }}
+        }}*/}
       >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -167,8 +167,8 @@ export default function Index() {
                 <div className="bg-accent text-accent-foreground rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-6 mx-auto">
                   {i + 1}
                 </div>
-                <h3 className="text-xl font-semibold mb-4 text-white">{title}</h3>
-                <p className="text-white">
+                <h3 className="text-xl font-semibold mb-4">{title}</h3>
+                <p className="text-muted-foreground">
                   {i === 0 && "Select how complex you want the explanation: simple enough for a 12-year-old, moderate for a 15-year-old, or detailed for legal professionals."}
                   {i === 1 && "Type your legal question, upload a document for analysis, or ask about a specific legal procedure you need help with."}
                   {i === 2 && "Receive explanations tailored to your chosen complexity level, with actionable insights and next steps clearly outlined."}
