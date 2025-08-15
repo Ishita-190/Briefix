@@ -28,7 +28,7 @@ export default function DocumentsPage() {
   const [analysis, setAnalysis] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleDrag = (e: React.DragEvent) => {
+  const handleDrag = (e(e)) => {
     e.preventDefault();
     e.stopPropagation();
     if (e.type === "dragenter" || e.type === "dragover") {
@@ -38,7 +38,7 @@ export default function DocumentsPage() {
     }
   };
 
-  const handleDrop = (e: React.DragEvent) => {
+  const handleDrop = (e(e)) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
@@ -48,7 +48,7 @@ export default function DocumentsPage() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e(e)) => {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
       handleFile(e.target.files[0]);
@@ -129,7 +129,7 @@ export default function DocumentsPage() {
     setIsAnalyzing(false);
   };
 
-  const getConcernColor = (level: string) => {
+  const getConcernColor = (level,) => {
     switch (level) {
       case "high":
         return "destructive";
@@ -279,7 +279,7 @@ export default function DocumentsPage() {
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  {analysis.keyPoints.map((point: string, index: number) => (
+                  {analysis.keyPoints.map((point,, index,) => (
                     <li key={index} className="flex items-start gap-3">
                       <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
                       <span>{point}</span>
@@ -302,14 +302,14 @@ export default function DocumentsPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 {analysis.potentialConcerns.map(
-                  (concern: any, index: number) => (
+                  (concern,, index,) => (
                     <Alert key={index}>
                       <AlertTriangle className="h-4 w-4" />
                       <div>
                         <div className="flex items-center gap-2 mb-1">
                           <span className="font-medium">{concern.issue}</span>
                           <Badge
-                            variant={getConcernColor(concern.level) as any}
+                            variant={getConcernColor(concern.level)}
                           >
                             {concern.level} priority
                           </Badge>
@@ -335,7 +335,7 @@ export default function DocumentsPage() {
               <CardContent>
                 <ul className="space-y-3">
                   {analysis.recommendations.map(
-                    (rec: string, index: number) => (
+                    (rec,, index,) => (
                       <li key={index} className="flex items-start gap-3">
                         <div className="bg-accent text-accent-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-medium mt-0.5 flex-shrink-0">
                           {index + 1}

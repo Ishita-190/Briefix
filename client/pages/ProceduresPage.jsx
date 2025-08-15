@@ -22,7 +22,6 @@ import {
   MapPin,
 } from "lucide-react";
 
-type ProcedureStep = {
   id: number;
   title: string;
   description: string;
@@ -32,7 +31,6 @@ type ProcedureStep = {
   optional?: boolean;
 };
 
-type LegalProcedure = {
   id: string;
   title: string;
   description: string;
@@ -40,7 +38,7 @@ type LegalProcedure = {
   estimatedTime: string;
   complexity: "Beginner" | "Intermediate" | "Advanced";
   cost: string;
-  steps: ProcedureStep[];
+  steps[];
 };
 
 export default function ProceduresPage() {
@@ -48,7 +46,7 @@ export default function ProceduresPage() {
     useState<LegalProcedure | null>(null);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
 
-  const procedures: LegalProcedure[] = [
+  const procedures[] = [
     {
       id: "small-claims",
       title: "Filing a Small Claims Lawsuit",
