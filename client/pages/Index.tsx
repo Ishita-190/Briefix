@@ -158,7 +158,7 @@ export default function Index() {
       <section
         className="py-20 bg-gradient-to-b from-secondary/30 to-muted/40 border-y border-border/50"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4c4a8' fill-opacity='0.03'%3E%3Cpath d='M0 0h100v100H0z'/%3E%3Cpath d='M50 50m-45 0a45 45 0 1 1 90 0a45 45 0 1 1 -90 0'/%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("/bgpic.webp")`,
         }}
       >
         <div className="container mx-auto px-4">
