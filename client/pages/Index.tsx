@@ -145,7 +145,10 @@ export default function Index() {
       <section
         className="py-20 bg-gradient-to-b from-secondary/30 to-muted/40 border-y border-border/50"
         style={{
-          backgroundImage: `url("/heroimage.jpg")`,
+          backgroundImage: `
+            linear-gradient(45deg, rgba(139, 120, 93, 0.03) 0%, transparent 100%),
+            url("/heroimage.jpg")
+          `,
         }}
       >
         <div className="container mx-auto px-4">
