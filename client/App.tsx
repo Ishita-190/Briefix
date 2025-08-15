@@ -11,6 +11,7 @@ import DocumentsPage from "./pages/DocumentsPage";
 import ProceduresPage from "./pages/ProceduresPage";
 import ChatPage from "./pages/ChatPage";
 import NotFound from "./pages/NotFound";
+import SignIn from "./components/ui/SignIn";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ export default function App() {
                 <Route path="/documents" element={<DocumentsPage />} />
                 <Route path="/procedures" element={<ProceduresPage />} />
                 <Route path="/chat" element={<ChatPage />} />
+                <Route path="/login" element={<SignIn />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
