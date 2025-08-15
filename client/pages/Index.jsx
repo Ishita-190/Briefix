@@ -52,8 +52,9 @@ export default function Index() {
               <span className="text-accent"> Simple</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Get complex legal concepts explained at your level - whether you're 12, 15, or a practicing lawyer. 
-              Our AI breaks down legal procedures and documents into language you understand.
+              Get complex legal concepts explained at your level - whether
+              you're 12, 15, or a practicing lawyer. Our AI breaks down legal
+              procedures and documents into language you understand.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild>
@@ -77,7 +78,8 @@ export default function Index() {
               How Briefix Helps You
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Our AI adapts to your level of understanding, making legal knowledge accessible to everyone.
+              Our AI adapts to your level of understanding, making legal
+              knowledge accessible to everyone.
             </p>
           </div>
 
@@ -87,8 +89,8 @@ export default function Index() {
                 <Brain className="h-12 w-12 text-accent mb-4" />
                 <CardTitle>Smart Explanations</CardTitle>
                 <CardDescription>
-                  Choose your comprehension level: 12-year-old, 15-year-old, or lawyer. 
-                  Our AI adjusts the complexity accordingly.
+                  Choose your comprehension level: 12-year-old, 15-year-old, or
+                  lawyer. Our AI adjusts the complexity accordingly.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -98,8 +100,8 @@ export default function Index() {
                 <FileText className="h-12 w-12 text-accent mb-4" />
                 <CardTitle>Document Analysis</CardTitle>
                 <CardDescription>
-                  Upload legal documents and get plain-English summaries, 
-                  key points, and potential concerns explained clearly.
+                  Upload legal documents and get plain-English summaries, key
+                  points, and potential concerns explained clearly.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -109,8 +111,8 @@ export default function Index() {
                 <BookOpen className="h-12 w-12 text-accent mb-4" />
                 <CardTitle>Legal Procedures</CardTitle>
                 <CardDescription>
-                  Step-by-step guidance through legal processes, 
-                  from filing paperwork to understanding court procedures.
+                  Step-by-step guidance through legal processes, from filing
+                  paperwork to understanding court procedures.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -120,8 +122,8 @@ export default function Index() {
                 <MessageSquare className="h-12 w-12 text-accent mb-4" />
                 <CardTitle>AI Chat Assistant</CardTitle>
                 <CardDescription>
-                  Ask questions in natural language and get immediate, 
-                  accurate answers about legal concepts and procedures.
+                  Ask questions in natural language and get immediate, accurate
+                  answers about legal concepts and procedures.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -131,8 +133,8 @@ export default function Index() {
                 <Shield className="h-12 w-12 text-accent mb-4" />
                 <CardTitle>Privacy First</CardTitle>
                 <CardDescription>
-                  Your legal questions and documents are handled with 
-                  the highest level of security and confidentiality.
+                  Your legal questions and documents are handled with the
+                  highest level of security and confidentiality.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -142,8 +144,8 @@ export default function Index() {
                 <Zap className="h-12 w-12 text-accent mb-4" />
                 <CardTitle>Instant Answers</CardTitle>
                 <CardDescription>
-                  Get immediate clarification on legal terms, procedures, 
-                  and documents without waiting for appointments.
+                  Get immediate clarification on legal terms, procedures, and
+                  documents without waiting for appointments.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -164,7 +166,8 @@ export default function Index() {
               Simple as 1-2-3
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Getting legal help has never been easier. Follow these simple steps.
+              Getting legal help has never been easier. Follow these simple
+              steps.
             </p>
           </div>
 
@@ -175,8 +178,9 @@ export default function Index() {
               </div>
               <h3 className="text-xl font-semibold mb-4">Choose Your Level</h3>
               <p className="text-muted-foreground">
-                Select how complex you want the explanation: simple enough for a 12-year-old, 
-                moderate for a 15-year-old, or detailed for legal professionals.
+                Select how complex you want the explanation: simple enough for a
+                12-year-old, moderate for a 15-year-old, or detailed for legal
+                professionals.
               </p>
             </div>
 
@@ -186,8 +190,8 @@ export default function Index() {
               </div>
               <h3 className="text-xl font-semibold mb-4">Ask or Upload</h3>
               <p className="text-muted-foreground">
-                Type your legal question, upload a document for analysis, 
-                or ask about a specific legal procedure you need help with.
+                Type your legal question, upload a document for analysis, or ask
+                about a specific legal procedure you need help with.
               </p>
             </div>
 
@@ -197,7 +201,7 @@ export default function Index() {
               </div>
               <h3 className="text-xl font-semibold mb-4">Get Clear Answers</h3>
               <p className="text-muted-foreground">
-                Receive explanations tailored to your chosen complexity level, 
+                Receive explanations tailored to your chosen complexity level,
                 with actionable insights and next steps clearly outlined.
               </p>
             </div>
@@ -221,7 +225,8 @@ export default function Index() {
               Ready to Understand Your Legal Rights?
             </h2>
             <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-              Join thousands of people who've simplified their legal understanding with Briefix.
+              Join thousands of people who've simplified their legal
+              understanding with Briefix.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="secondary" asChild>
@@ -239,7 +244,8 @@ export default function Index() {
               </Button>
             </div>
             <p className="text-sm opacity-75 mt-6">
-              ⚠️ Educational tool only • Not a substitute for professional legal advice
+              ⚠️ Educational tool only • Not a substitute for professional legal
+              advice
             </p>
           </div>
         </div>

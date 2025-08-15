@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
-import { Scale, Menu, X } from 'lucide-react';
-import { useState } from 'react';
-import { Button } from './ui/button';
+import { Link } from "react-router-dom";
+import { Scale, Menu, X } from "lucide-react";
+import { useState } from "react";
+import { Button } from "./ui/button";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,16 +17,28 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/explain" className="text-muted-foreground hover:text-primary transition-colors">
+            <Link
+              to="/explain"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
               AI Explanation
             </Link>
-            <Link to="/documents" className="text-muted-foreground hover:text-primary transition-colors">
+            <Link
+              to="/documents"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
               Document Analysis
             </Link>
-            <Link to="/procedures" className="text-muted-foreground hover:text-primary transition-colors">
+            <Link
+              to="/procedures"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
               Legal Procedures
             </Link>
-            <Link to="/chat" className="text-muted-foreground hover:text-primary transition-colors">
+            <Link
+              to="/chat"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
               Ask AI
             </Link>
           </nav>
@@ -45,36 +57,40 @@ export function Header() {
             className="md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden py-4 space-y-4">
-            <Link 
-              to="/explain" 
+            <Link
+              to="/explain"
               className="block text-muted-foreground hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               AI Explanation
             </Link>
-            <Link 
-              to="/documents" 
+            <Link
+              to="/documents"
               className="block text-muted-foreground hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Document Analysis
             </Link>
-            <Link 
-              to="/procedures" 
+            <Link
+              to="/procedures"
               className="block text-muted-foreground hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Legal Procedures
             </Link>
-            <Link 
-              to="/chat" 
+            <Link
+              to="/chat"
               className="block text-muted-foreground hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
