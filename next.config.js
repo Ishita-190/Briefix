@@ -21,6 +21,6 @@ const nextConfig = {
       // Add any rewrites if needed
     ];
   },
-}
+};
 
 module.exports = nextConfig;
