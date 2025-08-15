@@ -5,8 +5,6 @@
   <p>Get clear, level-appropriate explanations for any legal matter</p>
 </div>
 
----
-
 ## 📋 Table of Contents
 
 - [About](#about)
