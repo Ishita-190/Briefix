@@ -39,7 +39,7 @@ export default function Index() {
         style={{
           backgroundImage: `
           linear-gradient(45deg, rgba(139, 120, 93, 0.03) 0%, transparent 100%),
-          url(""C:\Users\ishas\Downloads\bgpic2.jpeg"")`,
+          url("C:\Users\ishas\Downloads\bgpic2.jpeg")`,
         }}
       >
         <div className="container mx-auto px-4">
