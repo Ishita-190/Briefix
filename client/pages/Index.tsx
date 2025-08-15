@@ -144,12 +144,12 @@ export default function Index() {
       {/* How It Works Section */}
       <section
         className="py-20 border-y border-border/50 bg-cover bg-center"
-        {/*style={{
+        style={{
           backgroundImage: `
             linear-gradient(45deg, rgba(139, 120, 93, 0.0005) 0%, transparent 100%),
-            url("/image4.jpg")
+            url("/image4.jpeg")
           `,
-        }}*/}
+        }}
       >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
