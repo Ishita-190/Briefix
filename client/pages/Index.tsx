@@ -30,7 +30,7 @@ export default function Index() {
         radial-gradient(circle at 20% 50%, rgba(139, 120, 93, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(139, 120, 93, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 40% 80%, rgba(139, 120, 93, 0.1) 0%, transparent 50%)
-      `,
+        ,
       }}
     >
       {/* Hero Section */}
@@ -38,7 +38,7 @@ export default function Index() {
         className="relative py-24 lg:py-32 bg-gradient-to-b from-accent/10 to-background/80"
         style={{
           backgroundImage: `
-          linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), 
+          linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),
           url("/bgpic.webp")
           ,
         }}
