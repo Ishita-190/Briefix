@@ -9,7 +9,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="flex items-center space-x-2 mb-4">
               <Scale className="h-8 w-8" />
-              <span className="text-xl font-bold">LegalAI</span>
+              <span className="text-xl font-bold">Briefix</span>
             </Link>
             <p className="text-primary-foreground/80 mb-4 max-w-md">
               Making legal help accessible through AI-powered explanations and guidance. 
@@ -42,7 +42,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-primary-foreground/20 mt-8 pt-8 text-center text-primary-foreground/60">
-          <p>&copy; 2024 LegalAI. All rights reserved.</p>
+          <p>&copy; 2024 Briefix. All rights reserved.</p>
         </div>
       </div>
     </footer>
