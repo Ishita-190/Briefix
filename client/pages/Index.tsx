@@ -39,7 +39,7 @@ export default function Index() {
         style={{
           backgroundImage: `
           linear-gradient(45deg, rgba(139, 120, 93, 0.03) 0%, transparent 100%),
-          url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4c4a8' fill-opacity='0.05'%3E%3Cpath d='M0 0h60v60H0z'/%3E%3Cpath d='M30 30m-28 0a28 28 0 1 1 56 0a28 28 0 1 1 -56 0'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          url(""C:\Users\ishas\Downloads\bgpic2.jpeg"")`,
         }}
       >
         <div className="container mx-auto px-4">
