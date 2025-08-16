@@ -150,17 +150,17 @@ Briefix/
 ├── client/                     # React frontend
 │   ├── components/
 │   │   ├── ui/               # Reusable UI components (buttons, cards, etc.)
-│   │   ├── Header.jsx        # Navigation header
-│   │   └── Footer.jsx        # Site footer
+│   │   ├── Header.tsx        # Navigation header
+│   │   └── Footer.tsx        # Site footer
 │   ├── pages/                # Route components
-│   │   ├── Index.jsx         # Homepage
-│   │   ├── ExplainPage.jsx   # AI explanation interface
-│   │   ├── DocumentsPage.jsx # Document analysis
-│   │   ├── ProceduresPage.jsx# Legal procedures guide
-│   │   ├── ChatPage.jsx      # AI chat interface
-│   │   └── NotFound.jsx      # 404 page
-│   ├── App.jsx               # Main app component with routing
-│   ├── main.jsx              # App entry point
+│   │   ├── Index.tsx         # Homepage
+│   │   ├── ExplainPage.tsx   # AI explanation interface
+│   │   ├── DocumentsPage.tsx # Document analysis
+│   │   ├── ProceduresPage.tsx# Legal procedures guide
+│   │   ├── ChatPage.tsx      # AI chat interface
+│   │   └── NotFound.tsx      # 404 page
+│   ├── App.tsx               # Main app component with routing
+│   ├── main.tsx              # App entry point
 │   └── global.css            # Global styles and theme
 ├── server/                    # Express backend
 │   ├── routes/               # API route handlers
