@@ -48,7 +48,7 @@ export default function Index() {
             <h1 className="text-4xl lg:text-6xl font-bold text-primary mb-6">
               Legal Help Made <span className="text-accent">Simple</span>
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-white mb-8 max-w-2xl mx-auto">
               Get complex legal concepts explained at your level - whether you're 12, 15, or a practicing lawyer. Our AI breaks down legal procedures and documents into language you understand.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
