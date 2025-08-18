@@ -1,7 +1,7 @@
 from docling.document_converter import DocumentConverter
 
 # PDF file path
-pdf_path = "ipc.pdf"
+pdf_path = "data/ipc.pdf"
 output_path = "ipc_data.json"
 
 # Convert PDF → structured data
