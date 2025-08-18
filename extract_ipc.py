@@ -2,7 +2,7 @@ from docling.document_converter import DocumentConverter
 import os
 
 # Use a relative or absolute path
-source = "data/ipc.pdf"  
+source = "ipc.pdf"  
 
 # Debug: check path
 print("Looking for:", os.path.abspath(source))
