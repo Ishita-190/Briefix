@@ -1,15 +1,22 @@
 from docling.document_converter import DocumentConverter
+import os
 
-# PDF file path
-pdf_path = "data/ipc.pdf"
-output_path = "ipc_data.json"
+# Use a relative or absolute path
+source = "data/ipc.pdf"  
 
-# Convert PDF → structured data
+# Debug: check path
+print("Looking for:", os.path.abspath(source))
+print("Exists?", os.path.exists(source))
+
+# Initialize Docling
 converter = DocumentConverter()
-result = converter.convert(pdf_path)
 
-# Save JSON
-with open(output_path, "w", encoding="utf-8") as f:
-    f.write(result.to_json())
+# Convert
+result = converter.convert(source)
 
-print(f"✅ Extracted data saved to {output_path}")
+# Export to Markdown
+print(result.document.export_to_markdown())
+
+# Optionally save as JSON
+with open("ipc_data.json", "w", encoding="utf-8") as f:
+    f.write(result.document.export_to_json())
