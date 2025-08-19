@@ -793,6 +793,91 @@ Article 19(1)(a) includes right to information. Article 21 protects livelihood r
     ],
   },
 
+  // When Do I Need a Lawyer - Specific guidance
+  needLawyer: {
+    keywords: [
+      "need a lawyer",
+      "need lawyer",
+      "hire lawyer",
+      "get lawyer",
+      "find lawyer",
+      "do i need attorney",
+      "should i get lawyer",
+      "when to hire lawyer",
+      "lawyer necessary",
+    ],
+    answer: `**How to Know if You Need a Lawyer:**
+
+**🚨 You DEFINITELY need a lawyer if:**
+- **Criminal charges** - Any arrest, criminal investigation, or charges
+- **Being sued** - Someone filed a lawsuit against you
+- **Immigration issues** - Deportation, visa problems, asylum cases
+- **Serious injury** - Accidents causing significant medical bills/disability
+- **Divorce with complexity** - Children, significant assets, or contested issues
+- **Employment termination** - After filing discrimination complaints
+- **Estate planning** - Wills, trusts, or inheritance disputes
+- **Business formation** - Partnerships, corporations, or significant contracts
+
+**⚠️ You PROBABLY need a lawyer if:**
+- **Contract disputes** involving significant money (over $5,000)
+- **Real estate transactions** - Buying, selling, or major lease agreements
+- **Tax problems** - IRS audits, tax liens, or significant back taxes
+- **Bankruptcy** - Considering filing for debt relief
+- **Child custody/support** - Any disputes involving children
+- **Workplace discrimination** - Filing EEOC complaints or facing retaliation
+- **Personal injury** - Someone else's negligence caused your injury
+- **Complex legal documents** - Reviewing or drafting important agreements
+
+**✅ You MIGHT handle yourself if:**
+- **Small claims court** - Disputes under $5,000-$10,000
+- **Simple traffic tickets** - Minor violations without serious consequences
+- **Basic consumer complaints** - Defective products, service issues
+- **Name changes** - Straightforward administrative processes
+- **Uncontested divorce** - No children, minimal assets, mutual agreement
+- **Simple wills** - Basic estate planning with clear wishes
+
+**💡 Key Decision Factors:**
+
+**1. Potential Consequences:** Could you face jail time, lose your home, job, or children? If yes, get a lawyer.
+
+**2. Money at Stake:** Is more than $1,000 involved? Consider professional help.
+
+**3. Complexity:** Are there complex laws, procedures, or constitutional issues? You likely need help.
+
+**4. Opposition:** Is the other party represented by a lawyer? You should be too.
+
+**5. Time Sensitivity:** Are there strict deadlines you might miss? Lawyers know the rules.
+
+**6. Emotional Stakes:** High emotions can cloud judgment - objective legal advice helps.
+
+**🎯 Quick Assessment Questions:**
+- **"Could this ruin my life?"** → Get a lawyer immediately
+- **"Could this cost me a lot of money?"** → Consult a lawyer
+- **"Am I confused by the legal process?"** → Get help
+- **"Do I have time to research thoroughly?"** → If no, hire help
+- **"Is this just a minor annoyance?"** → You might handle it yourself
+
+**💰 Finding Affordable Legal Help:**
+- **Legal Aid** - Free help for low-income individuals
+- **Bar Association Referrals** - Often include reduced-rate programs
+- **Law School Clinics** - Students supervised by professors
+- **Pro Bono Programs** - Lawyers volunteering their time
+- **Limited Scope Representation** - Lawyers help with specific parts only
+- **Legal Insurance** - Available through some employers
+
+**⏰ When in Doubt, Act Quickly:**
+Legal problems often have strict deadlines. It's better to consult a lawyer early and learn you don't need one than to wait too long and lose important rights.
+
+**Remember:** A brief consultation (many lawyers offer free initial consultations) can help you understand your situation and decide if you need ongoing legal help.`,
+    category: "Lawyer Guidance",
+    urgency: "medium" as const,
+    sources: [
+      { title: "Legal Profession Guidelines", type: "guidance" as const },
+      { title: "Access to Justice Resources", type: "practical" as const },
+      { title: "Bar Association Standards", type: "guidance" as const },
+    ],
+  },
+
   // Immigration Issues
   immigration: {
     keywords: [
