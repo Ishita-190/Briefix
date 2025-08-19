@@ -143,7 +143,7 @@ pnpm typecheck    # TypeScript validation (if applicable)
 pnpm format.fix   # Format code with Prettier
 ```
 
-## 📁 Project Structure
+## 📁 Project Diagram
 
                 ┌─────────────────────────┐
                 │       Client (React)    │
@@ -179,7 +179,7 @@ pnpm format.fix   # Format code with Prettier
      │  README, blueprint, pdfs    │
      │  public/ (static files)     │
      └─────────────────────────────┘
-## Project Structure
+ ## Project Structure
 Briefix/
 ├── .dockerignore
 ├── .env
