@@ -1,5 +1,10 @@
 // Comprehensive Legal Knowledge Base
-import { getConstitutionalReferences, formatConstitutionalReferences, formatStatutoryBasis, getStatutoryBasis } from './constitutional-law';
+import {
+  getConstitutionalReferences,
+  formatConstitutionalReferences,
+  formatStatutoryBasis,
+  getStatutoryBasis,
+} from "./constitutional-law";
 
 export interface LegalAnswer {
   answer: string;
@@ -247,7 +252,10 @@ export const LEGAL_KNOWLEDGE_BASE = {
     sources: [
       { title: "Family Court Procedures", type: "procedure" as const },
       { title: "Child Welfare Standards", type: "guidance" as const },
-      { title: "Constitutional Rights in Family Law", type: "constitutional" as const },
+      {
+        title: "Constitutional Rights in Family Law",
+        type: "constitutional" as const,
+      },
     ],
     constitutionalReferences: true,
   },
@@ -303,7 +311,10 @@ Alimony laws are grounded in constitutional principles ensuring dignity and equa
     urgency: "medium" as const,
     sources: [
       { title: "Hindu Marriage Act, 1955", type: "statute" as const },
-      { title: "Constitutional Rights to Dignity", type: "constitutional" as const },
+      {
+        title: "Constitutional Rights to Dignity",
+        type: "constitutional" as const,
+      },
       { title: "Family Court Procedures", type: "procedure" as const },
     ],
     constitutionalReferences: true,
@@ -360,7 +371,10 @@ Even during citizen's arrest, person retains rights under Article 22 including r
     urgency: "high" as const,
     sources: [
       { title: "Code of Criminal Procedure, 1973", type: "statute" as const },
-      { title: "Constitutional Rights During Arrest", type: "constitutional" as const },
+      {
+        title: "Constitutional Rights During Arrest",
+        type: "constitutional" as const,
+      },
       { title: "Citizens' Legal Powers", type: "guidance" as const },
     ],
     constitutionalReferences: true,
@@ -498,7 +512,10 @@ Article 19(1)(a) protects freedom of expression including personal identity. Art
     urgency: "low" as const,
     sources: [
       { title: "Registration Act, 1908", type: "statute" as const },
-      { title: "Constitutional Right to Identity", type: "constitutional" as const },
+      {
+        title: "Constitutional Right to Identity",
+        type: "constitutional" as const,
+      },
       { title: "Name Change Guidelines", type: "procedure" as const },
     ],
     constitutionalReferences: true,
@@ -573,7 +590,10 @@ Article 19(1)(a) includes right to information. Article 21 protects livelihood r
     urgency: "low" as const,
     sources: [
       { title: "Right to Information Act, 2005", type: "statute" as const },
-      { title: "Constitutional Right to Information", type: "constitutional" as const },
+      {
+        title: "Constitutional Right to Information",
+        type: "constitutional" as const,
+      },
       { title: "Document Procedures Manual", type: "procedure" as const },
     ],
     constitutionalReferences: true,

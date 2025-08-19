@@ -134,7 +134,12 @@ function summarize(text: string, maxSentences = 2) {
   return sentences.slice(0, maxSentences).join(" ");
 }
 
-function rewriteForLevel(text: string, level: string, category?: string, query?: string) {
+function rewriteForLevel(
+  text: string,
+  level: string,
+  category?: string,
+  query?: string,
+) {
   // For knowledge base content, use advanced simplification system
   if (text.includes("**") || text.includes("\n")) {
     // This is formatted knowledge base content
@@ -165,7 +170,9 @@ function rewriteForLevel(text: string, level: string, category?: string, query?:
       return simplified;
     }
     // lawyer level - return full content with constitutional references
-    return content + "\n\n(Professional legal reference with constitutional basis)";
+    return (
+      content + "\n\n(Professional legal reference with constitutional basis)"
+    );
   }
 
   // For IPC content, clean up as before
@@ -243,7 +250,8 @@ export const handleAnswer: RequestHandler = (req, res) => {
       enhancedSources = [
         ...knowledgeAnswer.sources,
         {
-          title: "Indian Constitution - Fundamental Rights & Directive Principles",
+          title:
+            "Indian Constitution - Fundamental Rights & Directive Principles",
           type: "constitutional" as const,
         },
       ];
