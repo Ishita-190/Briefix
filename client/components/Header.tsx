@@ -19,7 +19,9 @@ export function Header() {
               <Scale className="h-9 w-9 text-primary group-hover:scale-110 transition-transform duration-200" />
               <Sparkles className="h-4 w-4 text-accent absolute -top-1 -right-1 opacity-70" />
             </div>
-            <span className="text-2xl font-bold text-primary tracking-tight">Briefix</span>
+            <span className="text-2xl font-bold text-primary tracking-tight">
+              Briefix
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -30,7 +32,7 @@ export function Header() {
                 "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:bg-primary/5",
                 isActive("/explain")
                   ? "text-primary bg-primary/10"
-                  : "text-muted-foreground hover:text-primary"
+                  : "text-muted-foreground hover:text-primary",
               )}
             >
               AI Explanation
@@ -41,7 +43,7 @@ export function Header() {
                 "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:bg-primary/5",
                 isActive("/documents")
                   ? "text-primary bg-primary/10"
-                  : "text-muted-foreground hover:text-primary"
+                  : "text-muted-foreground hover:text-primary",
               )}
             >
               Document Analysis
@@ -52,7 +54,7 @@ export function Header() {
                 "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:bg-primary/5",
                 isActive("/procedures")
                   ? "text-primary bg-primary/10"
-                  : "text-muted-foreground hover:text-primary"
+                  : "text-muted-foreground hover:text-primary",
               )}
             >
               Legal Procedures
@@ -63,7 +65,7 @@ export function Header() {
                 "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:bg-primary/5",
                 isActive("/chat")
                   ? "text-primary bg-primary/10"
-                  : "text-muted-foreground hover:text-primary"
+                  : "text-muted-foreground hover:text-primary",
               )}
             >
               Ask AI

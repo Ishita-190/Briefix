@@ -40,18 +40,25 @@ export default function Index() {
 
         <div className="container mx-auto px-6 relative">
           <div className="max-w-5xl mx-auto text-center">
-            <Badge className="mb-8 px-6 py-2 text-sm font-medium bg-white/90 text-primary border-primary/20 shadow-lg backdrop-blur-sm hover:scale-105 transition-transform duration-200" variant="secondary">
+            <Badge
+              className="mb-8 px-6 py-2 text-sm font-medium bg-white/90 text-primary border-primary/20 shadow-lg backdrop-blur-sm hover:scale-105 transition-transform duration-200"
+              variant="secondary"
+            >
               ✨ AI-Powered Legal Assistant
             </Badge>
             <h1 className="text-5xl lg:text-7xl xl:text-8xl font-extrabold text-primary mb-8 leading-tight tracking-tight">
               Legal Help Made{" "}
               <span className="relative inline-block">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-primary">Simple</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-primary">
+                  Simple
+                </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-primary/20 blur-2xl -z-10"></div>
               </span>
             </h1>
             <p className="text-xl lg:text-2xl text-gray-700 mb-12 max-w-3xl mx-auto leading-relaxed font-medium">
-              Get complex legal concepts explained at your level - whether you're 12, 15, or a practicing lawyer. Our AI breaks down legal procedures and documents into language you understand.
+              Get complex legal concepts explained at your level - whether
+              you're 12, 15, or a practicing lawyer. Our AI breaks down legal
+              procedures and documents into language you understand.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Button
@@ -96,10 +103,13 @@ export default function Index() {
       <section className="py-24 relative">
         {/* Background with subtle patterns */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5"></div>
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, rgba(139, 120, 93, 0.1) 0%, transparent 50%),
-                           radial-gradient(circle at 75% 75%, rgba(139, 120, 93, 0.05) 0%, transparent 50%)`
-        }}></div>
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(circle at 25% 25%, rgba(139, 120, 93, 0.1) 0%, transparent 50%),
+                           radial-gradient(circle at 75% 75%, rgba(139, 120, 93, 0.05) 0%, transparent 50%)`,
+          }}
+        ></div>
 
         <div className="container mx-auto px-6 relative">
           <div className="text-center mb-20">
@@ -107,7 +117,8 @@ export default function Index() {
               How Briefix Helps You
             </h2>
             <p className="text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Our AI adapts to your level of understanding, making legal knowledge accessible to everyone.
+              Our AI adapts to your level of understanding, making legal
+              knowledge accessible to everyone.
             </p>
           </div>
 
@@ -118,9 +129,12 @@ export default function Index() {
                 <div className="w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
                   <Brain className="h-8 w-8 text-white" />
                 </div>
-                <CardTitle className="text-xl font-bold text-primary mb-4">Smart Explanations</CardTitle>
+                <CardTitle className="text-xl font-bold text-primary mb-4">
+                  Smart Explanations
+                </CardTitle>
                 <CardDescription className="text-muted-foreground leading-relaxed">
-                  Choose your comprehension level: 12-year-old, 15-year-old, or lawyer. Our AI adjusts the complexity accordingly.
+                  Choose your comprehension level: 12-year-old, 15-year-old, or
+                  lawyer. Our AI adjusts the complexity accordingly.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -131,9 +145,12 @@ export default function Index() {
                 <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
                   <FileText className="h-8 w-8 text-white" />
                 </div>
-                <CardTitle className="text-xl font-bold text-primary mb-4">Document Analysis</CardTitle>
+                <CardTitle className="text-xl font-bold text-primary mb-4">
+                  Document Analysis
+                </CardTitle>
                 <CardDescription className="text-muted-foreground leading-relaxed">
-                  Upload legal documents and get plain-English summaries, key points, and potential concerns explained clearly.
+                  Upload legal documents and get plain-English summaries, key
+                  points, and potential concerns explained clearly.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -144,9 +161,12 @@ export default function Index() {
                 <div className="w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
                   <BookOpen className="h-8 w-8 text-white" />
                 </div>
-                <CardTitle className="text-xl font-bold text-primary mb-4">Legal Procedures</CardTitle>
+                <CardTitle className="text-xl font-bold text-primary mb-4">
+                  Legal Procedures
+                </CardTitle>
                 <CardDescription className="text-muted-foreground leading-relaxed">
-                  Step-by-step guidance through legal processes, from filing paperwork to understanding court procedures.
+                  Step-by-step guidance through legal processes, from filing
+                  paperwork to understanding court procedures.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -157,9 +177,12 @@ export default function Index() {
                 <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
                   <MessageSquare className="h-8 w-8 text-white" />
                 </div>
-                <CardTitle className="text-xl font-bold text-primary mb-4">AI Chat Assistant</CardTitle>
+                <CardTitle className="text-xl font-bold text-primary mb-4">
+                  AI Chat Assistant
+                </CardTitle>
                 <CardDescription className="text-muted-foreground leading-relaxed">
-                  Ask questions in natural language and get immediate, accurate answers about legal concepts and procedures.
+                  Ask questions in natural language and get immediate, accurate
+                  answers about legal concepts and procedures.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -170,9 +193,12 @@ export default function Index() {
                 <div className="w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
                   <Shield className="h-8 w-8 text-white" />
                 </div>
-                <CardTitle className="text-xl font-bold text-primary mb-4">Privacy First</CardTitle>
+                <CardTitle className="text-xl font-bold text-primary mb-4">
+                  Privacy First
+                </CardTitle>
                 <CardDescription className="text-muted-foreground leading-relaxed">
-                  Your legal questions and documents are handled with the highest level of security and confidentiality.
+                  Your legal questions and documents are handled with the
+                  highest level of security and confidentiality.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -183,9 +209,12 @@ export default function Index() {
                 <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
                   <Zap className="h-8 w-8 text-white" />
                 </div>
-                <CardTitle className="text-xl font-bold text-primary mb-4">Instant Answers</CardTitle>
+                <CardTitle className="text-xl font-bold text-primary mb-4">
+                  Instant Answers
+                </CardTitle>
                 <CardDescription className="text-muted-foreground leading-relaxed">
-                  Get immediate clarification on legal terms, procedures, and documents without waiting for appointments.
+                  Get immediate clarification on legal terms, procedures, and
+                  documents without waiting for appointments.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -201,7 +230,7 @@ export default function Index() {
           className="absolute inset-0 opacity-30 bg-cover bg-center"
           style={{
             backgroundImage: `url("/image4.jpeg")`,
-            filter: 'blur(1px)'
+            filter: "blur(1px)",
           }}
         ></div>
         <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
@@ -212,30 +241,38 @@ export default function Index() {
               Simple as 1-2-3
             </h2>
             <p className="text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Getting legal help has never been easier. Follow these simple steps.
+              Getting legal help has never been easier. Follow these simple
+              steps.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-            {["Choose Your Level", "Ask or Upload", "Get Clear Answers"].map((title, i) => (
-              <div key={i} className="text-center group">
-                <div className="relative mb-8">
-                  <div className="bg-gradient-to-br from-accent to-primary text-white rounded-3xl w-20 h-20 flex items-center justify-center text-2xl font-bold mx-auto shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                    {i + 1}
+            {["Choose Your Level", "Ask or Upload", "Get Clear Answers"].map(
+              (title, i) => (
+                <div key={i} className="text-center group">
+                  <div className="relative mb-8">
+                    <div className="bg-gradient-to-br from-accent to-primary text-white rounded-3xl w-20 h-20 flex items-center justify-center text-2xl font-bold mx-auto shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                      {i + 1}
+                    </div>
+                    {/* Connecting line for desktop */}
+                    {i < 2 && (
+                      <div className="hidden md:block absolute top-10 left-full w-12 h-0.5 bg-gradient-to-r from-accent to-primary opacity-30"></div>
+                    )}
                   </div>
-                  {/* Connecting line for desktop */}
-                  {i < 2 && (
-                    <div className="hidden md:block absolute top-10 left-full w-12 h-0.5 bg-gradient-to-r from-accent to-primary opacity-30"></div>
-                  )}
+                  <h3 className="text-2xl font-bold text-primary mb-6 group-hover:text-accent transition-colors duration-200">
+                    {title}
+                  </h3>
+                  <p className="text-muted-foreground text-lg leading-relaxed">
+                    {i === 0 &&
+                      "Select how complex you want the explanation: simple enough for a 12-year-old, moderate for a 15-year-old, or detailed for legal professionals."}
+                    {i === 1 &&
+                      "Type your legal question, upload a document for analysis, or ask about a specific legal procedure you need help with."}
+                    {i === 2 &&
+                      "Receive explanations tailored to your chosen complexity level, with actionable insights and next steps clearly outlined."}
+                  </p>
                 </div>
-                <h3 className="text-2xl font-bold text-primary mb-6 group-hover:text-accent transition-colors duration-200">{title}</h3>
-                <p className="text-muted-foreground text-lg leading-relaxed">
-                  {i === 0 && "Select how complex you want the explanation: simple enough for a 12-year-old, moderate for a 15-year-old, or detailed for legal professionals."}
-                  {i === 1 && "Type your legal question, upload a document for analysis, or ask about a specific legal procedure you need help with."}
-                  {i === 2 && "Receive explanations tailored to your chosen complexity level, with actionable insights and next steps clearly outlined."}
-                </p>
-              </div>
-            ))}
+              ),
+            )}
           </div>
         </div>
       </section>
@@ -256,7 +293,8 @@ export default function Index() {
               Ready to Understand Your Legal Rights?
             </h2>
             <p className="text-xl lg:text-2xl opacity-90 mb-12 max-w-3xl mx-auto leading-relaxed">
-              Join thousands of people who've simplified their legal understanding with Briefix.
+              Join thousands of people who've simplified their legal
+              understanding with Briefix.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-8">
               <Button
@@ -279,7 +317,8 @@ export default function Index() {
             </div>
             <p className="text-sm opacity-75 flex items-center justify-center gap-2">
               <Shield className="h-4 w-4" />
-              Educational tool only • Not a substitute for professional legal advice
+              Educational tool only • Not a substitute for professional legal
+              advice
             </p>
           </div>
         </div>

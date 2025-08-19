@@ -320,7 +320,9 @@ export default function ChatPage() {
         {/* Quick Questions - Only show when no conversation */}
         {messages.length <= 1 && (
           <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 mb-4 border border-white/20 shadow-lg flex-shrink-0">
-            <h4 className="font-semibold mb-3 text-primary">Popular Questions:</h4>
+            <h4 className="font-semibold mb-3 text-primary">
+              Popular Questions:
+            </h4>
             <div className="flex flex-wrap gap-2">
               {quickQuestions.map((question, index) => (
                 <Button
@@ -367,9 +369,7 @@ export default function ChatPage() {
             <p className="text-xs text-muted-foreground">
               Press Enter to send, Shift+Enter for new line
             </p>
-            <p className="text-xs text-muted-foreground">
-              {input.length}/1000
-            </p>
+            <p className="text-xs text-muted-foreground">{input.length}/1000</p>
           </div>
         </div>
       </div>
@@ -379,7 +379,11 @@ export default function ChatPage() {
         <div className="max-w-4xl mx-auto">
           <p className="text-xs lg:text-sm text-muted-foreground text-center flex items-center justify-center gap-2">
             <AlertCircle className="h-4 w-4 text-amber-500 flex-shrink-0" />
-            <span><strong>Important:</strong> This AI provides educational information only. Responses are not legal advice. For specific legal matters, consult with a qualified attorney.</span>
+            <span>
+              <strong>Important:</strong> This AI provides educational
+              information only. Responses are not legal advice. For specific
+              legal matters, consult with a qualified attorney.
+            </span>
           </p>
         </div>
       </div>

@@ -112,7 +112,9 @@ export function Footer() {
         </div>
 
         <div className="bg-white/10 backdrop-blur-sm rounded-xl mt-12 pt-8 pb-4 px-6 text-center text-primary-foreground/80 border border-white/20">
-          <p className="text-lg font-medium">&copy; 2024 Briefix. All rights reserved.</p>
+          <p className="text-lg font-medium">
+            &copy; 2024 Briefix. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
