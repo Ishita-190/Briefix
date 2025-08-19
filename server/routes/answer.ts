@@ -2,11 +2,16 @@ import type { RequestHandler } from "express";
 import fs from "fs";
 import path from "path";
 import { z } from "zod";
-import { 
-  getKnowledgeBaseAnswer, 
-  classifyQuery, 
-  GENERAL_LEGAL_GUIDANCE 
+import {
+  getKnowledgeBaseAnswer,
+  classifyQuery,
+  GENERAL_LEGAL_GUIDANCE
 } from "../lib/legal-knowledge";
+import {
+  simplifyForAge,
+  addExamples,
+  needsExtraSimplification
+} from "../lib/age-simplification";
 
 // Very small in-memory index built from public/ipc.json
 // Expected schema: Array<{ id?: string; title?: string; section?: string; text: string }>
@@ -117,21 +122,19 @@ function summarize(text: string, maxSentences = 2) {
   return sentences.slice(0, maxSentences).join(" ");
 }
 
-function rewriteForLevel(text: string, level: string) {
-  // For knowledge base content, preserve structure but adjust complexity
+function rewriteForLevel(text: string, level: string, category?: string) {
+  // For knowledge base content, use advanced simplification system
   if (text.includes('**') || text.includes('\n')) {
     // This is formatted knowledge base content
-    if (level === "12-year-old") {
-      return text
-        .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold formatting for simplicity
-        .replace(/shall be/gi, "can be")
-        .replace(/litigation/gi, "court case")
-        .replace(/consultation/gi, "meeting")
-        .split('\n').slice(0, 8).join('\n') + // Limit content for younger audience
-        "\n\n(Simplified legal guidance)";
-    }
-    if (level === "15-year-old") {
-      return text + "\n\n(Legal guidance for educational purposes)";
+    if (level === "12-year-old" || level === "15-year-old") {
+      let simplified = simplifyForAge(text, level);
+
+      // Add relevant examples for the topic
+      if (category) {
+        simplified = addExamples(simplified, level, category.toLowerCase());
+      }
+
+      return simplified;
     }
     // lawyer level - return full content
     return text + "\n\n(Professional legal reference)";
@@ -200,7 +203,7 @@ export const handleAnswer: RequestHandler = (req, res) => {
   if (knowledgeAnswer) {
     console.log(`[Answer API] Found knowledge base answer for category: ${knowledgeAnswer.category}`);
     return res.json({
-      answer: rewriteForLevel(knowledgeAnswer.answer, level),
+      answer: rewriteForLevel(knowledgeAnswer.answer, level, knowledgeAnswer.category),
       sources: knowledgeAnswer.sources.map(source => ({
         title: source.title,
         type: source.type,
