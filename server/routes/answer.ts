@@ -20,7 +20,6 @@ import {
 } from "../lib/age-simplification";
 import { loadCorpusData, type CorpusItem } from "../lib/corpus-data";
 
-
 function score(text: string, terms: string[]): number {
   const hay = text.toLowerCase();
   let s = 0;
@@ -57,10 +56,11 @@ function topMatches(query: string, k = 3) {
 
   console.log(`[Search] Query terms: ${JSON.stringify(terms)}`);
 
-  const scored = corpus.map((item) => ({
-    item,
-    score: score(item.text, terms),
-  }))
+  const scored = corpus
+    .map((item) => ({
+      item,
+      score: score(item.text, terms),
+    }))
     .filter((r) => r.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, k);

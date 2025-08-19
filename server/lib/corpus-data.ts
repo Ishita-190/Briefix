@@ -51,7 +51,9 @@ export async function loadCorpusDataAsync(): Promise<CorpusItem[]> {
     }
 
     if (!dataFound) {
-      console.error("[Corpus] Could not find ipc.json in any expected location");
+      console.error(
+        "[Corpus] Could not find ipc.json in any expected location",
+      );
       console.error("[Corpus] Tried paths:", possiblePaths);
       console.error("[Corpus] Current working directory:", process.cwd());
       console.error("[Corpus] __dirname:", __dirname);
@@ -60,11 +62,16 @@ export async function loadCorpusDataAsync(): Promise<CorpusItem[]> {
       try {
         const { loadEmbeddedData } = await import("./embedded-data");
         CORPUS = await loadEmbeddedData();
-        console.log(`[Corpus] Loaded ${CORPUS.length} items from embedded data`);
+        console.log(
+          `[Corpus] Loaded ${CORPUS.length} items from embedded data`,
+        );
         corpusLoaded = true;
         return CORPUS;
       } catch (embeddedError) {
-        console.error("[Corpus] Embedded data fallback also failed:", embeddedError);
+        console.error(
+          "[Corpus] Embedded data fallback also failed:",
+          embeddedError,
+        );
       }
 
       corpusLoaded = true;
@@ -72,7 +79,7 @@ export async function loadCorpusDataAsync(): Promise<CorpusItem[]> {
     }
 
     const data = JSON.parse(rawData);
-    
+
     if (Array.isArray(data)) {
       CORPUS = data
         .map((d) => ({
@@ -104,7 +111,6 @@ export async function loadCorpusDataAsync(): Promise<CorpusItem[]> {
     console.log(`[Corpus] Loaded ${CORPUS.length} items`);
     corpusLoaded = true;
     return CORPUS;
-    
   } catch (e) {
     console.error("[Corpus] Failed to load and parse data:", e);
     corpusLoaded = true;
@@ -147,7 +153,9 @@ export function loadCorpusData(): CorpusItem[] {
               }))
               .filter((d) => d.text);
 
-            console.log(`[Corpus] Loaded ${CORPUS.length} items synchronously from: ${tryPath}`);
+            console.log(
+              `[Corpus] Loaded ${CORPUS.length} items synchronously from: ${tryPath}`,
+            );
             corpusLoaded = true;
             return CORPUS;
           }
@@ -160,7 +168,6 @@ export function loadCorpusData(): CorpusItem[] {
     console.log("[Corpus] Synchronous loading failed, returning empty corpus");
     corpusLoaded = true;
     return CORPUS;
-
   } catch (e) {
     console.error("[Corpus] Synchronous loading failed:", e);
     corpusLoaded = true;

@@ -8,7 +8,7 @@ export async function loadEmbeddedData(): Promise<CorpusItem[]> {
     // For Netlify Functions, we need to use dynamic import to access data
     // This will be bundled at build time
     const { default: data } = await import("../../public/ipc.json");
-    
+
     if (Array.isArray(data)) {
       return data
         .map((d: any) => ({
@@ -23,7 +23,7 @@ export async function loadEmbeddedData(): Promise<CorpusItem[]> {
         }))
         .filter((d: CorpusItem) => d.text);
     }
-    
+
     return [];
   } catch (e) {
     console.error("[EmbeddedData] Failed to load embedded data:", e);
