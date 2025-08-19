@@ -375,11 +375,11 @@ export default function ChatPage() {
       </div>
 
       {/* Disclaimer */}
-      <div className="bg-primary/5 backdrop-blur-sm border-t border-border/50 px-6 py-4">
+      <div className="bg-primary/5 backdrop-blur-sm border-t border-border/50 px-6 py-3 flex-shrink-0">
         <div className="max-w-4xl mx-auto">
-          <p className="text-sm text-muted-foreground text-center flex items-center justify-center gap-2">
-            <AlertCircle className="h-4 w-4 text-amber-500" />
-            <strong>Important:</strong> This AI provides educational information only. Responses are not legal advice. For specific legal matters, consult with a qualified attorney.
+          <p className="text-xs lg:text-sm text-muted-foreground text-center flex items-center justify-center gap-2">
+            <AlertCircle className="h-4 w-4 text-amber-500 flex-shrink-0" />
+            <span><strong>Important:</strong> This AI provides educational information only. Responses are not legal advice. For specific legal matters, consult with a qualified attorney.</span>
           </p>
         </div>
       </div>
