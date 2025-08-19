@@ -1,6 +1,4 @@
 import type { RequestHandler } from "express";
-import fs from "fs";
-import path from "path";
 import { z } from "zod";
 import {
   getKnowledgeBaseAnswer,
@@ -20,18 +18,7 @@ import {
   addExamples,
   needsExtraSimplification,
 } from "../lib/age-simplification";
-
-// Very small in-memory index built from public/ipc.json
-// Expected schema: Array<{ id?: string; title?: string; section?: string; text: string }>
-
-type CorpusItem = {
-  id?: string;
-  title?: string;
-  section?: string;
-  text: string;
-};
-
-let CORPUS: CorpusItem[] = [];
+import { loadCorpusData, type CorpusItem } from "../lib/corpus-data";
 
 function loadCorpusOnce() {
   if (CORPUS.length) return;
