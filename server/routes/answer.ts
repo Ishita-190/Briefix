@@ -58,10 +58,18 @@ function score(text: string, terms: string[]): number {
     // term frequency weighting
     const re = new RegExp(`\\b${escapeRegExp(t)}\\b`, "g");
     const matches = hay.match(re);
-    s += matches ? matches.length : 0;
+    s += matches ? matches.length * 2 : 0; // Increase weight for exact matches
+
+    // Partial matches get lower score
+    if (hay.includes(t)) {
+      s += 0.5;
+    }
   }
-  // small bonus for shorter passages
-  return s > 0 ? s + Math.min(1, 200 / Math.max(20, text.length)) : 0;
+  // Bonus for shorter, more focused passages
+  if (s > 0) {
+    s += Math.min(2, 300 / Math.max(50, text.length));
+  }
+  return s;
 }
 
 function escapeRegExp(s: string) {
@@ -98,7 +106,9 @@ function summarize(text: string, maxSentences = 2) {
     .split(/(?<=[.!?])\s+/)
     .map((s) => s.trim())
     .filter(Boolean)
-    .filter((s) => s.length > 10); // Filter out very short sentences
+    .filter((s) => s.length > 10) // Filter out very short sentences
+    .filter((s) => !s.toLowerCase().includes('repealed')) // Filter out repealed sections
+    .filter((s) => s.length < 500); // Avoid overly long sentences
   return sentences.slice(0, maxSentences).join(" ");
 }
 
@@ -154,6 +164,14 @@ export const handleAnswer: RequestHandler = (req, res) => {
       .status(200)
       .json({ answer: "Knowledge base is empty.", sources: [] });
   }
+
+  // Filter out very short or generic queries
+  if (query.trim().length < 3) {
+    return res.status(200).json({
+      answer: "Please provide a more specific question about legal concepts or procedures.",
+      sources: [],
+    });
+  }
   const matches = topMatches(query, 3);
   if (!matches.length) {
     return res.status(200).json({
@@ -167,7 +185,19 @@ export const handleAnswer: RequestHandler = (req, res) => {
 
   // Take only the best match for cleaner responses
   const bestMatch = matches[0];
-  const cleanText = summarize(bestMatch.item.text, level === "lawyer" ? 4 : 2);
+
+  // Make sure the match is actually relevant
+  if (bestMatch.score < 1) {
+    return res.status(200).json({
+      answer: rewriteForLevel(
+        "I couldn't find a specific section in the Indian Penal Code that directly answers your question. Please try asking about specific legal concepts like 'theft', 'assault', 'murder', 'contract', or 'fraud'.",
+        level,
+      ),
+      sources: [],
+    });
+  }
+
+  const cleanText = summarize(bestMatch.item.text, level === "lawyer" ? 3 : 2);
   const answer = rewriteForLevel(cleanText, level);
   const sources = [{
     id: bestMatch.item.id,
