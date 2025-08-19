@@ -1,9 +1,13 @@
-import { RequestHandler } from "express";
+import type { Handler } from "@netlify/functions";
 import { DemoResponse } from "@shared/api";
 
-export const handleDemo: RequestHandler = (req, res) => {
+export const handler: Handler = async (event, context) => {
   const response: DemoResponse = {
-    message: "Hello from Express server",
+    message: "Hello from Netlify Function",
   };
-  res.status(200).json(response);
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(response),
+  };
 };
