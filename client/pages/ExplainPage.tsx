@@ -18,28 +18,54 @@ import {
   MessageSquare,
   Loader2,
   Sparkles,
+  ExternalLink,
+  BookOpen,
 } from "lucide-react";
 
 type ComplexityLevel = "12-year-old" | "15-year-old" | "lawyer";
 
-// Helper function to fetch output.json and search for relevant snippet
-async function queryIPC(question: string): Promise<string> {
+type Source = {
+  id?: string;
+  title?: string;
+  section?: string;
+  score?: number;
+};
+
+type ApiResponse = {
+  answer: string;
+  sources: Source[];
+};
+
+// Enhanced function to use the better /api/answer endpoint
+async function getAnswer(
+  question: string,
+  level: ComplexityLevel = "15-year-old"
+): Promise<ApiResponse> {
   try {
-    const res = await fetch("/ipc.json"); 
-    const data = await res.json();
+    const response = await fetch("/api/answer", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: question,
+        level: level,
+      }),
+    });
 
-    // Simple keyword match in JSON
-    for (const item of data) {
-      // Assuming each JSON object has "key" and "value"
-      if (question.toLowerCase().includes(item.key.toLowerCase())) {
-        return item.value;
-      }
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  } catch (err) {
-    console.error("Error fetching output.json:", err);
-  }
 
-  return ""; // Return empty if no match found
+    const data: ApiResponse = await response.json();
+    return data;
+  } catch (err) {
+    console.error("Error fetching answer:", err);
+    return {
+      answer: "I'm sorry, I couldn't process your question at the moment. Please try again later.",
+      sources: [],
+    };
+  }
 }
 
 export default function ExplainPage() {
@@ -47,30 +73,28 @@ export default function ExplainPage() {
   const [complexityLevel, setComplexityLevel] =
     useState<ComplexityLevel>("15-year-old");
   const [explanation, setExplanation] = useState("");
+  const [sources, setSources] = useState<Source[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  // Predefined mock explanations as fallback
-  const mockExplanations = {
-    "12-year-old": `Let me explain this like you're 12! Legal topics can be complicated, but I'll keep it simple...`,
-    "15-year-old": `Here's what this means for someone your age: Legal concepts involve rules and consequences...`,
-    lawyer: `Professional legal analysis: Detailed principles, statutes, and case law...`,
-  };
+  const [error, setError] = useState<string | null>(null);
 
   const handleExplain = async () => {
     if (!question.trim()) return;
 
     setIsLoading(true);
+    setError(null);
+    setExplanation("");
+    setSources([]);
 
-    // Try fetching JSON snippet first
-    let explanationText = await queryIPC(question);
-
-    // Fallback to complexity-level mock explanation
-    if (!explanationText) {
-      explanationText = mockExplanations[complexityLevel];
+    try {
+      const result = await getAnswer(question, complexityLevel);
+      setExplanation(result.answer);
+      setSources(result.sources);
+    } catch (err) {
+      setError("Failed to get an answer. Please try again.");
+      console.error("Error getting explanation:", err);
+    } finally {
+      setIsLoading(false);
     }
-
-    setExplanation(explanationText);
-    setIsLoading(false);
   };
 
   const getLevelInfo = (level: ComplexityLevel) => {
@@ -230,24 +254,87 @@ export default function ExplainPage() {
           </div>
         </div>
 
-        {/* Explanation Results */}
-        {explanation && (
-          <Card className="mt-8">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Brain className="h-5 w-5 text-accent" />
-                AI Explanation
-                <Badge variant="outline">{complexityLevel} level</Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="prose max-w-none text-foreground">
-                <div className="whitespace-pre-wrap text-base leading-relaxed">
-                  {explanation}
-                </div>
+        {/* Error Display */}
+        {error && (
+          <Card className="mt-8 border-destructive">
+            <CardContent className="pt-6">
+              <div className="text-destructive text-center">
+                <Sparkles className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                <p>{error}</p>
               </div>
             </CardContent>
           </Card>
+        )}
+
+        {/* Explanation Results */}
+        {explanation && (
+          <div className="mt-8 space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Brain className="h-5 w-5 text-accent" />
+                  AI Explanation
+                  <Badge variant="outline">{complexityLevel} level</Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="prose max-w-none text-foreground">
+                  <div className="whitespace-pre-wrap text-base leading-relaxed">
+                    {explanation}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Sources */}
+            {sources.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BookOpen className="h-5 w-5 text-blue-600" />
+                    Sources Referenced
+                  </CardTitle>
+                  <CardDescription>
+                    Information was found from the following legal documents
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {sources.map((source, index) => (
+                      <div
+                        key={index}
+                        className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg"
+                      >
+                        <ExternalLink className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          {source.title && (
+                            <div className="font-medium text-sm">
+                              {source.title}
+                            </div>
+                          )}
+                          {source.section && (
+                            <div className="text-sm text-muted-foreground">
+                              Section: {source.section}
+                            </div>
+                          )}
+                          {source.id && (
+                            <div className="text-xs text-muted-foreground">
+                              Reference: {source.id}
+                            </div>
+                          )}
+                        </div>
+                        {source.score && (
+                          <Badge variant="secondary" className="text-xs">
+                            {Math.round(source.score * 100)}% match
+                          </Badge>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </div>
         )}
 
         {/* Disclaimer */}
