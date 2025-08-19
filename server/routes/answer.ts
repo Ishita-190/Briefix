@@ -132,7 +132,11 @@ export const handleAnswer: RequestHandler = (req, res) => {
     return res.status(400).json({ error: "Invalid request body" });
   }
   const { query, level = "15-year-old" } = parsed.data;
+
+  console.log(`[Answer API] Query: "${query}", Level: ${level}, Corpus size: ${CORPUS.length}`);
+
   if (!CORPUS.length) {
+    console.error("[Answer API] Knowledge base is empty - check ipc.json file");
     return res
       .status(200)
       .json({ answer: "Knowledge base is empty.", sources: [] });
