@@ -95,6 +95,10 @@ function loadCorpusOnce() {
     }
   } catch (e) {
     console.error("Failed to load public/ipc.json:", e);
+    console.error("Current working directory:", process.cwd());
+    console.error("__dirname:", __dirname);
+    console.error("Environment:", process.env.NODE_ENV);
+    console.error("Available files in cwd:", fs.readdirSync(process.cwd()).slice(0, 10));
     CORPUS = [];
   }
 }
