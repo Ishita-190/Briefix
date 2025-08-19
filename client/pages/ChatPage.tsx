@@ -155,23 +155,23 @@ export default function ChatPage() {
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-background via-background to-primary/5">
       {/* Header */}
-      <div className="bg-white/80 backdrop-blur-xl border-b border-border/50 px-6 py-6 shadow-sm">
+      <div className="bg-white/80 backdrop-blur-xl border-b border-border/50 px-6 py-4 shadow-sm flex-shrink-0">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-3xl lg:text-4xl font-bold text-primary mb-2">
+          <h1 className="text-2xl lg:text-3xl font-bold text-primary mb-2">
             AI Legal Assistant
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-base lg:text-lg text-muted-foreground">
             Get immediate answers to your legal questions in plain English
           </p>
         </div>
       </div>
 
       {/* Chat Container */}
-      <div className="flex-1 max-w-4xl mx-auto w-full flex flex-col px-4 py-4">
+      <div className="flex-1 max-w-4xl mx-auto w-full flex flex-col px-4 py-4 min-h-0">
         {/* Messages Area */}
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-hidden mb-4">
           <ScrollArea className="h-full px-4" ref={scrollAreaRef}>
-            <div className="space-y-4">
+            <div className="space-y-4 pb-4">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -186,12 +186,12 @@ export default function ChatPage() {
                   )}
 
                   <div
-                    className={`max-w-[85%] rounded-2xl p-4 shadow-lg ${
+                    className={`max-w-[75%] lg:max-w-[80%] rounded-2xl p-4 shadow-lg break-words ${
                       message.role === "user"
-                        ? "bg-gradient-to-r from-primary to-accent text-white ml-12"
+                        ? "bg-gradient-to-r from-primary to-accent text-white ml-8 lg:ml-12"
                         : message.error
-                          ? "bg-red-50 border border-red-200 text-red-800 mr-12 dark:bg-red-950 dark:border-red-800 dark:text-red-200"
-                          : "bg-white/80 backdrop-blur-sm border border-white/20 mr-12"
+                          ? "bg-red-50 border border-red-200 text-red-800 mr-8 lg:mr-12 dark:bg-red-950 dark:border-red-800 dark:text-red-200"
+                          : "bg-white/80 backdrop-blur-sm border border-white/20 mr-8 lg:mr-12"
                     }`}
                   >
                     {message.role === "assistant" && (
