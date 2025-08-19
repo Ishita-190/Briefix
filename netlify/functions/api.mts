@@ -1,52 +1,99 @@
 import type { Context } from "@netlify/functions";
-import { createServer } from "../../server";
-
-// Create the Express server instance
-const app = createServer();
+import { handleDemo } from "../../server/routes/demo";
+import { handleAnswer } from "../../server/routes/answer";
 
 export default async (req: Request, context: Context) => {
   const url = new URL(req.url);
   const path = url.pathname.replace('/.netlify/functions/api', '');
-  
-  // Handle the request using our Express app
-  return new Promise((resolve) => {
-    const mockReq = {
-      method: req.method,
-      url: path,
-      headers: Object.fromEntries(req.headers.entries()),
-      body: req.body,
-    };
-    
-    const mockRes = {
-      statusCode: 200,
-      headers: {},
-      body: '',
-      json: function(data: any) {
-        this.headers['content-type'] = 'application/json';
-        this.body = JSON.stringify(data);
-        return this;
-      },
-      status: function(code: number) {
-        this.statusCode = code;
-        return this;
-      },
-      setHeader: function(name: string, value: string) {
-        this.headers[name.toLowerCase()] = value;
-      },
-      end: function(data?: string) {
-        if (data) this.body = data;
-        resolve(new Response(this.body, {
-          status: this.statusCode,
-          headers: this.headers
-        }));
-      }
-    };
+  const method = req.method;
 
-    // Handle the request with our Express app
-    app.handle(mockReq as any, mockRes as any, () => {
-      resolve(new Response('Not Found', { status: 404 }));
+  // Set CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  };
+
+  // Handle preflight requests
+  if (method === 'OPTIONS') {
+    return new Response(null, { status: 200, headers });
+  }
+
+  try {
+    // Route to appropriate handler
+    if (path === '/ping' && method === 'GET') {
+      const ping = Netlify.env.get('PING_MESSAGE') ?? 'ping';
+      return new Response(JSON.stringify({ message: ping }), {
+        status: 200,
+        headers: { ...headers, 'Content-Type': 'application/json' }
+      });
+    }
+
+    if (path === '/demo' && method === 'GET') {
+      // Create mock Express-like objects
+      const mockReq = {} as any;
+      const mockRes = {
+        json: (data: any) => {
+          return new Response(JSON.stringify(data), {
+            status: 200,
+            headers: { ...headers, 'Content-Type': 'application/json' }
+          });
+        }
+      } as any;
+
+      return await new Promise((resolve) => {
+        mockRes.json = (data: any) => {
+          resolve(new Response(JSON.stringify(data), {
+            status: 200,
+            headers: { ...headers, 'Content-Type': 'application/json' }
+          }));
+        };
+        handleDemo(mockReq, mockRes);
+      });
+    }
+
+    if (path === '/answer' && method === 'POST') {
+      const body = await req.json();
+      
+      const mockReq = {
+        body,
+        query: {}
+      } as any;
+
+      return await new Promise((resolve, reject) => {
+        const mockRes = {
+          json: (data: any) => {
+            resolve(new Response(JSON.stringify(data), {
+              status: 200,
+              headers: { ...headers, 'Content-Type': 'application/json' }
+            }));
+          },
+          status: (code: number) => ({
+            json: (data: any) => {
+              resolve(new Response(JSON.stringify(data), {
+                status: code,
+                headers: { ...headers, 'Content-Type': 'application/json' }
+              }));
+            }
+          })
+        } as any;
+
+        handleAnswer(mockReq, mockRes).catch(reject);
+      });
+    }
+
+    return new Response('Not Found', { 
+      status: 404, 
+      headers 
     });
-  });
+
+  } catch (error) {
+    console.error('Function error:', error);
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
+      status: 500,
+      headers: { ...headers, 'Content-Type': 'application/json' }
+    });
+  }
 };
 
 export const config = {
