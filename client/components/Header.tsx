@@ -1,60 +1,96 @@
-import { Link } from "react-router-dom";
-import { Scale, Menu, X } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { Scale, Menu, X, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
+import { cn } from "../lib/utils";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="bg-card border-b border-border sticky top-0 z-50 shadow-sm backdrop-blur-sm bg-card/95">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center space-x-2">
-            <Scale className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold text-primary">Briefix</span>
+    <header className="bg-white/80 border-b border-border/50 sticky top-0 z-50 backdrop-blur-xl shadow-lg shadow-primary/5">
+      <div className="container mx-auto px-6">
+        <div className="flex items-center justify-between h-18">
+          <Link to="/" className="flex items-center space-x-3 group">
+            <div className="relative">
+              <Scale className="h-9 w-9 text-primary group-hover:scale-110 transition-transform duration-200" />
+              <Sparkles className="h-4 w-4 text-accent absolute -top-1 -right-1 opacity-70" />
+            </div>
+            <span className="text-2xl font-bold text-primary tracking-tight">Briefix</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-1">
             <Link
               to="/explain"
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className={cn(
+                "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:bg-primary/5",
+                isActive("/explain")
+                  ? "text-primary bg-primary/10"
+                  : "text-muted-foreground hover:text-primary"
+              )}
             >
               AI Explanation
             </Link>
             <Link
               to="/documents"
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className={cn(
+                "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:bg-primary/5",
+                isActive("/documents")
+                  ? "text-primary bg-primary/10"
+                  : "text-muted-foreground hover:text-primary"
+              )}
             >
               Document Analysis
             </Link>
             <Link
               to="/procedures"
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className={cn(
+                "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:bg-primary/5",
+                isActive("/procedures")
+                  ? "text-primary bg-primary/10"
+                  : "text-muted-foreground hover:text-primary"
+              )}
             >
               Legal Procedures
             </Link>
             <Link
               to="/chat"
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className={cn(
+                "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:bg-primary/5",
+                isActive("/chat")
+                  ? "text-primary bg-primary/10"
+                  : "text-muted-foreground hover:text-primary"
+              )}
             >
               Ask AI
             </Link>
           </nav>
 
-          <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" asChild>
+          <div className="hidden md:flex items-center space-x-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="hover:bg-primary/5"
+              asChild
+            >
               <Link to="/login">Sign In</Link>
             </Button>
-            <Button asChild>
+            <Button
+              size="sm"
+              className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 shadow-lg"
+              asChild
+            >
               <Link to="/signup">Get Started</Link>
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden"
+            className="md:hidden p-2 rounded-lg hover:bg-primary/5 transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
