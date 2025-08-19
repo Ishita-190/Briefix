@@ -114,15 +114,22 @@ function summarize(text: string, maxSentences = 2) {
 
 function rewriteForLevel(text: string, level: string) {
   // Clean up the text first
-  const cleaned = text
+  let cleaned = text
     .replace(/\s+/g, " ")
     .trim()
     .replace(/\b(Repealed by[^.]*\.)\s*/g, "") // Remove repeated "Repealed by" text
-    .replace(/\b(S\.\s*\d+\s*and\s*Sch\.)\s*/g, ""); // Remove schedule references
+    .replace(/\b(S\.\s*\d+\s*and\s*Sch\.)\s*/g, "") // Remove schedule references
+    .replace(/^[^A-Z]*/, "") // Remove incomplete sentences at the start
+    .replace(/[^.!?]*$/, ""); // Remove incomplete sentences at the end
+
+  // Ensure we have at least one complete sentence
+  if (!cleaned || cleaned.length < 20) {
+    cleaned = text.substring(0, 200) + (text.length > 200 ? "..." : "");
+  }
 
   const base = summarize(
     cleaned,
-    level === "lawyer" ? 3 : level === "15-year-old" ? 2 : 2,
+    level === "lawyer" ? 2 : 1, // Reduce to avoid very long responses
   );
 
   if (level === "12-year-old") {
@@ -137,10 +144,10 @@ function rewriteForLevel(text: string, level: string) {
     );
   }
   if (level === "15-year-old") {
-    return base + " (Key legal concepts explained for practical understanding)";
+    return base + " (From Indian Penal Code)";
   }
   // lawyer
-  return base + " (Legal reference from Indian Penal Code)";
+  return base + " (IPC Reference)";
 }
 
 const BodySchema = z.object({
