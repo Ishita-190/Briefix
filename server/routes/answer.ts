@@ -8,6 +8,12 @@ import {
   GENERAL_LEGAL_GUIDANCE,
 } from "../lib/legal-knowledge";
 import {
+  getConstitutionalReferences,
+  formatConstitutionalReferences,
+  formatStatutoryBasis,
+  getStatutoryBasis,
+} from "../lib/constitutional-law";
+import {
   simplifyForAge,
   addExamples,
   needsExtraSimplification,
@@ -128,12 +134,28 @@ function summarize(text: string, maxSentences = 2) {
   return sentences.slice(0, maxSentences).join(" ");
 }
 
-function rewriteForLevel(text: string, level: string, category?: string) {
+function rewriteForLevel(text: string, level: string, category?: string, query?: string) {
   // For knowledge base content, use advanced simplification system
   if (text.includes("**") || text.includes("\n")) {
     // This is formatted knowledge base content
+    let content = text;
+
+    // Add constitutional references if relevant
+    if (query) {
+      const constitutionalRefs = getConstitutionalReferences(query);
+      const statutoryBasis = getStatutoryBasis(query);
+
+      if (constitutionalRefs.length > 0) {
+        content += formatConstitutionalReferences(constitutionalRefs);
+      }
+
+      if (statutoryBasis.length > 0) {
+        content += formatStatutoryBasis(statutoryBasis);
+      }
+    }
+
     if (level === "12-year-old" || level === "15-year-old") {
-      let simplified = simplifyForAge(text, level);
+      let simplified = simplifyForAge(content, level);
 
       // Add relevant examples for the topic
       if (category) {
@@ -142,8 +164,8 @@ function rewriteForLevel(text: string, level: string, category?: string) {
 
       return simplified;
     }
-    // lawyer level - return full content
-    return text + "\n\n(Professional legal reference)";
+    // lawyer level - return full content with constitutional references
+    return content + "\n\n(Professional legal reference with constitutional basis)";
   }
 
   // For IPC content, clean up as before
@@ -211,13 +233,30 @@ export const handleAnswer: RequestHandler = (req, res) => {
     console.log(
       `[Answer API] Found knowledge base answer for category: ${knowledgeAnswer.category}`,
     );
+
+    // Check if this answer should include constitutional references
+    const hasConstitutionalRefs = knowledgeAnswer.constitutionalReferences;
+    let enhancedSources = knowledgeAnswer.sources;
+
+    if (hasConstitutionalRefs) {
+      // Add constitutional reference source
+      enhancedSources = [
+        ...knowledgeAnswer.sources,
+        {
+          title: "Indian Constitution - Fundamental Rights & Directive Principles",
+          type: "constitutional" as const,
+        },
+      ];
+    }
+
     return res.json({
       answer: rewriteForLevel(
         knowledgeAnswer.answer,
         level,
         knowledgeAnswer.category,
+        query, // Pass query to get constitutional references
       ),
-      sources: knowledgeAnswer.sources.map((source) => ({
+      sources: enhancedSources.map((source) => ({
         title: source.title,
         type: source.type,
         category: knowledgeAnswer.category,
@@ -225,6 +264,7 @@ export const handleAnswer: RequestHandler = (req, res) => {
       })),
       category: knowledgeAnswer.category,
       urgency: knowledgeAnswer.urgency,
+      constitutionalBasis: hasConstitutionalRefs,
     });
   }
 
@@ -321,7 +361,7 @@ The Indian Penal Code primarily covers criminal offenses. For civil matters, con
   }
 
   const cleanText = summarize(bestMatch.item.text, level === "lawyer" ? 3 : 2);
-  const answer = rewriteForLevel(cleanText, level);
+  const answer = rewriteForLevel(cleanText, level, "Indian Penal Code", query);
   const sources = [
     {
       id: bestMatch.item.id,
@@ -330,6 +370,17 @@ The Indian Penal Code primarily covers criminal offenses. For civil matters, con
       score: Math.round(bestMatch.score * 1000) / 1000,
     },
   ];
+
+  // Check if query relates to constitutional law topics
+  const constitutionalRefs = getConstitutionalReferences(query);
+  if (constitutionalRefs.length > 0) {
+    sources.push({
+      id: "constitutional-ref",
+      title: "Indian Constitution - Related Provisions",
+      section: "Fundamental Rights & Directive Principles",
+      score: 1.0,
+    });
+  }
 
   // Add additional sources only if they're significantly relevant
   matches.slice(1).forEach((match) => {
