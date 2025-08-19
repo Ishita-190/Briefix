@@ -102,73 +102,98 @@ export default function Index() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-b from-background to-secondary/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
+      <section className="py-24 relative">
+        {/* Background with subtle patterns */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5"></div>
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 25% 25%, rgba(139, 120, 93, 0.1) 0%, transparent 50%),
+                           radial-gradient(circle at 75% 75%, rgba(139, 120, 93, 0.05) 0%, transparent 50%)`
+        }}></div>
+
+        <div className="container mx-auto px-6 relative">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl lg:text-5xl font-bold text-primary mb-6 tracking-tight">
               How Briefix Helps You
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Our AI adapts to your level of understanding, making legal knowledge accessible to everyone.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="border-2 border-accent/20 hover:border-accent/40 transition-colors">
-              <CardHeader>
-                <Brain className="h-12 w-12 text-accent mb-4" />
-                <CardTitle>Smart Explanations</CardTitle>
-                <CardDescription>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+            <Card className="group relative bg-white/70 backdrop-blur-xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:bg-white/80 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <CardHeader className="relative z-10 p-8">
+                <div className="w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
+                  <Brain className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-xl font-bold text-primary mb-4">Smart Explanations</CardTitle>
+                <CardDescription className="text-muted-foreground leading-relaxed">
                   Choose your comprehension level: 12-year-old, 15-year-old, or lawyer. Our AI adjusts the complexity accordingly.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-2 border-accent/20 hover:border-accent/40 transition-colors">
-              <CardHeader>
-                <FileText className="h-12 w-12 text-accent mb-4" />
-                <CardTitle>Document Analysis</CardTitle>
-                <CardDescription>
+            <Card className="group relative bg-white/70 backdrop-blur-xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:bg-white/80 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <CardHeader className="relative z-10 p-8">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
+                  <FileText className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-xl font-bold text-primary mb-4">Document Analysis</CardTitle>
+                <CardDescription className="text-muted-foreground leading-relaxed">
                   Upload legal documents and get plain-English summaries, key points, and potential concerns explained clearly.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-2 border-accent/20 hover:border-accent/40 transition-colors">
-              <CardHeader>
-                <BookOpen className="h-12 w-12 text-accent mb-4" />
-                <CardTitle>Legal Procedures</CardTitle>
-                <CardDescription>
+            <Card className="group relative bg-white/70 backdrop-blur-xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:bg-white/80 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <CardHeader className="relative z-10 p-8">
+                <div className="w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
+                  <BookOpen className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-xl font-bold text-primary mb-4">Legal Procedures</CardTitle>
+                <CardDescription className="text-muted-foreground leading-relaxed">
                   Step-by-step guidance through legal processes, from filing paperwork to understanding court procedures.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-2 border-accent/20 hover:border-accent/40 transition-colors">
-              <CardHeader>
-                <MessageSquare className="h-12 w-12 text-accent mb-4" />
-                <CardTitle>AI Chat Assistant</CardTitle>
-                <CardDescription>
+            <Card className="group relative bg-white/70 backdrop-blur-xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:bg-white/80 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <CardHeader className="relative z-10 p-8">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
+                  <MessageSquare className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-xl font-bold text-primary mb-4">AI Chat Assistant</CardTitle>
+                <CardDescription className="text-muted-foreground leading-relaxed">
                   Ask questions in natural language and get immediate, accurate answers about legal concepts and procedures.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-2 border-accent/20 hover:border-accent/40 transition-colors">
-              <CardHeader>
-                <Shield className="h-12 w-12 text-accent mb-4" />
-                <CardTitle>Privacy First</CardTitle>
-                <CardDescription>
+            <Card className="group relative bg-white/70 backdrop-blur-xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:bg-white/80 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <CardHeader className="relative z-10 p-8">
+                <div className="w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
+                  <Shield className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-xl font-bold text-primary mb-4">Privacy First</CardTitle>
+                <CardDescription className="text-muted-foreground leading-relaxed">
                   Your legal questions and documents are handled with the highest level of security and confidentiality.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-2 border-accent/20 hover:border-accent/40 transition-colors">
-              <CardHeader>
-                <Zap className="h-12 w-12 text-accent mb-4" />
-                <CardTitle>Instant Answers</CardTitle>
-                <CardDescription>
+            <Card className="group relative bg-white/70 backdrop-blur-xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:bg-white/80 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <CardHeader className="relative z-10 p-8">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
+                  <Zap className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-xl font-bold text-primary mb-4">Instant Answers</CardTitle>
+                <CardDescription className="text-muted-foreground leading-relaxed">
                   Get immediate clarification on legal terms, procedures, and documents without waiting for appointments.
                 </CardDescription>
               </CardHeader>
