@@ -20,16 +20,7 @@ import {
 
 export default function Index() {
   return (
-    <div
-      className="bg-background"
-      style={{
-        backgroundImage: `
-          radial-gradient(circle at 20% 50%, rgba(139, 120, 93, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 20%, rgba(139, 120, 93, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 40% 80%, rgba(139, 120, 93, 0.1) 0%, transparent 50%)
-        `,
-      }}
-    >
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 animate-fade-in">
       {/* Hero Section */}
       <section
         className="relative py-28 lg:py-40 bg-cover bg-center overflow-hidden"
