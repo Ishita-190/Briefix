@@ -220,10 +220,10 @@ export default function ExplainPage() {
                   <Button
                     key={index}
                     variant="ghost"
-                    className="w-full text-left h-auto p-3 text-sm justify-start"
+                    className="w-full text-left h-auto p-3 text-sm justify-start whitespace-normal break-words leading-relaxed"
                     onClick={() => setQuestion(example)}
                   >
-                    {example}
+                    <span className="block truncate">{example}</span>
                   </Button>
                 ))}
               </CardContent>
