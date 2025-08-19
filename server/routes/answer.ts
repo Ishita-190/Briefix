@@ -27,7 +27,9 @@ function loadCorpusOnce() {
           id: d.id,
           title: d.title,
           section: d.section,
-          text: String(d.text ?? "").replace(/\s+/g, " ").trim(),
+          text: String(d.text ?? "")
+            .replace(/\s+/g, " ")
+            .trim(),
         }))
         .filter((d) => d.text);
     } else if (data && typeof data === "object" && Array.isArray(data.items)) {
@@ -36,7 +38,9 @@ function loadCorpusOnce() {
           id: d.id,
           title: d.title,
           section: d.section,
-          text: String(d.text ?? "").replace(/\s+/g, " ").trim(),
+          text: String(d.text ?? "")
+            .replace(/\s+/g, " ")
+            .trim(),
         }))
         .filter((d: CorpusItem) => d.text);
     }
@@ -70,7 +74,10 @@ function topMatches(query: string, k = 5) {
     .split(/[^a-z0-9]+/)
     .filter(Boolean)
     .filter((w) => w.length > 1);
-  const scored = CORPUS.map((item) => ({ item, score: score(item.text, terms) }))
+  const scored = CORPUS.map((item) => ({
+    item,
+    score: score(item.text, terms),
+  }))
     .filter((r) => r.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, k);
@@ -86,7 +93,10 @@ function summarize(text: string, maxSentences = 3) {
 }
 
 function rewriteForLevel(text: string, level: string) {
-  const base = summarize(text, level === "lawyer" ? 5 : level === "15-year-old" ? 4 : 3);
+  const base = summarize(
+    text,
+    level === "lawyer" ? 5 : level === "15-year-old" ? 4 : 3,
+  );
   if (level === "12-year-old") {
     // simpler words and shorter lines
     return (
@@ -98,10 +108,16 @@ function rewriteForLevel(text: string, level: string) {
     );
   }
   if (level === "15-year-old") {
-    return base + " Key ideas are simplified and focused on what matters in practice.";
+    return (
+      base +
+      " Key ideas are simplified and focused on what matters in practice."
+    );
   }
   // lawyer
-  return base + " This overview focuses on material elements, scope, and typical limitations.";
+  return (
+    base +
+    " This overview focuses on material elements, scope, and typical limitations."
+  );
 }
 
 const BodySchema = z.object({
@@ -117,14 +133,16 @@ export const handleAnswer: RequestHandler = (req, res) => {
   }
   const { query, level = "15-year-old" } = parsed.data;
   if (!CORPUS.length) {
-    return res.status(200).json({ answer: "Knowledge base is empty.", sources: [] });
+    return res
+      .status(200)
+      .json({ answer: "Knowledge base is empty.", sources: [] });
   }
   const matches = topMatches(query, 5);
   if (!matches.length) {
     return res.status(200).json({
       answer: rewriteForLevel(
         "No direct match found in the dataset. However, generally speaking, the law addresses this topic through principles, definitions, and procedures that vary by jurisdiction.",
-        level
+        level,
       ),
       sources: [],
     });
