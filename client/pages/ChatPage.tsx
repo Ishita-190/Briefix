@@ -23,6 +23,7 @@ import {
   BookOpen,
   ExternalLink,
 } from "lucide-react";
+import { getCachedAnswer } from "../lib/api-cache";
 
 type Source = {
   id?: string;
@@ -46,31 +47,6 @@ type ApiResponse = {
   sources: Source[];
 };
 
-// Enhanced function to use the better /api/answer endpoint
-async function getAnswer(question: string): Promise<ApiResponse> {
-  try {
-    const response = await fetch("/api/answer", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: question,
-        level: "15-year-old", // Default level for chat
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data: ApiResponse = await response.json();
-    return data;
-  } catch (err) {
-    console.error("Error fetching answer:", err);
-    throw err;
-  }
-}
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([
@@ -119,7 +95,7 @@ export default function ChatPage() {
     setIsLoading(true);
 
     try {
-      const result = await getAnswer(content);
+      const result = await getCachedAnswer(content, "15-year-old");
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
