@@ -180,78 +180,78 @@ pnpm format.fix   # Format code with Prettier
      │  public/ (static files)     │
      └─────────────────────────────┘
 
-
 Briefix/
-└───├── .dockerignore
-    ├── .env
-    ├── .gitignore
-    ├── .npmrc
-    ├── .prettierrc
-    ├── AGENTS.md
-    ├── README.md
-    ├── blueprint.docx
-    ├── components.json
-    ├── extract_ipc.py
-    ├── index.html
-    ├── ipc.pdf
-    ├── netlify.toml
-    ├── package.json
-    ├── pnpm-lock.yaml
-    ├── postcss.config.js
-    ├── tailwind.config.ts
-    ├── tsconfig.json
-    ├── vite.config.server.ts
-    ├── vite.config.ts
-    │
-    ├── .builder/
-    │   └── rules/
-    │       ├── deploy-app.mdc
-    │       └── organize-ui.mdc
-    │
-    ├── client/
-    │   ├── App.tsx
-    │   ├── global.css
-    │   ├── main.tsx
-    │   ├── vite-env.d.ts
-    │   └── components/
-    │       ├── Footer.tsx
-    │       ├── Header.tsx
-    │       └── ui/
-    │           ├── SignIn.tsx
-    │           ├── accordion.tsx
-    │           ├── alert-dialog.tsx
-    │           ├── alert.tsx
-    │           ├── animated-background.tsx
-    │           ├── aspect-ratio.tsx
-    │           ├── avatar.tsx
-    │           ├── badge.tsx
-    │           ├── breadcrumb.tsx
-    │           ├── button.tsx
-    │           ├── calendar.tsx
-    │           ├── card.tsx
-    │           ├── carousel.tsx
-    │           ├── chart.tsx
-    │           ├── checkbox.tsx
-    │           ├── collapsible.tsx
-    │           ├── command.tsx
-    │           ├── context-menu.tsx
-    │           ├── dialog.tsx
-    │           ├── drawer.tsx
-    │           ├── dropdown-menu.tsx
-    │           ├── form.tsx
-    │           ...
-    │
-    ├── server/
-    │   ├── index.ts
-    │   └── routes/
-    │       └── demo.ts
-    │
-    ├── shared/
-    │   └── api.ts
-    │
-    └── netlify/
-        └── functions/
-            └── api.mts
+├── .dockerignore
+├── .env
+├── .gitignore
+├── .npmrc
+├── .prettierrc
+├── AGENTS.md
+├── README.md
+├── blueprint.docx
+├── components.json
+├── extract_ipc.py
+├── index.html
+├── ipc.pdf
+├── netlify.toml
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.js
+├── tailwind.config.ts
+├── tsconfig.json
+├── vite.config.server.ts
+├── vite.config.ts
+│
+├── .builder/
+│   └── rules/
+│       ├── deploy-app.mdc
+│       └── organize-ui.mdc
+│
+├── client/
+│   ├── App.tsx
+│   ├── global.css
+│   ├── main.tsx
+│   ├── vite-env.d.ts
+│   └── components/
+│       ├── Footer.tsx
+│       ├── Header.tsx
+│       └── ui/
+│           ├── SignIn.tsx
+│           ├── accordion.tsx
+│           ├── alert-dialog.tsx
+│           ├── alert.tsx
+│           ├── animated-background.tsx
+│           ├── aspect-ratio.tsx
+│           ├── avatar.tsx
+│           ├── badge.tsx
+│           ├── breadcrumb.tsx
+│           ├── button.tsx
+│           ├── calendar.tsx
+│           ├── card.tsx
+│           ├── carousel.tsx
+│           ├── chart.tsx
+│           ├── checkbox.tsx
+│           ├── collapsible.tsx
+│           ├── command.tsx
+│           ├── context-menu.tsx
+│           ├── dialog.tsx
+│           ├── drawer.tsx
+│           ├── dropdown-menu.tsx
+│           ├── form.tsx
+│           ...
+│
+├── server/
+│   ├── index.ts
+│   └── routes/
+│       └── demo.ts
+│
+├── shared/
+│   └── api.ts
+│
+└── netlify/
+    └── functions/
+        └── api.mts
+
 
 
 ## 📖 Usage
@@ -321,6 +321,17 @@ We welcome contributions to Briefix! Here's how you can help:
 - ⚡ Performance optimizations
 - 🔧 Additional legal procedures
 - 🌐 Accessibility improvements
+
+### **📚 Documentation**
+
+AGENTS.md
+ → explanation of agents/services
+
+blueprint.docx
+ → initial project design
+
+ipc.pdf
+ → IPC reference
 
 ## 📄 License
 
