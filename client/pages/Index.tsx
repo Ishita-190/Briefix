@@ -203,33 +203,42 @@ export default function Index() {
       </section>
 
       {/* How It Works Section */}
-      <section
-        className="py-20 border-y border-border/50 bg-cover bg-center"
-        style={{
-          backgroundImage: `
-            linear-gradient(45deg, rgba(139, 120, 93, 0.0005) 0%, transparent 100%),
-            url("/image4.jpeg")
-          `,
-        }}
-      >
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
+      <section className="py-24 relative overflow-hidden">
+        {/* Enhanced background with multiple layers */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-background to-accent/10"></div>
+        <div
+          className="absolute inset-0 opacity-30 bg-cover bg-center"
+          style={{
+            backgroundImage: `url("/image4.jpeg")`,
+            filter: 'blur(1px)'
+          }}
+        ></div>
+        <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl lg:text-5xl font-bold text-primary mb-6 tracking-tight">
               Simple as 1-2-3
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Getting legal help has never been easier. Follow these simple steps.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
             {["Choose Your Level", "Ask or Upload", "Get Clear Answers"].map((title, i) => (
-              <div key={i} className="text-center">
-                <div className="bg-accent text-accent-foreground rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-6 mx-auto">
-                  {i + 1}
+              <div key={i} className="text-center group">
+                <div className="relative mb-8">
+                  <div className="bg-gradient-to-br from-accent to-primary text-white rounded-3xl w-20 h-20 flex items-center justify-center text-2xl font-bold mx-auto shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                    {i + 1}
+                  </div>
+                  {/* Connecting line for desktop */}
+                  {i < 2 && (
+                    <div className="hidden md:block absolute top-10 left-full w-12 h-0.5 bg-gradient-to-r from-accent to-primary opacity-30"></div>
+                  )}
                 </div>
-                <h3 className="text-xl font-semibold mb-4">{title}</h3>
-                <p className="text-muted-foreground">
+                <h3 className="text-2xl font-bold text-primary mb-6 group-hover:text-accent transition-colors duration-200">{title}</h3>
+                <p className="text-muted-foreground text-lg leading-relaxed">
                   {i === 0 && "Select how complex you want the explanation: simple enough for a 12-year-old, moderate for a 15-year-old, or detailed for legal professionals."}
                   {i === 1 && "Type your legal question, upload a document for analysis, or ask about a specific legal procedure you need help with."}
                   {i === 2 && "Receive explanations tailored to your chosen complexity level, with actionable insights and next steps clearly outlined."}
@@ -241,40 +250,45 @@ export default function Index() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div
-            className="bg-primary rounded-2xl p-8 lg:p-16 text-center text-primary-foreground shadow-2xl border-2 border-accent/20"
-            style={{
-              backgroundImage: `
-                radial-gradient(circle at 10% 20%, rgba(139, 120, 93, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(139, 120, 93, 0.1) 0%, transparent 20%)
-              `,
-            }}
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+      <section className="py-24 relative overflow-hidden">
+        {/* Dynamic background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-accent"></div>
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent/20 rounded-full blur-2xl animate-pulse delay-500"></div>
+        </div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-10 lg:p-16 text-center text-white shadow-2xl border border-white/20 max-w-5xl mx-auto">
+            <h2 className="text-4xl lg:text-6xl font-bold mb-6 tracking-tight">
               Ready to Understand Your Legal Rights?
             </h2>
-            <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl lg:text-2xl opacity-90 mb-12 max-w-3xl mx-auto leading-relaxed">
               Join thousands of people who've simplified their legal understanding with Briefix.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" asChild>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-8">
+              <Button
+                size="lg"
+                className="bg-white text-primary hover:bg-white/90 px-8 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-200"
+                asChild
+              >
                 <Link to="/explain">
-                  Start Free Explanation <ArrowRight className="ml-2 h-4 w-4" />
+                  Start Free Explanation <ArrowRight className="ml-3 h-5 w-5" />
                 </Link>
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+                className="border-2 border-white/50 text-white hover:bg-white/10 backdrop-blur-sm px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200"
                 asChild
               >
                 <Link to="/chat">Try AI Chat</Link>
               </Button>
             </div>
-            <p className="text-sm opacity-75 mt-6">
-              ⚠️ Educational tool only • Not a substitute for professional legal advice
+            <p className="text-sm opacity-75 flex items-center justify-center gap-2">
+              <Shield className="h-4 w-4" />
+              Educational tool only • Not a substitute for professional legal advice
             </p>
           </div>
         </div>
