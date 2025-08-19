@@ -1,12 +1,15 @@
 // Comprehensive Legal Knowledge Base
+import { getConstitutionalReferences, formatConstitutionalReferences, formatStatutoryBasis, getStatutoryBasis } from './constitutional-law';
+
 export interface LegalAnswer {
   answer: string;
   category: string;
   urgency: "low" | "medium" | "high";
   sources: Array<{
     title: string;
-    type: "procedure" | "statute" | "guidance" | "practical";
+    type: "procedure" | "statute" | "guidance" | "practical" | "constitutional";
   }>;
+  constitutionalReferences?: boolean;
 }
 
 export const LEGAL_KNOWLEDGE_BASE = {
@@ -244,7 +247,336 @@ export const LEGAL_KNOWLEDGE_BASE = {
     sources: [
       { title: "Family Court Procedures", type: "procedure" as const },
       { title: "Child Welfare Standards", type: "guidance" as const },
+      { title: "Constitutional Rights in Family Law", type: "constitutional" as const },
     ],
+    constitutionalReferences: true,
+  },
+
+  // Alimony/Maintenance - Specific topic
+  alimony: {
+    keywords: [
+      "alimony",
+      "maintenance",
+      "spousal support",
+      "wife maintenance",
+      "husband maintenance",
+      "divorce settlement",
+    ],
+    answer: `**Alimony/Maintenance** - Financial support after marriage dissolution:
+
+**Constitutional Foundation:**
+Alimony laws are grounded in constitutional principles ensuring dignity and equality. The right to maintenance derives from the fundamental right to life with dignity under Article 21.
+
+**Types of Maintenance:**
+- **Interim Maintenance**: During divorce proceedings
+- **Permanent Alimony**: After divorce decree
+- **Rehabilitative Support**: Temporary support for skill development
+- **Lump Sum Settlement**: One-time payment instead of periodic payments
+
+**Factors Considered:**
+- Income and earning capacity of both spouses
+- Standard of living during marriage
+- Duration of marriage
+- Age and health of both parties
+- Contribution to household (financial and non-financial)
+- Future financial needs and obligations
+
+**Legal Framework:**
+- Hindu Marriage Act, 1955 (Section 25)
+- Special Marriage Act, 1954 (Section 36)
+- Code of Criminal Procedure, 1973 (Section 125)
+- Muslim Personal Law provisions
+
+**How to Apply:**
+1. File petition in family court
+2. Submit financial affidavits
+3. Provide evidence of lifestyle and needs
+4. Attend mediation if court-ordered
+5. Present case at hearing
+
+**Important Rights:**
+- Both men and women can claim maintenance
+- Right exists regardless of fault in divorce
+- Can be modified based on changed circumstances
+- Enforcement through court orders if unpaid`,
+    category: "Alimony/Maintenance",
+    urgency: "medium" as const,
+    sources: [
+      { title: "Hindu Marriage Act, 1955", type: "statute" as const },
+      { title: "Constitutional Rights to Dignity", type: "constitutional" as const },
+      { title: "Family Court Procedures", type: "procedure" as const },
+    ],
+    constitutionalReferences: true,
+  },
+
+  // Citizen's Arrest
+  citizenArrest: {
+    keywords: [
+      "citizen arrest",
+      "citizens arrest",
+      "private person arrest",
+      "arrest without warrant",
+      "civilian arrest",
+    ],
+    answer: `**Citizen's Arrest** - When private individuals can make arrests:
+
+**Constitutional Framework:**
+Citizen's arrest must balance public safety with fundamental rights under Articles 19(1)(d) (freedom of movement) and Article 21 (personal liberty).
+
+**Legal Authority:**
+Under Section 43 of Code of Criminal Procedure, 1973, any private person may arrest someone who:
+- Commits a cognizable offense in their presence
+- Is a proclaimed offender
+- Has committed a non-bailable and cognizable offense
+
+**When Citizen's Arrest is Allowed:**
+- Witnessing a serious crime in progress
+- Preventing escape of someone who committed a crime
+- Protecting yourself or others from immediate harm
+- When police are not immediately available
+
+**Legal Requirements:**
+- Must hand over arrested person to police immediately
+- Cannot detain beyond reasonable time for police arrival
+- Must inform person of reason for arrest
+- Cannot use excessive force
+- Must respect constitutional rights of arrested person
+
+**Prohibited Actions:**
+- Cannot arrest for minor offenses or civil disputes
+- Cannot arrest based on suspicion alone
+- Cannot interrogate or punish the person
+- Cannot search without legal authority
+
+**Risks and Responsibilities:**
+- False arrest can lead to civil and criminal liability
+- May face assault charges if excessive force used
+- Must be certain about the crime and identity
+- Better to be witness and call police when possible
+
+**Constitutional Protections:**
+Even during citizen's arrest, person retains rights under Article 22 including right to know grounds of arrest and right to legal representation.`,
+    category: "Citizen's Arrest",
+    urgency: "high" as const,
+    sources: [
+      { title: "Code of Criminal Procedure, 1973", type: "statute" as const },
+      { title: "Constitutional Rights During Arrest", type: "constitutional" as const },
+      { title: "Citizens' Legal Powers", type: "guidance" as const },
+    ],
+    constitutionalReferences: true,
+  },
+
+  // Legal Procedures and Due Process
+  legalProcedures: {
+    keywords: [
+      "legal procedure",
+      "legal process",
+      "due process",
+      "court procedure",
+      "legal steps",
+      "how to file case",
+    ],
+    answer: `**Legal Procedures** - Understanding court processes and due process rights:
+
+**Constitutional Foundation:**
+Article 21 guarantees due process - fair and just legal procedures. Article 14 ensures equal treatment in all legal proceedings.
+
+**Basic Legal Procedure Steps:**
+1. **Case Filing**: Submit petition/complaint with required documents
+2. **Service of Notice**: Other party must be properly informed
+3. **Written Statements**: Parties submit their positions
+4. **Discovery**: Exchange of evidence and documents
+5. **Hearings**: Court examines evidence and arguments
+6. **Judgment**: Court's final decision
+7. **Appeal**: Option to challenge decision in higher court
+
+**Due Process Rights:**
+- Right to be heard (audi alteram partem)
+- Right to fair and impartial tribunal
+- Right to legal representation
+- Right to examine evidence
+- Right to cross-examine witnesses
+- Right to reasoned decision
+
+**Civil vs Criminal Procedures:**
+- **Civil**: Disputes between private parties (CPC 1908)
+- **Criminal**: State prosecuting crimes (CrPC 1973)
+- **Different standards**: Preponderance vs beyond reasonable doubt
+
+**Court Hierarchy:**
+- **Supreme Court**: Final appellate court
+- **High Courts**: State-level constitutional courts
+- **District Courts**: Trial courts for serious matters
+- **Magistrate Courts**: Minor criminal and civil matters
+
+**Access to Justice:**
+- Article 39A mandates free legal aid for poor
+- Legal Services Authorities provide free lawyers
+- Court fee waivers available for indigent persons
+
+**Key Procedural Safeguards:**
+- Proper notice before any adverse action
+- Opportunity to present case
+- Unbiased decision-maker
+- Reasoned judgment with legal basis
+- Right to appeal adverse decisions`,
+    category: "Legal Procedures",
+    urgency: "medium" as const,
+    sources: [
+      { title: "Code of Civil Procedure, 1908", type: "statute" as const },
+      { title: "Due Process Rights", type: "constitutional" as const },
+      { title: "Court Practice Manual", type: "procedure" as const },
+    ],
+    constitutionalReferences: true,
+  },
+
+  // Name Change Procedures
+  nameChange: {
+    keywords: [
+      "name change",
+      "change name",
+      "legal name change",
+      "name change process",
+      "affidavit for name change",
+    ],
+    answer: `**Name Change Process** - Legal procedure to officially change your name:
+
+**Constitutional Right:**
+Article 19(1)(a) protects freedom of expression including personal identity. Article 21 includes right to dignity and personal autonomy, supporting name change rights.
+
+**Legal Methods for Name Change:**
+1. **Gazette Notification** (Most common)
+2. **Newspaper Advertisement**
+3. **Affidavit** (for minor changes)
+4. **Court Order** (for complex cases)
+
+**Gazette Notification Process:**
+1. **Prepare Affidavit**: State old name, new name, and reason
+2. **Newspaper Publication**: Advertise name change in local newspaper
+3. **Apply to Gazette Office**: Submit application with required documents
+4. **Government Gazette**: Official publication of name change
+5. **Update Documents**: Use gazette notification to update all records
+
+**Required Documents:**
+- Proof of identity (Aadhaar, passport, etc.)
+- Proof of address
+- Birth certificate
+- Educational certificates
+- Two passport-size photographs
+- Affidavit for name change
+- Newspaper cutting of advertisement
+
+**Acceptable Reasons:**
+- Religious conversion
+- Marriage (adding spouse's surname)
+- Personal preference
+- Correcting spelling errors
+- Cultural or traditional reasons
+- Professional requirements
+
+**Documents to Update After Name Change:**
+- Aadhaar card
+- PAN card
+- Passport
+- Driving license
+- Bank accounts
+- Educational certificates
+- Employment records
+- Property documents
+
+**Legal Protections:**
+- Cannot change name to defraud others
+- Cannot adopt names that are offensive
+- Must not violate any existing laws
+- Previous legal obligations continue
+
+**Time Frame:**
+- Gazette publication: 2-3 months
+- Document updates: 1-2 months each
+- Total process: 4-6 months typically`,
+    category: "Name Change",
+    urgency: "low" as const,
+    sources: [
+      { title: "Registration Act, 1908", type: "statute" as const },
+      { title: "Constitutional Right to Identity", type: "constitutional" as const },
+      { title: "Name Change Guidelines", type: "procedure" as const },
+    ],
+    constitutionalReferences: true,
+  },
+
+  // Paperwork and Documentation
+  paperwork: {
+    keywords: [
+      "paperwork",
+      "documents",
+      "documentation",
+      "government documents",
+      "legal documents",
+      "document verification",
+    ],
+    answer: `**Legal Paperwork and Documentation** - Understanding document requirements and rights:
+
+**Constitutional Rights:**
+Article 19(1)(a) includes right to information. Article 21 protects livelihood rights requiring access to necessary documents. Article 14 ensures equal access to government services.
+
+**Essential Legal Documents:**
+1. **Identity Documents**: Aadhaar, PAN, Passport, Voter ID
+2. **Address Proof**: Utility bills, bank statements, rent agreement
+3. **Income Proof**: Salary slips, ITR, bank statements
+4. **Educational**: Certificates, mark sheets, degrees
+5. **Property**: Sale deed, property tax receipts, mutation papers
+6. **Legal**: Contracts, agreements, court orders
+
+**Document Rights Under RTI Act 2005:**
+- Right to obtain copies of government documents
+- Right to information about application status
+- Right to know reasons for document rejection
+- Right to appeal document-related decisions
+
+**Common Documentation Issues:**
+- **Spelling Errors**: Can be corrected through affidavits
+- **Missing Documents**: Alternatives like self-attestation may work
+- **Verification Problems**: Know your rights and appeal processes
+- **Delays**: Use RTI to track applications
+
+**Document Verification Process:**
+1. **Submit Application**: With required documents and fees
+2. **Initial Scrutiny**: Officials check completeness
+3. **Field Verification**: May involve physical verification
+4. **Approval/Rejection**: Decision with reasons
+5. **Appeal Rights**: If rejected, can appeal to higher authority
+
+**Legal Protections:**
+- Right to receive documents within prescribed time
+- Right to appeal arbitrary rejection
+- Protection against harassment by officials
+- Right to file complaint for delay or corruption
+
+**When Documents are Wrongly Rejected:**
+- File appeal with higher authority
+- Use RTI to get rejection reasons
+- Approach consumer forums for poor service
+- File writ petition if constitutional rights violated
+
+**Digital Documentation:**
+- DigiLocker for secure document storage
+- Digital signatures for legal validity
+- Online verification of government documents
+- Blockchain-based document authentication (emerging)
+
+**Document Safety:**
+- Keep multiple copies (physical and digital)
+- Notarize important documents
+- Use bank lockers for originals
+- Regular backup of digital documents`,
+    category: "Documentation Rights",
+    urgency: "low" as const,
+    sources: [
+      { title: "Right to Information Act, 2005", type: "statute" as const },
+      { title: "Constitutional Right to Information", type: "constitutional" as const },
+      { title: "Document Procedures Manual", type: "procedure" as const },
+    ],
+    constitutionalReferences: true,
   },
 
   // Landlord-Tenant Issues
