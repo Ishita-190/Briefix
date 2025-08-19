@@ -229,10 +229,10 @@ export const handleAnswer: RequestHandler = (req, res) => {
   }
 
   // If not found in knowledge base, try IPC data
-  loadCorpusOnce();
-  console.log(`[Answer API] Searching IPC corpus (size: ${CORPUS.length})`);
+  const corpus = loadCorpusData();
+  console.log(`[Answer API] Searching IPC corpus (size: ${corpus.length})`);
 
-  if (!CORPUS.length) {
+  if (!corpus.length) {
     console.error("[Answer API] Knowledge base is empty - check ipc.json file");
 
     // Use intelligent query understanding for better responses
