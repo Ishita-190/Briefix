@@ -112,6 +112,62 @@ export async function loadCorpusDataAsync(): Promise<CorpusItem[]> {
   }
 }
 
+// Synchronous version for backwards compatibility
+export function loadCorpusData(): CorpusItem[] {
+  if (corpusLoaded) {
+    return CORPUS;
+  }
+
+  // Try to load synchronously first
+  try {
+    const possiblePaths = [
+      path.join(process.cwd(), "public", "ipc.json"),
+      path.join(__dirname, "..", "..", "..", "public", "ipc.json"),
+      path.join(__dirname, "..", "..", "public", "ipc.json"),
+      "./public/ipc.json",
+    ];
+
+    for (const tryPath of possiblePaths) {
+      try {
+        if (fs.existsSync(tryPath)) {
+          const rawData = fs.readFileSync(tryPath, "utf8");
+          const data = JSON.parse(rawData);
+
+          if (Array.isArray(data)) {
+            CORPUS = data
+              .map((d) => ({
+                id: d.Section ? `Section ${d.Section}` : d.id,
+                title: d.section_title || d.title,
+                section: d.chapter
+                  ? `Chapter ${d.chapter}: ${d.chapter_title}`
+                  : d.section,
+                text: String(d.section_desc || d.text || "")
+                  .replace(/\s+/g, " ")
+                  .trim(),
+              }))
+              .filter((d) => d.text);
+
+            console.log(`[Corpus] Loaded ${CORPUS.length} items synchronously from: ${tryPath}`);
+            corpusLoaded = true;
+            return CORPUS;
+          }
+        }
+      } catch (e) {
+        continue;
+      }
+    }
+
+    console.log("[Corpus] Synchronous loading failed, returning empty corpus");
+    corpusLoaded = true;
+    return CORPUS;
+
+  } catch (e) {
+    console.error("[Corpus] Synchronous loading failed:", e);
+    corpusLoaded = true;
+    return CORPUS;
+  }
+}
+
 export function getCorpusSize(): number {
   return CORPUS.length;
 }
