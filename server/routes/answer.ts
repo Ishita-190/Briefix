@@ -5,6 +5,8 @@ import { z } from "zod";
 import {
   getKnowledgeBaseAnswer,
   classifyQuery,
+  getQueryIntent,
+  ENHANCED_LEGAL_GUIDANCE,
   GENERAL_LEGAL_GUIDANCE,
 } from "../lib/legal-knowledge";
 import {
@@ -282,61 +284,65 @@ export const handleAnswer: RequestHandler = (req, res) => {
 
   if (!CORPUS.length) {
     console.error("[Answer API] Knowledge base is empty - check ipc.json file");
-    // Provide general legal guidance as fallback
-    const fallbackAnswer = `I don't have access to the Indian Penal Code database right now, but I can provide general legal guidance.
 
-${GENERAL_LEGAL_GUIDANCE.generalAdvice}
-
-**For your specific question, I recommend:**
-- Consulting with a qualified attorney
-- Contacting your local bar association for referrals
-- Seeking legal aid if you qualify for free assistance`;
+    // Use intelligent query understanding for better responses
+    const queryIntent = getQueryIntent(query);
+    const specificGuidance = ENHANCED_LEGAL_GUIDANCE[queryIntent.specificGuidance as keyof typeof ENHANCED_LEGAL_GUIDANCE];
 
     return res.status(200).json({
-      answer: rewriteForLevel(fallbackAnswer, level),
+      answer: rewriteForLevel(specificGuidance, level),
       sources: [
         {
-          title: "General Legal Guidance",
+          title: `${queryIntent.intent === 'emergency' ? 'Emergency ' : ''}Legal Guidance`,
           type: "guidance",
-          category: "General",
+          category: queryIntent.intent,
         },
       ],
-      category: "General Guidance",
+      category: queryIntent.intent,
+      urgency: queryIntent.urgency,
+      needsLawyer: queryIntent.needsLawyer,
     });
   }
 
   const matches = topMatches(query, 3);
   if (!matches.length) {
-    // Provide general legal guidance as fallback
-    const queryType = classifyQuery(query);
-    let fallbackAnswer = "";
+    // Use intelligent query understanding for better responses
+    const queryIntent = getQueryIntent(query);
+    const specificGuidance = ENHANCED_LEGAL_GUIDANCE[queryIntent.specificGuidance as keyof typeof ENHANCED_LEGAL_GUIDANCE];
 
-    if (
-      query.toLowerCase().includes("lawyer") ||
-      query.toLowerCase().includes("attorney")
-    ) {
-      fallbackAnswer = GENERAL_LEGAL_GUIDANCE.findLawyer;
-    } else {
-      fallbackAnswer = `I couldn't find specific information about "${query}" in the Indian Penal Code (criminal law database). 
+    // For very specific questions, provide more targeted guidance
+    let contextualAnswer = specificGuidance;
 
-${GENERAL_LEGAL_GUIDANCE.generalAdvice}
+    if (queryIntent.intent === 'general') {
+      // Add context about what we searched and alternative suggestions
+      contextualAnswer = `I searched our legal database for information about "${query}" but couldn't find specific information in the Indian Penal Code (which covers criminal law).
 
-**For your specific question, I recommend:**
-- Consulting with a qualified attorney
-- Contacting your local bar association for referrals
-- Seeking legal aid if you qualify for free assistance`;
+**This might be because:**
+- Your question relates to civil law, not criminal law
+- It involves specialized legal areas
+- It requires interpretation of specific facts
+
+${specificGuidance}
+
+**For your specific question about "${query}", consider:**
+- Consulting a lawyer specializing in the relevant area
+- Checking if it's a civil matter (contracts, property, business)
+- Looking into administrative or regulatory requirements
+- Contacting relevant government agencies if applicable`;
     }
 
     return res.status(200).json({
-      answer: rewriteForLevel(fallbackAnswer, level),
+      answer: rewriteForLevel(contextualAnswer, level),
       sources: [
         {
-          title: "General Legal Guidance",
+          title: `${queryIntent.intent === 'emergency' ? 'Emergency ' : ''}Legal Guidance`,
           type: "guidance",
-          category: "General",
+          category: queryIntent.intent,
         },
       ],
-      category: "General Guidance",
+      category: queryIntent.intent,
+      urgency: queryIntent.urgency,
+      needsLawyer: queryIntent.needsLawyer,
     });
   }
 
@@ -345,26 +351,38 @@ ${GENERAL_LEGAL_GUIDANCE.generalAdvice}
 
   // Make sure the match is actually relevant
   if (bestMatch.score < 1) {
+    // Use intelligent query understanding for low-relevance matches
+    const queryIntent = getQueryIntent(query);
+    const specificGuidance = ENHANCED_LEGAL_GUIDANCE[queryIntent.specificGuidance as keyof typeof ENHANCED_LEGAL_GUIDANCE];
+
+    const contextualAnswer = `I found some related information in the Indian Penal Code, but it doesn't directly answer your question about "${query}".
+
+**This suggests your question might involve:**
+- Civil law matters (not covered by the Indian Penal Code)
+- Specialized legal areas requiring expert interpretation
+- Procedural or administrative issues
+- Constitutional or regulatory matters
+
+${specificGuidance}
+
+**For your specific situation, I recommend:**
+- Consulting a lawyer familiar with the relevant legal area
+- Checking if this involves civil court procedures
+- Researching relevant state or federal regulations
+- Contacting appropriate government agencies if applicable`;
+
     return res.status(200).json({
-      answer: rewriteForLevel(
-        `I couldn't find a specific section in the Indian Penal Code that directly answers your question about "${query}". 
-
-The Indian Penal Code primarily covers criminal offenses. For civil matters, contracts, or legal procedures, you may need guidance from other legal sources.
-
-**I recommend:**
-- Consulting with a qualified attorney
-- Contacting your local bar association for referrals
-- Seeking legal aid if you qualify for assistance`,
-        level,
-      ),
+      answer: rewriteForLevel(contextualAnswer, level),
       sources: [
         {
-          title: "General Legal Guidance",
+          title: "Legal Guidance - No Direct Match",
           type: "guidance",
-          category: "General",
+          category: queryIntent.intent,
         },
       ],
-      category: "General Guidance",
+      category: queryIntent.intent,
+      urgency: queryIntent.urgency,
+      needsLawyer: queryIntent.needsLawyer,
     });
   }
 
