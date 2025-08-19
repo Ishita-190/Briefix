@@ -1,6 +1,6 @@
 import type { Context } from "@netlify/functions";
-import { handleDemo } from "../../server/routes/demo";
-import { handleAnswer } from "../../server/routes/answer";
+import { handleDemo } from "../../server/routes/demo.js";
+import { handleAnswer } from "../../server/routes/answer.js";
 
 export default async (req: Request, context: Context) => {
   const url = new URL(req.url);
@@ -14,7 +14,7 @@ export default async (req: Request, context: Context) => {
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   };
 
-  // Handle preflight requests
+  // Handle preflight
   if (method === "OPTIONS") {
     return new Response(null, { status: 200, headers });
   }
@@ -31,21 +31,10 @@ export default async (req: Request, context: Context) => {
 
     // ---- DEMO ----
     if (path === "/demo" && method === "GET") {
-      return await new Promise((resolve) => {
-        const mockReq = {} as any;
-        const mockRes = {
-          json: (data: any) => {
-            console.log("Demo response:", data);
-            resolve(
-              new Response(JSON.stringify(data), {
-                status: 200,
-                headers: { ...headers, "Content-Type": "application/json" },
-              }),
-            );
-          },
-        } as any;
-
-        handleDemo(mockReq, mockRes);
+      const data = await handleDemo();
+      return new Response(JSON.stringify(data), {
+        status: 200,
+        headers: { ...headers, "Content-Type": "application/json" },
       });
     }
 
@@ -55,7 +44,7 @@ export default async (req: Request, context: Context) => {
       try {
         body = await req.json();
       } catch (err) {
-        console.error("Failed to parse request body:", err);
+        console.error("Invalid JSON:", err);
         return new Response(JSON.stringify({ error: "Invalid JSON" }), {
           status: 400,
           headers: { ...headers, "Content-Type": "application/json" },
@@ -64,51 +53,28 @@ export default async (req: Request, context: Context) => {
 
       console.log("Incoming /answer body:", body);
 
-      return await new Promise((resolve) => {
-        const mockReq = { body, query: {} } as any;
-
-        const mockRes = {
-          json: (data: any) => {
-            console.log("Answer response:", data);
-            resolve(
-              new Response(JSON.stringify(data), {
-                status: 200,
-                headers: { ...headers, "Content-Type": "application/json" },
-              }),
-            );
-          },
-          status: (code: number) => ({
-            json: (data: any) => {
-              console.error("Answer error:", code, data);
-              resolve(
-                new Response(JSON.stringify(data), {
-                  status: code,
-                  headers: { ...headers, "Content-Type": "application/json" },
-                }),
-              );
-            },
-          }),
-        } as any;
-
-        handleAnswer(mockReq, mockRes).catch((err: any) => {
-          console.error("handleAnswer threw:", err);
-          resolve(
-            new Response(JSON.stringify({ error: "Internal Server Error" }), {
-              status: 500,
-              headers: { ...headers, "Content-Type": "application/json" },
-            }),
-          );
+      try {
+        const data = await handleAnswer(body);
+        return new Response(JSON.stringify(data), {
+          status: 200,
+          headers: { ...headers, "Content-Type": "application/json" },
         });
-      });
+      } catch (err) {
+        console.error("handleAnswer failed:", err);
+        return new Response(
+          JSON.stringify({ error: "Internal Server Error" }),
+          {
+            status: 500,
+            headers: { ...headers, "Content-Type": "application/json" },
+          }
+        );
+      }
     }
 
     // ---- NOT FOUND ----
-    return new Response("Not Found", {
-      status: 404,
-      headers,
-    });
-  } catch (error) {
-    console.error("Function error (top-level):", error);
+    return new Response("Not Found", { status: 404, headers });
+  } catch (err) {
+    console.error("Top-level error:", err);
     return new Response(JSON.stringify({ error: "Internal Server Error" }), {
       status: 500,
       headers: { ...headers, "Content-Type": "application/json" },
@@ -116,6 +82,4 @@ export default async (req: Request, context: Context) => {
   }
 };
 
-export const config = {
-  path: "/api/*",
-};
+export const config = { path: "/api/*" };
