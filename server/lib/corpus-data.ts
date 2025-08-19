@@ -11,7 +11,7 @@ export type CorpusItem = {
 let CORPUS: CorpusItem[] = [];
 let corpusLoaded = false;
 
-export function loadCorpusData(): CorpusItem[] {
+export async function loadCorpusDataAsync(): Promise<CorpusItem[]> {
   if (corpusLoaded) {
     return CORPUS;
   }
