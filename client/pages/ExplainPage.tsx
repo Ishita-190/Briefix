@@ -21,6 +21,7 @@ import {
   ExternalLink,
   BookOpen,
 } from "lucide-react";
+import { getCachedAnswer } from "../lib/api-cache";
 
 type ComplexityLevel = "12-year-old" | "15-year-old" | "lawyer";
 
@@ -36,37 +37,6 @@ type ApiResponse = {
   sources: Source[];
 };
 
-// Enhanced function to use the better /api/answer endpoint
-async function getAnswer(
-  question: string,
-  level: ComplexityLevel = "15-year-old"
-): Promise<ApiResponse> {
-  try {
-    const response = await fetch("/api/answer", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: question,
-        level: level,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data: ApiResponse = await response.json();
-    return data;
-  } catch (err) {
-    console.error("Error fetching answer:", err);
-    return {
-      answer: "I'm sorry, I couldn't process your question at the moment. Please try again later.",
-      sources: [],
-    };
-  }
-}
 
 export default function ExplainPage() {
   const [question, setQuestion] = useState("");
@@ -86,7 +56,7 @@ export default function ExplainPage() {
     setSources([]);
 
     try {
-      const result = await getAnswer(question, complexityLevel);
+      const result = await getCachedAnswer(question, complexityLevel);
       setExplanation(result.answer);
       setSources(result.sources);
     } catch (err) {
