@@ -22,6 +22,8 @@ import {
   Loader2,
 } from "lucide-react";
 
+import { queryIPC } from "../../shared/api"; // Ensure this path matches your structure
+
 type Message = {
   id: string;
   role: "user" | "assistant";
@@ -76,162 +78,16 @@ export default function ChatPage() {
     setInput("");
     setIsLoading(true);
 
-    // Simulate AI response
-    await new Promise((resolve) =>
-      setTimeout(resolve, 1500 + Math.random() * 1000),
-    );
-
-    // Generate contextual response based on content
+    // Query output.json for relevant answers
     let responseContent = "";
     let responseType: Message["type"] = "general";
 
-    if (content.toLowerCase().includes("contract")) {
-      responseType = "document";
-      responseContent = `A contract is a legally binding agreement between two or more parties. Here are the key elements:
-
-**Essential Elements:**
-• **Offer** - One party proposes terms
-• **Acceptance** - The other party agrees to those terms  
-• **Consideration** - Something of value exchanged (money, services, goods)
-• **Legal capacity** - Parties must be mentally competent and of legal age
-• **Legal purpose** - The contract cannot be for illegal activities
-
-**Types of Contracts:**
-• Written contracts (recommended for important agreements)
-• Oral contracts (harder to prove but still valid)
-• Implied contracts (created by actions/behavior)
-
-**When is a contract void?**
-• Fraud or misrepresentation
-• Duress or undue influence
-• Mistake about essential facts
-• Illegal subject matter
-
-Would you like me to explain any specific aspect of contracts in more detail, or help you understand a particular contract you're dealing with?`;
-    } else if (
-      content.toLowerCase().includes("rights") &&
-      content.toLowerCase().includes("police")
-    ) {
-      responseType = "procedure";
-      responseContent = `Here are your fundamental rights during a police encounter:
-
-**Your Constitutional Rights:**
-• **Right to remain silent** - You don't have to answer questions beyond identifying yourself
-• **Right to refuse searches** - Police need a warrant, probable cause, or your consent
-• **Right to an attorney** - You can ask for a lawyer at any time
-• **Right to leave** - If you're not under arrest, you can ask "Am I free to go?"
-
-**During a Traffic Stop:**
-1. Pull over safely and turn off your engine
-2. Keep hands visible (on steering wheel)
-3. Provide license, registration, and insurance when asked
-4. You can remain silent beyond providing these documents
-5. Don't consent to vehicle searches unless required by warrant
-
-**If You're Arrested:**
-• Clearly state: "I invoke my right to remain silent and want an attorney"
-• Don't resist, even if you believe the arrest is unfair
-• Don't sign anything without a lawyer present
-• Remember: anything you say can be used against you
-
-**Important:** Stay calm, be polite, and never run or resist. You can challenge illegal police actions later in court with an attorney's help.
-
-Do you have a specific situation you'd like guidance on?`;
-    } else if (
-      content.toLowerCase().includes("misdemeanor") ||
-      content.toLowerCase().includes("felony")
-    ) {
-      responseType = "explanation";
-      responseContent = `Here's the key difference between misdemeanors and felonies:
-
-**Misdemeanors (Less Serious Crimes):**
-• Punishment: Up to 1 year in jail
-• Location: Usually county jail, not prison
-• Examples: Petty theft, simple assault, DUI (first offense), minor drug possession
-• Impact: May affect employment but less severe long-term consequences
-
-**Felonies (Serious Crimes):**
-• Punishment: More than 1 year in prison
-• Location: State or federal prison
-• Examples: Murder, rape, armed robbery, major drug trafficking, embezzlement over certain amounts
-• Impact: Loss of voting rights, gun ownership, difficulty finding employment/housing
-
-**Classifications:**
-• **Class C Misdemeanor** - Lowest level (fines, community service)
-• **Class A Misdemeanor** - Highest misdemeanor level (up to 1 year jail)
-• **Class E Felony** - Lowest felony level
-• **Class A Felony** - Most serious (life imprisonment or death penalty)
-
-**Important Notes:**
-• Classification varies by state
-• Same act might be misdemeanor in one state, felony in another
-• Prior convictions can escalate charges
-• Some crimes are "wobblers" - can be charged as either depending on circumstances
-
-The distinction matters because felonies carry much more serious long-term consequences for your rights, employment, and other aspects of life.`;
-    } else if (
-      content.toLowerCase().includes("lawyer") ||
-      content.toLowerCase().includes("attorney")
-    ) {
-      responseType = "general";
-      responseContent = `Here's when you should consider getting a lawyer:
-
-**Definitely Need a Lawyer:**
-• Facing criminal charges (even misdemeanors)
-• Being sued or suing someone else
-• Divorce with children/significant assets
-• Creating a will with complex assets
-• Business formation or major contracts
-• Immigration issues
-• Personal injury with serious damages
-
-**Probably Need a Lawyer:**
-• Landlord-tenant disputes beyond small claims
-• Employment discrimination or wrongful termination
-• Tax problems with the IRS
-• Debt collection lawsuits
-• Insurance claim denials for significant amounts
-
-**Might Handle Yourself (With Research):**
-• Simple traffic tickets
-• Small claims court (under $5,000-$10,000)
-• Simple wills with basic assets
-• Uncontested divorce without children
-• Name changes
-• Basic business licenses
-
-**How to Find the Right Lawyer:**
-• State bar association referral services
-• Specialty practice areas (family law, criminal, personal injury, etc.)
-• Initial consultations (many offer free 30-minute consultations)
-• Check reviews and ask about fees upfront
-
-**Questions to Ask:**
-• How much experience do you have with cases like mine?
-• What are your fees and payment options?
-• How long will this likely take?
-• What are the possible outcomes?
-
-Remember: It's better to consult early than try to fix problems later. Many lawyers offer brief consultations to assess whether you need their help.`;
-    } else {
-      responseContent = `I understand you're asking about "${content}". This is an important legal topic that affects many people.
-
-Based on your question, I'd recommend:
-
-1. **For immediate concerns**: If this is urgent or you're facing legal action, consider consulting with a qualified attorney
-2. **For general information**: I can provide educational explanations to help you understand the legal concepts involved
-3. **For specific guidance**: You might want to use our other tools:
-   - Document analysis if you have contracts or legal papers
-   - Procedure guides for step-by-step processes
-   - Complexity-adjusted explanations for deeper understanding
-
-Could you provide more specific details about your situation? For example:
-• What specific aspect interests you most?
-• Are you facing a particular legal issue?
-• Do you have documents that need review?
-• Are you looking for general education or specific guidance?
-
-This will help me give you the most relevant and useful information.`;
+    try {
+      const res = await queryIPC(content);
+      responseContent = res.message;
+      responseType = "document"; // mark as document since it's from the JSON
+    } catch (err) {
+      responseContent = "Sorry, I couldn't fetch the document data.";
     }
 
     const assistantMessage: Message = {
@@ -294,7 +150,6 @@ This will help me give you the most relevant and useful information.`;
         </CardHeader>
 
         <CardContent className="flex-1 flex flex-col p-0">
-          {/* Messages */}
           <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
             <div className="space-y-4">
               {messages.map((message) => (
@@ -359,7 +214,6 @@ This will help me give you the most relevant and useful information.`;
             </div>
           </ScrollArea>
 
-          {/* Quick Questions */}
           {messages.length <= 1 && (
             <div className="border-t p-4">
               <h4 className="font-medium mb-3 text-sm">Popular Questions:</h4>
@@ -379,7 +233,6 @@ This will help me give you the most relevant and useful information.`;
             </div>
           )}
 
-          {/* Input */}
           <div className="border-t p-4">
             <div className="flex gap-2">
               <Textarea
@@ -407,7 +260,6 @@ This will help me give you the most relevant and useful information.`;
         </CardContent>
       </Card>
 
-      {/* Disclaimer */}
       <div className="mt-6 p-4 bg-muted/50 rounded-lg">
         <p className="text-sm text-muted-foreground text-center">
           ⚠️ <strong>Important:</strong> This AI provides educational

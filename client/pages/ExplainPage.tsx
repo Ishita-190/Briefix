@@ -22,6 +22,26 @@ import {
 
 type ComplexityLevel = "12-year-old" | "15-year-old" | "lawyer";
 
+// Helper function to fetch output.json and search for relevant snippet
+async function queryIPC(question: string): Promise<string> {
+  try {
+    const res = await fetch("/ipc.json"); 
+    const data = await res.json();
+
+    // Simple keyword match in JSON
+    for (const item of data) {
+      // Assuming each JSON object has "key" and "value"
+      if (question.toLowerCase().includes(item.key.toLowerCase())) {
+        return item.value;
+      }
+    }
+  } catch (err) {
+    console.error("Error fetching output.json:", err);
+  }
+
+  return ""; // Return empty if no match found
+}
+
 export default function ExplainPage() {
   const [question, setQuestion] = useState("");
   const [complexityLevel, setComplexityLevel] =
@@ -29,48 +49,27 @@ export default function ExplainPage() {
   const [explanation, setExplanation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  // Predefined mock explanations as fallback
+  const mockExplanations = {
+    "12-year-old": `Let me explain this like you're 12! Legal topics can be complicated, but I'll keep it simple...`,
+    "15-year-old": `Here's what this means for someone your age: Legal concepts involve rules and consequences...`,
+    lawyer: `Professional legal analysis: Detailed principles, statutes, and case law...`,
+  };
+
   const handleExplain = async () => {
     if (!question.trim()) return;
 
     setIsLoading(true);
 
-    // Simulate AI processing
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // Try fetching JSON snippet first
+    let explanationText = await queryIPC(question);
 
-    // Mock explanation based on complexity level
-    const mockExplanations = {
-      "12-year-old": `Let me explain this like you're 12! 
+    // Fallback to complexity-level mock explanation
+    if (!explanationText) {
+      explanationText = mockExplanations[complexityLevel];
+    }
 
-${
-  question.includes("contract")
-    ? "A contract is like a super important promise between people. Imagine you and your friend agree that you'll trade your sandwich for their cookies at lunch. You both shake hands and agree. That's like a contract! It's a written promise that both people have to keep. If someone breaks the promise without a good reason, they might get in trouble."
-    : "This is a legal topic that involves rules that grown-ups have made to keep everyone safe and fair. Think of it like school rules, but for the whole country. Just like how your school has rules about not running in the hallways, the government has rules about how people should behave with each other."
-}
-
-The most important thing to remember is that legal stuff is meant to protect people and make sure everyone is treated fairly, just like how your parents have rules to keep you safe!`,
-
-      "15-year-old": `Here's what this means for someone your age:
-
-${
-  question.includes("contract")
-    ? "A contract is a legally binding agreement between two or more parties. Think of it like when you get a part-time job - you and your employer both sign papers agreeing on your hours, pay, and responsibilities. Both sides have to follow through on what they promised. If you're under 18, there are special rules about contracts because the law recognizes that minors might not fully understand all the consequences. That's why most contracts with minors can be cancelled (called 'voiding' the contract) if the minor decides they don't want to follow through."
-    : "This legal concept relates to how our justice system works to balance individual rights with societal needs. It's similar to how your school has a student handbook - there are rules, consequences for breaking them, and procedures for handling disputes. The law works similarly but covers much broader aspects of life including property, relationships, business, and personal rights."
-}
-
-Understanding legal concepts now will help you make better decisions as you become an adult and take on more responsibilities like signing leases, getting credit cards, or starting a business.`,
-
-      lawyer: `Professional legal analysis:
-
-${
-  question.includes("contract")
-    ? "Contract formation requires several essential elements: offer, acceptance, consideration, and mutual assent (meeting of the minds). The parties must have legal capacity to enter into the agreement. Regarding minors, the general rule is that contracts with individuals under 18 are voidable at the minor's election, with certain exceptions for necessities, beneficial contracts of employment, and statutory exceptions. The minor may disaffirm during minority or within a reasonable time after reaching majority. Upon reaching majority, the contract may be ratified expressly or through conduct indicating affirmation. Restitution principles may apply to prevent unjust enrichment if the minor seeks to void after receiving substantial benefits."
-    : "This legal doctrine encompasses fundamental principles of jurisprudence including statutory interpretation, case law precedent, constitutional considerations, and regulatory framework analysis. Key considerations include jurisdictional variations, evolving legal standards, recent case law developments, and potential constitutional challenges. Practitioners should consider relevant statutes of limitations, procedural requirements, burden of proof standards, and available remedies. Cross-reference applicable federal and state regulations, recent circuit splits if relevant, and potential appellate considerations."
-}
-
-Recommend consulting primary sources, recent case law, and jurisdiction-specific requirements for comprehensive analysis.`,
-    };
-
-    setExplanation(mockExplanations[complexityLevel]);
+    setExplanation(explanationText);
     setIsLoading(false);
   };
 
@@ -127,7 +126,7 @@ Recommend consulting primary sources, recent case law, and jurisdiction-specific
               </CardHeader>
               <CardContent className="space-y-6">
                 <Textarea
-                  placeholder="e.g., What is a contract? How does bankruptcy work? What are my rights as a tenant?"
+                  placeholder="e.g., What is a contract? How does bankruptcy work?"
                   value={question}
                   onChange={(e) => setQuestion(e.target.value)}
                   className="min-h-[120px]"
@@ -174,7 +173,7 @@ Recommend consulting primary sources, recent case law, and jurisdiction-specific
                             </div>
                           </div>
                         );
-                      },
+                      }
                     )}
                   </RadioGroup>
                 </div>
@@ -206,9 +205,7 @@ Recommend consulting primary sources, recent case law, and jurisdiction-specific
             <Card>
               <CardHeader>
                 <CardTitle>Popular Questions</CardTitle>
-                <CardDescription>
-                  Click any example to try it out
-                </CardDescription>
+                <CardDescription>Click any example to try it out</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
                 {[
