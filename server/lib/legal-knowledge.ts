@@ -985,7 +985,7 @@ Legal problems often have strict deadlines. It's better to consult a lawyer earl
 // Enhanced query understanding for better responses
 export function getQueryIntent(query: string): {
   intent: string;
-  urgency: 'low' | 'medium' | 'high';
+  urgency: "low" | "medium" | "high";
   needsLawyer: boolean;
   specificGuidance: string;
 } {
@@ -993,72 +993,72 @@ export function getQueryIntent(query: string): {
 
   // Lawyer-related queries
   if (
-    lowerQuery.includes('need a lawyer') ||
-    lowerQuery.includes('need lawyer') ||
-    lowerQuery.includes('hire lawyer') ||
-    lowerQuery.includes('get lawyer') ||
-    lowerQuery.includes('find lawyer') ||
-    lowerQuery.includes('do i need attorney')
+    lowerQuery.includes("need a lawyer") ||
+    lowerQuery.includes("need lawyer") ||
+    lowerQuery.includes("hire lawyer") ||
+    lowerQuery.includes("get lawyer") ||
+    lowerQuery.includes("find lawyer") ||
+    lowerQuery.includes("do i need attorney")
   ) {
     return {
-      intent: 'findLawyer',
-      urgency: 'medium',
+      intent: "findLawyer",
+      urgency: "medium",
       needsLawyer: true,
-      specificGuidance: 'lawyer_guidance'
+      specificGuidance: "lawyer_guidance",
     };
   }
 
   // Legal process questions
   if (
-    lowerQuery.includes('how to file') ||
-    lowerQuery.includes('legal process') ||
-    lowerQuery.includes('court procedure') ||
-    lowerQuery.includes('what should i do')
+    lowerQuery.includes("how to file") ||
+    lowerQuery.includes("legal process") ||
+    lowerQuery.includes("court procedure") ||
+    lowerQuery.includes("what should i do")
   ) {
     return {
-      intent: 'legalProcess',
-      urgency: 'medium',
+      intent: "legalProcess",
+      urgency: "medium",
       needsLawyer: false,
-      specificGuidance: 'process_guidance'
+      specificGuidance: "process_guidance",
     };
   }
 
   // Rights-related queries
   if (
-    lowerQuery.includes('my rights') ||
-    lowerQuery.includes('what are my rights') ||
-    lowerQuery.includes('legal rights') ||
-    lowerQuery.includes('constitutional rights')
+    lowerQuery.includes("my rights") ||
+    lowerQuery.includes("what are my rights") ||
+    lowerQuery.includes("legal rights") ||
+    lowerQuery.includes("constitutional rights")
   ) {
     return {
-      intent: 'rights',
-      urgency: 'medium',
+      intent: "rights",
+      urgency: "medium",
       needsLawyer: false,
-      specificGuidance: 'rights_guidance'
+      specificGuidance: "rights_guidance",
     };
   }
 
   // Emergency situations
   if (
-    lowerQuery.includes('arrested') ||
-    lowerQuery.includes('detained') ||
-    lowerQuery.includes('police') ||
-    lowerQuery.includes('custody') ||
-    lowerQuery.includes('emergency')
+    lowerQuery.includes("arrested") ||
+    lowerQuery.includes("detained") ||
+    lowerQuery.includes("police") ||
+    lowerQuery.includes("custody") ||
+    lowerQuery.includes("emergency")
   ) {
     return {
-      intent: 'emergency',
-      urgency: 'high',
+      intent: "emergency",
+      urgency: "high",
       needsLawyer: true,
-      specificGuidance: 'emergency_guidance'
+      specificGuidance: "emergency_guidance",
     };
   }
 
   return {
-    intent: 'general',
-    urgency: 'low',
+    intent: "general",
+    urgency: "low",
     needsLawyer: false,
-    specificGuidance: 'general_guidance'
+    specificGuidance: "general_guidance",
   };
 }
 

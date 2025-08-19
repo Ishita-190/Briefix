@@ -287,13 +287,16 @@ export const handleAnswer: RequestHandler = (req, res) => {
 
     // Use intelligent query understanding for better responses
     const queryIntent = getQueryIntent(query);
-    const specificGuidance = ENHANCED_LEGAL_GUIDANCE[queryIntent.specificGuidance as keyof typeof ENHANCED_LEGAL_GUIDANCE];
+    const specificGuidance =
+      ENHANCED_LEGAL_GUIDANCE[
+        queryIntent.specificGuidance as keyof typeof ENHANCED_LEGAL_GUIDANCE
+      ];
 
     return res.status(200).json({
       answer: rewriteForLevel(specificGuidance, level),
       sources: [
         {
-          title: `${queryIntent.intent === 'emergency' ? 'Emergency ' : ''}Legal Guidance`,
+          title: `${queryIntent.intent === "emergency" ? "Emergency " : ""}Legal Guidance`,
           type: "guidance",
           category: queryIntent.intent,
         },
@@ -308,12 +311,15 @@ export const handleAnswer: RequestHandler = (req, res) => {
   if (!matches.length) {
     // Use intelligent query understanding for better responses
     const queryIntent = getQueryIntent(query);
-    const specificGuidance = ENHANCED_LEGAL_GUIDANCE[queryIntent.specificGuidance as keyof typeof ENHANCED_LEGAL_GUIDANCE];
+    const specificGuidance =
+      ENHANCED_LEGAL_GUIDANCE[
+        queryIntent.specificGuidance as keyof typeof ENHANCED_LEGAL_GUIDANCE
+      ];
 
     // For very specific questions, provide more targeted guidance
     let contextualAnswer = specificGuidance;
 
-    if (queryIntent.intent === 'general') {
+    if (queryIntent.intent === "general") {
       // Add context about what we searched and alternative suggestions
       contextualAnswer = `I searched our legal database for information about "${query}" but couldn't find specific information in the Indian Penal Code (which covers criminal law).
 
@@ -335,7 +341,7 @@ ${specificGuidance}
       answer: rewriteForLevel(contextualAnswer, level),
       sources: [
         {
-          title: `${queryIntent.intent === 'emergency' ? 'Emergency ' : ''}Legal Guidance`,
+          title: `${queryIntent.intent === "emergency" ? "Emergency " : ""}Legal Guidance`,
           type: "guidance",
           category: queryIntent.intent,
         },
@@ -353,7 +359,10 @@ ${specificGuidance}
   if (bestMatch.score < 1) {
     // Use intelligent query understanding for low-relevance matches
     const queryIntent = getQueryIntent(query);
-    const specificGuidance = ENHANCED_LEGAL_GUIDANCE[queryIntent.specificGuidance as keyof typeof ENHANCED_LEGAL_GUIDANCE];
+    const specificGuidance =
+      ENHANCED_LEGAL_GUIDANCE[
+        queryIntent.specificGuidance as keyof typeof ENHANCED_LEGAL_GUIDANCE
+      ];
 
     const contextualAnswer = `I found some related information in the Indian Penal Code, but it doesn't directly answer your question about "${query}".
 
