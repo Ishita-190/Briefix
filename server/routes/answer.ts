@@ -48,6 +48,7 @@ function escapeRegExp(s: string) {
 }
 
 function topMatches(query: string, k = 3) {
+  const corpus = loadCorpusData();
   const terms = query
     .toLowerCase()
     .split(/[^a-z0-9]+/)
@@ -56,7 +57,7 @@ function topMatches(query: string, k = 3) {
 
   console.log(`[Search] Query terms: ${JSON.stringify(terms)}`);
 
-  const scored = CORPUS.map((item) => ({
+  const scored = corpus.map((item) => ({
     item,
     score: score(item.text, terms),
   }))
