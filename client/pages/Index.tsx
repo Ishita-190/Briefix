@@ -32,34 +32,70 @@ export default function Index() {
     >
       {/* Hero Section */}
       <section
-        className="relative py-24 lg:py-32 bg-cover bg-center"
+        className="relative py-28 lg:py-40 bg-cover bg-center overflow-hidden"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),
+            linear-gradient(135deg, rgba(139, 120, 93, 0.1) 0%, rgba(255,255,255,0.95) 40%, rgba(255,255,255,0.85) 100%),
             url("/heroimage.jpg")
           `,
         }}
       >
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-6" variant="secondary">
-              AI-Powered Legal Assistant
+        {/* Floating Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-10 -left-10 w-32 h-32 bg-accent/10 rounded-full blur-xl animate-pulse"></div>
+          <div className="absolute top-1/3 -right-16 w-48 h-48 bg-primary/5 rounded-full blur-2xl animate-pulse delay-1000"></div>
+          <div className="absolute bottom-10 left-1/4 w-24 h-24 bg-accent/15 rounded-full blur-lg animate-pulse delay-500"></div>
+        </div>
+
+        <div className="container mx-auto px-6 relative">
+          <div className="max-w-5xl mx-auto text-center">
+            <Badge className="mb-8 px-6 py-2 text-sm font-medium bg-white/90 text-primary border-primary/20 shadow-lg backdrop-blur-sm hover:scale-105 transition-transform duration-200" variant="secondary">
+              ✨ AI-Powered Legal Assistant
             </Badge>
-            <h1 className="text-4xl lg:text-6xl font-bold text-primary mb-6">
-              Legal Help Made <span className="text-accent">Simple</span>
+            <h1 className="text-5xl lg:text-7xl xl:text-8xl font-extrabold text-primary mb-8 leading-tight tracking-tight">
+              Legal Help Made{" "}
+              <span className="relative inline-block">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-primary">Simple</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-primary/20 blur-2xl -z-10"></div>
+              </span>
             </h1>
-            <p className="text-xl text-white mb-8 max-w-2xl mx-auto">
+            <p className="text-xl lg:text-2xl text-gray-700 mb-12 max-w-3xl mx-auto leading-relaxed font-medium">
               Get complex legal concepts explained at your level - whether you're 12, 15, or a practicing lawyer. Our AI breaks down legal procedures and documents into language you understand.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" asChild>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white px-8 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-200 border-0"
+                asChild
+              >
                 <Link to="/explain">
-                  Start Explaining <ArrowRight className="ml-2 h-4 w-4" />
+                  Start Explaining <ArrowRight className="ml-3 h-5 w-5" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-white/80 backdrop-blur-sm border-2 border-primary/30 text-primary hover:bg-primary/5 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200"
+                asChild
+              >
                 <Link to="/chat">Ask AI Assistant</Link>
               </Button>
+            </div>
+
+            {/* Trust Indicators */}
+            <div className="mt-16 flex flex-wrap justify-center items-center gap-8 opacity-70">
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <Shield className="h-4 w-4" />
+                <span>Privacy Protected</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <Zap className="h-4 w-4" />
+                <span>Instant Results</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <Brain className="h-4 w-4" />
+                <span>AI-Powered</span>
+              </div>
             </div>
           </div>
         </div>
