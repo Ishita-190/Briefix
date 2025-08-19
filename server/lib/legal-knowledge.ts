@@ -897,6 +897,86 @@ Article 19(1)(a) includes right to information. Article 21 protects livelihood r
   },
 };
 
+// Enhanced query understanding for better responses
+export function getQueryIntent(query: string): {
+  intent: string;
+  urgency: 'low' | 'medium' | 'high';
+  needsLawyer: boolean;
+  specificGuidance: string;
+} {
+  const lowerQuery = query.toLowerCase();
+
+  // Lawyer-related queries
+  if (
+    lowerQuery.includes('need a lawyer') ||
+    lowerQuery.includes('need lawyer') ||
+    lowerQuery.includes('hire lawyer') ||
+    lowerQuery.includes('get lawyer') ||
+    lowerQuery.includes('find lawyer') ||
+    lowerQuery.includes('do i need attorney')
+  ) {
+    return {
+      intent: 'findLawyer',
+      urgency: 'medium',
+      needsLawyer: true,
+      specificGuidance: 'lawyer_guidance'
+    };
+  }
+
+  // Legal process questions
+  if (
+    lowerQuery.includes('how to file') ||
+    lowerQuery.includes('legal process') ||
+    lowerQuery.includes('court procedure') ||
+    lowerQuery.includes('what should i do')
+  ) {
+    return {
+      intent: 'legalProcess',
+      urgency: 'medium',
+      needsLawyer: false,
+      specificGuidance: 'process_guidance'
+    };
+  }
+
+  // Rights-related queries
+  if (
+    lowerQuery.includes('my rights') ||
+    lowerQuery.includes('what are my rights') ||
+    lowerQuery.includes('legal rights') ||
+    lowerQuery.includes('constitutional rights')
+  ) {
+    return {
+      intent: 'rights',
+      urgency: 'medium',
+      needsLawyer: false,
+      specificGuidance: 'rights_guidance'
+    };
+  }
+
+  // Emergency situations
+  if (
+    lowerQuery.includes('arrested') ||
+    lowerQuery.includes('detained') ||
+    lowerQuery.includes('police') ||
+    lowerQuery.includes('custody') ||
+    lowerQuery.includes('emergency')
+  ) {
+    return {
+      intent: 'emergency',
+      urgency: 'high',
+      needsLawyer: true,
+      specificGuidance: 'emergency_guidance'
+    };
+  }
+
+  return {
+    intent: 'general',
+    urgency: 'low',
+    needsLawyer: false,
+    specificGuidance: 'general_guidance'
+  };
+}
+
 // Query classification
 export function classifyQuery(query: string): string {
   const lowerQuery = query.toLowerCase();
@@ -964,8 +1044,227 @@ export function getKnowledgeBaseAnswer(query: string): LegalAnswer | null {
   return LEGAL_KNOWLEDGE_BASE[category as keyof typeof LEGAL_KNOWLEDGE_BASE];
 }
 
-// General legal guidance for unmatched queries
-export const GENERAL_LEGAL_GUIDANCE = {
+// Enhanced legal guidance with specific answers
+export const ENHANCED_LEGAL_GUIDANCE = {
+  lawyer_guidance: `**How to Know if You Need a Lawyer:**
+
+**You DEFINITELY need a lawyer if:**
+- You've been arrested or charged with a crime
+- You're being sued or facing a lawsuit
+- You're going through a divorce with children or significant assets
+- You're facing deportation or immigration issues
+- Someone has died and left you property or debts
+- You're starting a business with partners
+- You've been seriously injured due to someone's negligence
+
+**You PROBABLY need a lawyer if:**
+- Signing important contracts (real estate, business deals)
+- Employment discrimination or wrongful termination
+- Bankruptcy or serious debt problems
+- Child custody or support disputes
+- Creating a will or estate planning
+- Tax problems with the IRS
+- Landlord-tenant disputes involving significant money
+
+**You MIGHT handle yourself if:**
+- Small claims court cases (under $5,000)
+- Simple traffic tickets
+- Name changes or basic document issues
+- Minor contract disputes
+- Basic consumer complaints
+
+**Questions to Determine if You Need Legal Help:**
+1. **Could I go to jail?** → Get a lawyer immediately
+2. **Could I lose my home/job/children?** → Consult a lawyer
+3. **Is more than $1,000 at stake?** → Consider a lawyer
+4. **Are there complex laws involved?** → Get professional help
+5. **Do I have time to research thoroughly?** → If no, hire help
+6. **Is the other party represented?** → You should be too
+
+**Free Legal Resources:**
+- Legal Aid societies (for low-income individuals)
+- Bar association referral services
+- Law school legal clinics
+- Court self-help centers
+- Pro bono programs
+- Online legal aid websites`,
+
+  emergency_guidance: `**EMERGENCY LEGAL SITUATIONS - Act Immediately:**
+
+**If Arrested or Detained:**
+1. **Say only**: "I want a lawyer" and "I am invoking my right to remain silent"
+2. **Do NOT** discuss your case with anyone except your lawyer
+3. **Do NOT** sign anything without legal counsel
+4. **Call a lawyer immediately** or ask for a public defender
+5. **Don't resist** even if you believe the arrest is wrong
+
+**If Served with Court Papers:**
+1. **Read everything immediately** - note all deadlines
+2. **Respond within the time limit** (usually 20-30 days)
+3. **Don't ignore it** - this guarantees you'll lose
+4. **Contact a lawyer immediately** if the stakes are high
+5. **Gather all relevant documents**
+
+**If Facing Eviction:**
+1. **Know your rights** - landlords must follow legal process
+2. **Respond to all notices** within required timeframes
+3. **Document everything** - photos, communications, payments
+4. **Contact local tenant rights organizations**
+5. **Consider legal aid if you qualify**
+
+**If Workplace Retaliation:**
+1. **Document everything** - save emails, take notes with dates
+2. **Report through proper channels** if safe to do so
+3. **Contact EEOC** for discrimination issues
+4. **Consult employment lawyer** for serious cases
+5. **Don't quit without legal advice**`,
+
+  process_guidance: `**Understanding Legal Processes:**
+
+**Before Starting Any Legal Action:**
+1. **Try to resolve informally** - many disputes can be settled without court
+2. **Gather all documents** - contracts, communications, evidence
+3. **Understand the costs** - court fees, time, possible attorney costs
+4. **Know the time limits** - statutes of limitations apply
+5. **Consider alternatives** - mediation, arbitration, administrative remedies
+
+**Common Legal Procedures:**
+
+**Small Claims Court (Under $5,000-$10,000):**
+- File complaint with court clerk
+- Pay filing fee (usually $30-$100)
+- Serve papers on defendant
+- Attend hearing (no lawyers needed)
+- Simple rules and procedures
+
+**Civil Lawsuit (Larger amounts):**
+- More complex procedures
+- Discovery process (exchanging evidence)
+- Possible jury trial
+- Usually need attorney
+- Can take months or years
+
+**Criminal Cases:**
+- State prosecutes, not you
+- Different standards (beyond reasonable doubt)
+- Constitutional protections apply
+- Public defender if you can't afford lawyer
+- Possible jail time
+
+**Administrative Procedures:**
+- Government agency disputes
+- Often have specific rules and deadlines
+- May require appeals through agency first
+- Examples: Social Security, unemployment, licensing
+
+**Key Tips:**
+- **Document everything** with dates and details
+- **Meet all deadlines** - courts are strict about timing
+- **Keep copies** of everything you file
+- **Be honest** in all statements and documents
+- **Get help** if procedures seem complex`,
+
+  rights_guidance: `**Understanding Your Legal Rights:**
+
+**Constitutional Rights (Everyone in the US):**
+
+**1st Amendment - Free Speech:**
+- Express opinions without government censorship
+- Practice religion freely
+- Peacefully assemble and protest
+- Petition government for changes
+
+**4th Amendment - Privacy:**
+- Protection from unreasonable searches
+- Police usually need warrants
+- Right to refuse consent to search (except in certain situations)
+
+**5th Amendment - Due Process:**
+- Right to remain silent
+- Protection from self-incrimination
+- Due process in legal proceedings
+- Just compensation if government takes property
+
+**6th Amendment - Criminal Cases:**
+- Right to speedy trial
+- Right to attorney (even if you can't afford one)
+- Right to confront witnesses
+- Right to impartial jury
+
+**14th Amendment - Equal Protection:**
+- Equal treatment under law
+- Due process protections
+- Protection from discrimination by government
+
+**Civil Rights in Daily Life:**
+
+**Employment:**
+- Protection from discrimination (race, gender, age, disability, religion)
+- Right to safe workplace
+- Right to fair wages and overtime
+- Protection from retaliation for complaints
+
+**Housing:**
+- Protection from housing discrimination
+- Right to habitable living conditions
+- Protection from illegal eviction
+- Right to reasonable accommodations for disabilities
+
+**Consumer Rights:**
+- Right to honest advertising
+- Right to safe products
+- Right to dispute incorrect charges
+- Protection from fraud and scams
+
+**When Rights Are Violated:**
+1. **Document the violation** - dates, witnesses, evidence
+2. **File complaints** with appropriate agencies
+3. **Consult with attorney** if violations are serious
+4. **Know deadlines** for filing complaints or lawsuits
+5. **Use available resources** - civil rights organizations, legal aid`,
+
+  general_guidance: `**General Legal Guidance:**
+
+**Immediate Steps for Any Legal Issue:**
+1. **Stay calm** - emotional decisions often make things worse
+2. **Document everything** - photos, emails, witness names, dates
+3. **Preserve evidence** - don't throw anything away
+4. **Research your issue** - understand basics before talking to lawyers
+5. **Know your deadlines** - many legal actions have time limits
+
+**Money-Saving Tips:**
+- **Organize before meeting lawyer** - time is money
+- **Get estimates** from multiple attorneys
+- **Consider legal insurance** if available through work
+- **Use legal aid** if you qualify financially
+- **Try self-help resources** for simple matters
+
+**Red Flags - Get Help Immediately:**
+- Criminal charges of any kind
+- Court papers delivered to you
+- Threats of arrest or seizure
+- Immigration enforcement contact
+- Serious injuries from accidents
+- Employment termination after complaints
+- Domestic violence situations
+
+**Prevention is Best:**
+- **Read contracts** before signing
+- **Get agreements in writing**
+- **Keep good records** of important transactions
+- **Know your rights** in common situations
+- **Act quickly** when problems arise
+- **Seek advice early** rather than after problems escalate
+
+**Free Resources:**
+- Court self-help centers
+- Legal aid organizations
+- Bar association referral services
+- Government agency help lines
+- Online legal information (court websites)
+- Community legal clinics`,
+
+  // Legacy entries for backward compatibility
   findLawyer: `**How to Find Legal Help:**
 
 1. **Bar Association Referrals** - Contact your local bar association for lawyer referrals
@@ -1019,3 +1318,6 @@ export const GENERAL_LEGAL_GUIDANCE = {
 - Serious injury or accident
 - Divorce or child custody disputes`,
 };
+
+// Backward compatibility
+export const GENERAL_LEGAL_GUIDANCE = ENHANCED_LEGAL_GUIDANCE;
