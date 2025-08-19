@@ -16,7 +16,7 @@ export interface IPCDocument {
 }
 
 export const fetchIPCData = async (): Promise<IPCDocument> => {
-  const res = await fetch("/output.json");
+  const res = await fetch("/ipc.json");
   const data: IPCDocument = await res.json();
   return data;
 };
