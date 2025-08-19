@@ -319,7 +319,7 @@ export default function ChatPage() {
 
         {/* Quick Questions - Only show when no conversation */}
         {messages.length <= 1 && (
-          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 m-4 border border-white/20 shadow-lg">
+          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 mb-4 border border-white/20 shadow-lg flex-shrink-0">
             <h4 className="font-semibold mb-3 text-primary">Popular Questions:</h4>
             <div className="flex flex-wrap gap-2">
               {quickQuestions.map((question, index) => (
@@ -327,7 +327,7 @@ export default function ChatPage() {
                   key={index}
                   variant="outline"
                   size="sm"
-                  className="text-xs h-auto py-2 hover:bg-primary/5 hover:border-primary/20"
+                  className="text-xs h-auto py-2 hover:bg-primary/5 hover:border-primary/20 whitespace-normal text-left"
                   onClick={() => sendMessage(question)}
                 >
                   {question}
@@ -338,15 +338,15 @@ export default function ChatPage() {
         )}
 
         {/* Sticky Input Area */}
-        <div className="bg-white/90 backdrop-blur-xl border-t border-border/50 p-4 shadow-lg">
-          <div className="flex gap-3">
+        <div className="bg-white/90 backdrop-blur-xl border-t border-border/50 p-4 shadow-lg flex-shrink-0">
+          <div className="flex gap-3 items-end">
             <Textarea
               ref={textareaRef}
               placeholder="Ask any legal question..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
-              className="resize-none bg-white/80 border-border/30 focus:border-primary/50 focus:bg-white transition-all duration-200"
+              className="resize-none bg-white/80 border-border/30 focus:border-primary/50 focus:bg-white transition-all duration-200 flex-1 min-h-[56px] max-h-[120px]"
               rows={2}
               maxLength={1000}
             />
@@ -354,12 +354,12 @@ export default function ChatPage() {
               onClick={() => sendMessage(input)}
               disabled={!input.trim() || isLoading}
               size="icon"
-              className="self-end bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 shadow-lg h-[72px] w-[72px]"
+              className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 shadow-lg h-[56px] w-[56px] flex-shrink-0"
             >
               {isLoading ? (
-                <Loader2 className="h-5 w-5 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                <Send className="h-5 w-5" />
+                <Send className="h-4 w-4" />
               )}
             </Button>
           </div>
