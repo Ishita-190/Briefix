@@ -44,6 +44,8 @@ export default function ExplainPage() {
     useState<ComplexityLevel>("15-year-old");
   const [explanation, setExplanation] = useState("");
   const [sources, setSources] = useState<Source[]>([]);
+  const [category, setCategory] = useState<string | null>(null);
+  const [urgency, setUrgency] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -54,11 +56,15 @@ export default function ExplainPage() {
     setError(null);
     setExplanation("");
     setSources([]);
+    setCategory(null);
+    setUrgency(null);
 
     try {
       const result = await getCachedAnswer(question, complexityLevel);
       setExplanation(result.answer);
       setSources(result.sources);
+      setCategory(result.category || null);
+      setUrgency(result.urgency || null);
     } catch (err) {
       setError("Failed to get an answer. Please try again.");
       console.error("Error getting explanation:", err);
@@ -245,7 +251,19 @@ export default function ExplainPage() {
                   <Brain className="h-5 w-5 text-accent" />
                   AI Explanation
                   <Badge variant="outline">{complexityLevel} level</Badge>
+                  {category && (
+                    <Badge
+                      variant={urgency === 'high' ? 'destructive' : urgency === 'medium' ? 'default' : 'secondary'}
+                    >
+                      {category}
+                    </Badge>
+                  )}
                 </CardTitle>
+                {urgency === 'high' && (
+                  <div className="text-sm text-destructive font-medium">
+                    ⚠️ This is urgent - please seek immediate legal assistance
+                  </div>
+                )}
               </CardHeader>
               <CardContent>
                 <div className="prose max-w-none text-foreground">
