@@ -79,7 +79,7 @@ function simplifyFor12YearOld(text: string): string {
     
     // Legal entities
     ['prosecutor', 'lawyer who tries to prove someone is guilty'],
-    ['public defender', 'free lawyer for people who can\\'t afford one'],
+    ['public defender', 'free lawyer for people who cannot afford one'],
     ['bailiff', 'police officer in the courtroom'],
     ['court clerk', 'person who keeps court records'],
     ['probation officer', 'person who watches over someone instead of jail'],
@@ -92,7 +92,7 @@ function simplifyFor12YearOld(text: string): string {
   }
 
   // Simplify sentences and add kid-friendly explanations
-  const lines = simplified.split('\\n').filter(line => line.trim());
+  const lines = simplified.split('\n').filter(line => line.trim());
   const simplifiedLines: string[] = [];
   
   for (let line of lines) {
@@ -118,9 +118,9 @@ function simplifyFor12YearOld(text: string): string {
   }
 
   // Keep only the most important points (max 6 lines for kids)
-  const result = simplifiedLines.slice(0, 6).join('\\n');
+  const result = simplifiedLines.slice(0, 6).join('\n');
   
-  return result + '\\n\\n📚 **Remember**: Laws can be confusing! Always ask a grown-up or lawyer for help with legal problems.';
+  return result + '\n\n📚 **Remember**: Laws can be confusing! Always ask a grown-up or lawyer for help with legal problems.';
 }
 
 function simplifyFor15YearOld(text: string): string {
@@ -154,7 +154,7 @@ function simplifyFor15YearOld(text: string): string {
   }
 
   // Break down very long sections
-  const lines = simplified.split('\\n').filter(line => line.trim());
+  const lines = simplified.split('\n').filter(line => line.trim());
   const processedLines: string[] = [];
   
   for (let line of lines) {
@@ -168,9 +168,9 @@ function simplifyFor15YearOld(text: string): string {
   }
 
   // Keep more content than 12-year-old level but still limit (max 10 lines)
-  const result = processedLines.slice(0, 10).join('\\n');
+  const result = processedLines.slice(0, 10).join('\n');
   
-  return result + '\\n\\n🎓 **Important**: This is educational information. For serious legal matters, always consult with a qualified attorney.';
+  return result + '\n\n🎓 **Important**: This is educational information. For serious legal matters, always consult with a qualified attorney.';
 }
 
 // Helper function to determine if content needs extra simplification
@@ -199,11 +199,11 @@ export function addExamples(content: string, level: string, topic: string): stri
 
 function addExamplesFor12YearOld(content: string, topic: string): string {
   const examples = {
-    'contract': '\\n\\n🎯 **Example**: If you promise to walk your neighbor\\'s dog for $5, that\\'s like a contract. You both have to do what you promised!',
-    'sued': '\\n\\n🎯 **Example**: Being sued is like when someone tells the teacher you broke their toy and wants you to pay for it, but now it\\'s in court instead of school.',
-    'theft': '\\n\\n🎯 **Example**: Taking someone\\'s bike without asking is theft. Even if you planned to bring it back, it\\'s still against the law.',
-    'housing': '\\n\\n🎯 **Example**: If your apartment has no heat in winter, the landlord has to fix it. It\\'s like how your school has to keep the building safe.',
-    'consumer': '\\n\\n🎯 **Example**: If you buy a toy and it breaks the first day, the store should give you your money back or a new toy.',
+    'contract': '\n\n🎯 **Example**: If you promise to walk your neighbor\'s dog for $5, that\'s like a contract. You both have to do what you promised!',
+    'sued': '\n\n🎯 **Example**: Being sued is like when someone tells the teacher you broke their toy and wants you to pay for it, but now it\'s in court instead of school.',
+    'theft': '\n\n🎯 **Example**: Taking someone\'s bike without asking is theft. Even if you planned to bring it back, it\'s still against the law.',
+    'housing': '\n\n🎯 **Example**: If your apartment has no heat in winter, the landlord has to fix it. It\'s like how your school has to keep the building safe.',
+    'consumer': '\n\n🎯 **Example**: If you buy a toy and it breaks the first day, the store should give you your money back or a new toy.',
   };
   
   for (const [key, example] of Object.entries(examples)) {
@@ -217,11 +217,11 @@ function addExamplesFor12YearOld(content: string, topic: string): string {
 
 function addExamplesFor15YearOld(content: string, topic: string): string {
   const examples = {
-    'contract': '\\n\\n💡 **Real Example**: When you sign up for a phone plan, you\\'re making a contract. You agree to pay monthly, they agree to provide service.',
-    'sued': '\\n\\n💡 **Real Example**: If you accidentally damage someone\\'s car, they might sue you to pay for repairs. Court decides if you have to pay.',
-    'employment': '\\n\\n💡 **Real Example**: If your boss fires you because of your race or gender, that\\'s illegal discrimination and you can take legal action.',
-    'housing': '\\n\\n💡 **Real Example**: Your landlord can\\'t just change the locks if you\\'re late on rent. They have to follow legal eviction process.',
-    'consumer': '\\n\\n💡 **Real Example**: If a company advertises a product as "unbreakable" but it breaks easily, that\\'s false advertising.',
+    'contract': '\n\n💡 **Real Example**: When you sign up for a phone plan, you\'re making a contract. You agree to pay monthly, they agree to provide service.',
+    'sued': '\n\n💡 **Real Example**: If you accidentally damage someone\'s car, they might sue you to pay for repairs. Court decides if you have to pay.',
+    'employment': '\n\n💡 **Real Example**: If your boss fires you because of your race or gender, that\'s illegal discrimination and you can take legal action.',
+    'housing': '\n\n💡 **Real Example**: Your landlord can\'t just change the locks if you\'re late on rent. They have to follow legal eviction process.',
+    'consumer': '\n\n💡 **Real Example**: If a company advertises a product as "unbreakable" but it breaks easily, that\'s false advertising.',
   };
   
   for (const [key, example] of Object.entries(examples)) {
