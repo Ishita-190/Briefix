@@ -49,7 +49,6 @@ type ApiResponse = {
   sources: Source[];
 };
 
-
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -115,7 +114,8 @@ export default function ChatPage() {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: "I'm sorry, I couldn't process your question at the moment. Please try again later.",
+        content:
+          "I'm sorry, I couldn't process your question at the moment. Please try again later.",
         timestamp: new Date(),
         type: "general",
         error: true,
@@ -195,8 +195,8 @@ export default function ChatPage() {
                       message.role === "user"
                         ? "bg-primary text-primary-foreground ml-12"
                         : message.error
-                        ? "bg-destructive/10 border border-destructive/20 mr-12"
-                        : "bg-muted mr-12"
+                          ? "bg-destructive/10 border border-destructive/20 mr-12"
+                          : "bg-muted mr-12"
                     }`}
                   >
                     {message.role === "assistant" && (
@@ -208,57 +208,79 @@ export default function ChatPage() {
                         )}
                         {message.category && (
                           <Badge
-                            variant={message.urgency === 'high' ? 'destructive' : message.urgency === 'medium' ? 'default' : 'secondary'}
+                            variant={
+                              message.urgency === "high"
+                                ? "destructive"
+                                : message.urgency === "medium"
+                                  ? "default"
+                                  : "secondary"
+                            }
                             className="text-xs"
                           >
                             {message.category}
                           </Badge>
                         )}
-                        {message.urgency === 'high' && (
+                        {message.urgency === "high" && (
                           <Badge variant="destructive" className="text-xs">
                             Urgent
                           </Badge>
                         )}
                       </div>
                     )}
-                    {message.urgency === 'high' && message.role === "assistant" && (
-                      <div className="mb-2 p-2 bg-destructive/10 border border-destructive/20 rounded text-xs text-destructive">
-                        ⚠️ <strong>Important:</strong> This appears to be an urgent legal matter. Please seek immediate legal assistance.
-                      </div>
-                    )}
+                    {message.urgency === "high" &&
+                      message.role === "assistant" && (
+                        <div className="mb-2 p-2 bg-destructive/10 border border-destructive/20 rounded text-xs text-destructive">
+                          ⚠️ <strong>Important:</strong> This appears to be an
+                          urgent legal matter. Please seek immediate legal
+                          assistance.
+                        </div>
+                      )}
                     <div className="whitespace-pre-wrap text-sm leading-relaxed">
                       {message.content}
                     </div>
 
                     {/* Sources for assistant messages */}
-                    {message.role === "assistant" && message.sources && message.sources.length > 0 && (
-                      <div className="mt-3 pt-3 border-t border-border/50">
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground mb-2">
-                          <BookOpen className="h-3 w-3" />
-                          <span>Sources:</span>
+                    {message.role === "assistant" &&
+                      message.sources &&
+                      message.sources.length > 0 && (
+                        <div className="mt-3 pt-3 border-t border-border/50">
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground mb-2">
+                            <BookOpen className="h-3 w-3" />
+                            <span>Sources:</span>
+                          </div>
+                          <div className="space-y-1">
+                            {message.sources
+                              .slice(0, 3)
+                              .map((source, index) => (
+                                <div
+                                  key={index}
+                                  className="flex items-center gap-2 text-xs text-muted-foreground"
+                                >
+                                  <ExternalLink className="h-3 w-3 flex-shrink-0" />
+                                  <span className="truncate">
+                                    {source.title ||
+                                      source.section ||
+                                      source.id ||
+                                      "Legal Document"}
+                                  </span>
+                                  {source.score && (
+                                    <Badge
+                                      variant="secondary"
+                                      className="text-xs px-1 py-0"
+                                    >
+                                      {Math.round(source.score * 100)}%
+                                    </Badge>
+                                  )}
+                                </div>
+                              ))}
+                            {message.sources.length > 3 && (
+                              <div className="text-xs text-muted-foreground">
+                                +{message.sources.length - 3} more sources
+                              </div>
+                            )}
+                          </div>
                         </div>
-                        <div className="space-y-1">
-                          {message.sources.slice(0, 3).map((source, index) => (
-                            <div key={index} className="flex items-center gap-2 text-xs text-muted-foreground">
-                              <ExternalLink className="h-3 w-3 flex-shrink-0" />
-                              <span className="truncate">
-                                {source.title || source.section || source.id || "Legal Document"}
-                              </span>
-                              {source.score && (
-                                <Badge variant="secondary" className="text-xs px-1 py-0">
-                                  {Math.round(source.score * 100)}%
-                                </Badge>
-                              )}
-                            </div>
-                          ))}
-                          {message.sources.length > 3 && (
-                            <div className="text-xs text-muted-foreground">
-                              +{message.sources.length - 3} more sources
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )}
+                      )}
 
                     <div
                       className={`text-xs mt-2 opacity-70 ${

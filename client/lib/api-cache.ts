@@ -12,7 +12,7 @@ class ApiCache {
   // Generate cache key from query and options
   private getCacheKey(query: string, options?: Record<string, any>): string {
     const normalized = query.toLowerCase().trim();
-    const optionsKey = options ? JSON.stringify(options) : '';
+    const optionsKey = options ? JSON.stringify(options) : "";
     return `${normalized}:${optionsKey}`;
   }
 
@@ -20,27 +20,32 @@ class ApiCache {
   get<T>(query: string, options?: Record<string, any>): T | null {
     const key = this.getCacheKey(query, options);
     const entry = this.cache.get(key);
-    
+
     if (!entry) return null;
-    
+
     const now = Date.now();
     if (now - entry.timestamp > entry.expiresIn) {
       this.cache.delete(key);
       return null;
     }
-    
+
     return entry.data as T;
   }
 
   // Set cached response
-  set<T>(query: string, data: T, options?: Record<string, any>, ttl?: number): void {
+  set<T>(
+    query: string,
+    data: T,
+    options?: Record<string, any>,
+    ttl?: number,
+  ): void {
     const key = this.getCacheKey(query, options);
     const entry: CacheEntry = {
       data,
       timestamp: Date.now(),
       expiresIn: ttl || this.defaultTTL,
     };
-    
+
     this.cache.set(key, entry);
   }
 
@@ -70,13 +75,23 @@ export const apiCache = new ApiCache();
 export async function getCachedAnswer(
   question: string,
   level: string = "15-year-old",
-  useCache: boolean = true
-): Promise<{ answer: string; sources: any[]; category?: string; urgency?: string }> {
+  useCache: boolean = true,
+): Promise<{
+  answer: string;
+  sources: any[];
+  category?: string;
+  urgency?: string;
+}> {
   const options = { level };
 
   // Try cache first
   if (useCache) {
-    const cached = apiCache.get<{ answer: string; sources: any[]; category?: string; urgency?: string }>(question, options);
+    const cached = apiCache.get<{
+      answer: string;
+      sources: any[];
+      category?: string;
+      urgency?: string;
+    }>(question, options);
     if (cached) {
       return cached;
     }

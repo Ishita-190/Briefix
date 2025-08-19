@@ -5,12 +5,12 @@ import { z } from "zod";
 import {
   getKnowledgeBaseAnswer,
   classifyQuery,
-  GENERAL_LEGAL_GUIDANCE
+  GENERAL_LEGAL_GUIDANCE,
 } from "../lib/legal-knowledge";
 import {
   simplifyForAge,
   addExamples,
-  needsExtraSimplification
+  needsExtraSimplification,
 } from "../lib/age-simplification";
 
 // Very small in-memory index built from public/ipc.json
@@ -36,7 +36,9 @@ function loadCorpusOnce() {
         .map((d) => ({
           id: d.Section ? `Section ${d.Section}` : d.id,
           title: d.section_title || d.title,
-          section: d.chapter ? `Chapter ${d.chapter}: ${d.chapter_title}` : d.section,
+          section: d.chapter
+            ? `Chapter ${d.chapter}: ${d.chapter_title}`
+            : d.section,
           text: String(d.section_desc || d.text || "")
             .replace(/\s+/g, " ")
             .trim(),
@@ -47,7 +49,9 @@ function loadCorpusOnce() {
         .map((d: any) => ({
           id: d.Section ? `Section ${d.Section}` : d.id,
           title: d.section_title || d.title,
-          section: d.chapter ? `Chapter ${d.chapter}: ${d.chapter_title}` : d.section,
+          section: d.chapter
+            ? `Chapter ${d.chapter}: ${d.chapter_title}`
+            : d.section,
           text: String(d.section_desc || d.text || "")
             .replace(/\s+/g, " ")
             .trim(),
@@ -105,7 +109,9 @@ function topMatches(query: string, k = 3) {
 
   console.log(`[Search] Found ${scored.length} matches`);
   scored.forEach((match, i) => {
-    console.log(`[Search] Match ${i + 1}: ID=${match.item.id}, Score=${match.score.toFixed(2)}, Title=${match.item.title}`);
+    console.log(
+      `[Search] Match ${i + 1}: ID=${match.item.id}, Score=${match.score.toFixed(2)}, Title=${match.item.title}`,
+    );
   });
 
   return scored;
@@ -117,14 +123,14 @@ function summarize(text: string, maxSentences = 2) {
     .map((s) => s.trim())
     .filter(Boolean)
     .filter((s) => s.length > 10) // Filter out very short sentences
-    .filter((s) => !s.toLowerCase().includes('repealed')) // Filter out repealed sections
+    .filter((s) => !s.toLowerCase().includes("repealed")) // Filter out repealed sections
     .filter((s) => s.length < 500); // Avoid overly long sentences
   return sentences.slice(0, maxSentences).join(" ");
 }
 
 function rewriteForLevel(text: string, level: string, category?: string) {
   // For knowledge base content, use advanced simplification system
-  if (text.includes('**') || text.includes('\n')) {
+  if (text.includes("**") || text.includes("\n")) {
     // This is formatted knowledge base content
     if (level === "12-year-old" || level === "15-year-old") {
       let simplified = simplifyForAge(text, level);
@@ -139,7 +145,7 @@ function rewriteForLevel(text: string, level: string, category?: string) {
     // lawyer level - return full content
     return text + "\n\n(Professional legal reference)";
   }
-  
+
   // For IPC content, clean up as before
   let cleaned = text
     .replace(/\s+/g, " ")
@@ -193,7 +199,8 @@ export const handleAnswer: RequestHandler = (req, res) => {
   // Filter out very short or generic queries
   if (query.trim().length < 3) {
     return res.status(200).json({
-      answer: "Please provide a more specific question about legal concepts or procedures.",
+      answer:
+        "Please provide a more specific question about legal concepts or procedures.",
       sources: [],
     });
   }
@@ -201,17 +208,23 @@ export const handleAnswer: RequestHandler = (req, res) => {
   // First, try the comprehensive knowledge base
   const knowledgeAnswer = getKnowledgeBaseAnswer(query);
   if (knowledgeAnswer) {
-    console.log(`[Answer API] Found knowledge base answer for category: ${knowledgeAnswer.category}`);
+    console.log(
+      `[Answer API] Found knowledge base answer for category: ${knowledgeAnswer.category}`,
+    );
     return res.json({
-      answer: rewriteForLevel(knowledgeAnswer.answer, level, knowledgeAnswer.category),
-      sources: knowledgeAnswer.sources.map(source => ({
+      answer: rewriteForLevel(
+        knowledgeAnswer.answer,
+        level,
+        knowledgeAnswer.category,
+      ),
+      sources: knowledgeAnswer.sources.map((source) => ({
         title: source.title,
         type: source.type,
         category: knowledgeAnswer.category,
-        urgency: knowledgeAnswer.urgency
+        urgency: knowledgeAnswer.urgency,
       })),
       category: knowledgeAnswer.category,
-      urgency: knowledgeAnswer.urgency
+      urgency: knowledgeAnswer.urgency,
     });
   }
 
@@ -230,15 +243,17 @@ ${GENERAL_LEGAL_GUIDANCE.generalAdvice}
 - Consulting with a qualified attorney
 - Contacting your local bar association for referrals
 - Seeking legal aid if you qualify for free assistance`;
-    
+
     return res.status(200).json({
       answer: rewriteForLevel(fallbackAnswer, level),
-      sources: [{
-        title: "General Legal Guidance",
-        type: "guidance",
-        category: "General"
-      }],
-      category: "General Guidance"
+      sources: [
+        {
+          title: "General Legal Guidance",
+          type: "guidance",
+          category: "General",
+        },
+      ],
+      category: "General Guidance",
     });
   }
 
@@ -248,7 +263,10 @@ ${GENERAL_LEGAL_GUIDANCE.generalAdvice}
     const queryType = classifyQuery(query);
     let fallbackAnswer = "";
 
-    if (query.toLowerCase().includes('lawyer') || query.toLowerCase().includes('attorney')) {
+    if (
+      query.toLowerCase().includes("lawyer") ||
+      query.toLowerCase().includes("attorney")
+    ) {
       fallbackAnswer = GENERAL_LEGAL_GUIDANCE.findLawyer;
     } else {
       fallbackAnswer = `I couldn't find specific information about "${query}" in the Indian Penal Code (criminal law database). 
@@ -263,12 +281,14 @@ ${GENERAL_LEGAL_GUIDANCE.generalAdvice}
 
     return res.status(200).json({
       answer: rewriteForLevel(fallbackAnswer, level),
-      sources: [{
-        title: "General Legal Guidance",
-        type: "guidance",
-        category: "General"
-      }],
-      category: "General Guidance"
+      sources: [
+        {
+          title: "General Legal Guidance",
+          type: "guidance",
+          category: "General",
+        },
+      ],
+      category: "General Guidance",
     });
   }
 
@@ -289,27 +309,32 @@ The Indian Penal Code primarily covers criminal offenses. For civil matters, con
 - Seeking legal aid if you qualify for assistance`,
         level,
       ),
-      sources: [{
-        title: "General Legal Guidance",
-        type: "guidance", 
-        category: "General"
-      }],
-      category: "General Guidance"
+      sources: [
+        {
+          title: "General Legal Guidance",
+          type: "guidance",
+          category: "General",
+        },
+      ],
+      category: "General Guidance",
     });
   }
 
   const cleanText = summarize(bestMatch.item.text, level === "lawyer" ? 3 : 2);
   const answer = rewriteForLevel(cleanText, level);
-  const sources = [{
-    id: bestMatch.item.id,
-    title: bestMatch.item.title,
-    section: bestMatch.item.section,
-    score: Math.round(bestMatch.score * 1000) / 1000,
-  }];
+  const sources = [
+    {
+      id: bestMatch.item.id,
+      title: bestMatch.item.title,
+      section: bestMatch.item.section,
+      score: Math.round(bestMatch.score * 1000) / 1000,
+    },
+  ];
 
   // Add additional sources only if they're significantly relevant
   matches.slice(1).forEach((match) => {
-    if (match.score > bestMatch.score * 0.7) { // Only if 70% as relevant as best match
+    if (match.score > bestMatch.score * 0.7) {
+      // Only if 70% as relevant as best match
       sources.push({
         id: match.item.id,
         title: match.item.title,
@@ -319,10 +344,10 @@ The Indian Penal Code primarily covers criminal offenses. For civil matters, con
     }
   });
 
-  res.json({ 
-    answer, 
+  res.json({
+    answer,
     sources,
     category: "Indian Penal Code",
-    urgency: "medium"
+    urgency: "medium",
   });
 };

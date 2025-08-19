@@ -2,17 +2,24 @@
 export interface LegalAnswer {
   answer: string;
   category: string;
-  urgency: 'low' | 'medium' | 'high';
+  urgency: "low" | "medium" | "high";
   sources: Array<{
     title: string;
-    type: 'procedure' | 'statute' | 'guidance' | 'practical';
+    type: "procedure" | "statute" | "guidance" | "practical";
   }>;
 }
 
 export const LEGAL_KNOWLEDGE_BASE = {
   // Civil Litigation & Being Sued
   sued: {
-    keywords: ['sued', 'lawsuit', 'civil case', 'litigation', 'court summons', 'legal notice'],
+    keywords: [
+      "sued",
+      "lawsuit",
+      "civil case",
+      "litigation",
+      "court summons",
+      "legal notice",
+    ],
     answer: `If you're being sued, take these immediate steps:
 
 1. **Don't ignore it** - Respond within the time limit (usually 30 days)
@@ -29,17 +36,24 @@ export const LEGAL_KNOWLEDGE_BASE = {
 - Consider your insurance (some policies cover legal costs)
 
 **Remember:** Ignoring a lawsuit typically results in a default judgment against you.`,
-    category: 'Civil Procedure',
-    urgency: 'high' as const,
+    category: "Civil Procedure",
+    urgency: "high" as const,
     sources: [
-      { title: 'Civil Procedure Guidelines', type: 'procedure' as const },
-      { title: 'Court Response Requirements', type: 'guidance' as const }
-    ]
+      { title: "Civil Procedure Guidelines", type: "procedure" as const },
+      { title: "Court Response Requirements", type: "guidance" as const },
+    ],
   },
 
   // Contract Law
   contract: {
-    keywords: ['contract', 'agreement', 'breach', 'terms', 'obligation', 'binding'],
+    keywords: [
+      "contract",
+      "agreement",
+      "breach",
+      "terms",
+      "obligation",
+      "binding",
+    ],
     answer: `**Contracts** are legally binding agreements between parties. Key elements:
 
 1. **Offer** - One party proposes terms
@@ -59,17 +73,25 @@ export const LEGAL_KNOWLEDGE_BASE = {
 - Try to resolve through communication first
 - Consider mediation before litigation
 - Consult a lawyer for significant contracts`,
-    category: 'Contract Law',
-    urgency: 'medium' as const,
+    category: "Contract Law",
+    urgency: "medium" as const,
     sources: [
-      { title: 'Contract Formation Principles', type: 'statute' as const },
-      { title: 'Breach of Contract Remedies', type: 'guidance' as const }
-    ]
+      { title: "Contract Formation Principles", type: "statute" as const },
+      { title: "Breach of Contract Remedies", type: "guidance" as const },
+    ],
   },
 
   // Criminal Law Basics
   criminal: {
-    keywords: ['criminal', 'arrest', 'police', 'rights', 'charged', 'bail', 'custody'],
+    keywords: [
+      "criminal",
+      "arrest",
+      "police",
+      "rights",
+      "charged",
+      "bail",
+      "custody",
+    ],
     answer: `**Your Rights if Arrested or Questioned:**
 
 1. **Right to remain silent** - You don't have to answer questions
@@ -89,17 +111,24 @@ export const LEGAL_KNOWLEDGE_BASE = {
 - If detained, ask for a lawyer immediately
 
 **Important:** Even if you're innocent, get legal representation. The legal system is complex and having a lawyer protects your rights.`,
-    category: 'Criminal Law',
-    urgency: 'high' as const,
+    category: "Criminal Law",
+    urgency: "high" as const,
     sources: [
-      { title: 'Constitutional Rights', type: 'statute' as const },
-      { title: 'Police Interaction Guidelines', type: 'practical' as const }
-    ]
+      { title: "Constitutional Rights", type: "statute" as const },
+      { title: "Police Interaction Guidelines", type: "practical" as const },
+    ],
   },
 
   // Employment Law
   employment: {
-    keywords: ['fired', 'workplace', 'discrimination', 'harassment', 'wrongful termination', 'wages'],
+    keywords: [
+      "fired",
+      "workplace",
+      "discrimination",
+      "harassment",
+      "wrongful termination",
+      "wages",
+    ],
     answer: `**Employment Issues** - Common workplace legal matters:
 
 **Wrongful Termination:**
@@ -123,17 +152,24 @@ export const LEGAL_KNOWLEDGE_BASE = {
 2. Follow company complaint procedures
 3. File complaints with relevant agencies
 4. Consult an employment attorney if needed`,
-    category: 'Employment Law',
-    urgency: 'medium' as const,
+    category: "Employment Law",
+    urgency: "medium" as const,
     sources: [
-      { title: 'Employment Rights Overview', type: 'guidance' as const },
-      { title: 'Workplace Protection Laws', type: 'statute' as const }
-    ]
+      { title: "Employment Rights Overview", type: "guidance" as const },
+      { title: "Workplace Protection Laws", type: "statute" as const },
+    ],
   },
 
   // Personal Injury
   injury: {
-    keywords: ['accident', 'injury', 'medical malpractice', 'slip and fall', 'car accident', 'negligence'],
+    keywords: [
+      "accident",
+      "injury",
+      "medical malpractice",
+      "slip and fall",
+      "car accident",
+      "negligence",
+    ],
     answer: `**Personal Injury Claims** - When someone else's negligence causes you harm:
 
 **Immediate Steps:**
@@ -157,17 +193,24 @@ export const LEGAL_KNOWLEDGE_BASE = {
 - Actual damages/harm
 
 **Important:** Many personal injury lawyers work on contingency (no fee unless you win). Insurance companies often make low initial offers - consider legal consultation before accepting.`,
-    category: 'Personal Injury',
-    urgency: 'medium' as const,
+    category: "Personal Injury",
+    urgency: "medium" as const,
     sources: [
-      { title: 'Negligence Standards', type: 'statute' as const },
-      { title: 'Personal Injury Procedures', type: 'practical' as const }
-    ]
+      { title: "Negligence Standards", type: "statute" as const },
+      { title: "Personal Injury Procedures", type: "practical" as const },
+    ],
   },
 
   // Family Law
   family: {
-    keywords: ['divorce', 'custody', 'child support', 'alimony', 'marriage', 'separation'],
+    keywords: [
+      "divorce",
+      "custody",
+      "child support",
+      "alimony",
+      "marriage",
+      "separation",
+    ],
     answer: `**Family Law Matters** - Legal issues involving family relationships:
 
 **Divorce:**
@@ -196,17 +239,26 @@ export const LEGAL_KNOWLEDGE_BASE = {
 - Consider collaborative divorce options
 
 **Urgent situations** (domestic violence, child abuse): Contact authorities immediately and seek emergency protective orders.`,
-    category: 'Family Law',
-    urgency: 'medium' as const,
+    category: "Family Law",
+    urgency: "medium" as const,
     sources: [
-      { title: 'Family Court Procedures', type: 'procedure' as const },
-      { title: 'Child Welfare Standards', type: 'guidance' as const }
-    ]
+      { title: "Family Court Procedures", type: "procedure" as const },
+      { title: "Child Welfare Standards", type: "guidance" as const },
+    ],
   },
 
   // Landlord-Tenant Issues
   housing: {
-    keywords: ['landlord', 'tenant', 'rent', 'eviction', 'deposit', 'lease', 'housing', 'apartment'],
+    keywords: [
+      "landlord",
+      "tenant",
+      "rent",
+      "eviction",
+      "deposit",
+      "lease",
+      "housing",
+      "apartment",
+    ],
     answer: `**Landlord-Tenant Law** - Rights and responsibilities in rental housing:
 
 **Tenant Rights:**
@@ -235,17 +287,26 @@ export const LEGAL_KNOWLEDGE_BASE = {
 - Pay rent on time and keep records
 - Know your local tenant rights laws
 - Contact local tenant rights organizations`,
-    category: 'Housing Law',
-    urgency: 'medium' as const,
+    category: "Housing Law",
+    urgency: "medium" as const,
     sources: [
-      { title: 'Tenant Rights Guidelines', type: 'guidance' as const },
-      { title: 'Housing Code Violations', type: 'procedure' as const }
-    ]
+      { title: "Tenant Rights Guidelines", type: "guidance" as const },
+      { title: "Housing Code Violations", type: "procedure" as const },
+    ],
   },
 
   // Consumer Rights
   consumer: {
-    keywords: ['scam', 'fraud', 'warranty', 'return', 'refund', 'defective', 'consumer', 'purchase'],
+    keywords: [
+      "scam",
+      "fraud",
+      "warranty",
+      "return",
+      "refund",
+      "defective",
+      "consumer",
+      "purchase",
+    ],
     answer: `**Consumer Rights** - Protection when buying goods and services:
 
 **Your Rights:**
@@ -274,17 +335,25 @@ export const LEGAL_KNOWLEDGE_BASE = {
 - Research companies before buying
 - Be suspicious of 'too good to be true' deals
 - Use credit cards (not debit) for better protection`,
-    category: 'Consumer Law',
-    urgency: 'medium' as const,
+    category: "Consumer Law",
+    urgency: "medium" as const,
     sources: [
-      { title: 'Consumer Protection Act', type: 'statute' as const },
-      { title: 'FTC Guidelines', type: 'guidance' as const }
-    ]
+      { title: "Consumer Protection Act", type: "statute" as const },
+      { title: "FTC Guidelines", type: "guidance" as const },
+    ],
   },
 
   // Debt and Bankruptcy
   debt: {
-    keywords: ['debt', 'bankruptcy', 'collection', 'garnishment', 'credit', 'loan', 'foreclosure'],
+    keywords: [
+      "debt",
+      "bankruptcy",
+      "collection",
+      "garnishment",
+      "credit",
+      "loan",
+      "foreclosure",
+    ],
     answer: `**Debt and Financial Issues** - Dealing with money problems:
 
 **Debt Collection Rights:**
@@ -314,17 +383,24 @@ export const LEGAL_KNOWLEDGE_BASE = {
 5. Consider free credit counseling
 
 **Warning Signs**: If facing foreclosure or wage garnishment, seek legal help immediately.`,
-    category: 'Debt/Bankruptcy',
-    urgency: 'high' as const,
+    category: "Debt/Bankruptcy",
+    urgency: "high" as const,
     sources: [
-      { title: 'Fair Debt Collection Practices Act', type: 'statute' as const },
-      { title: 'Bankruptcy Code', type: 'statute' as const }
-    ]
+      { title: "Fair Debt Collection Practices Act", type: "statute" as const },
+      { title: "Bankruptcy Code", type: "statute" as const },
+    ],
   },
 
   // Small Claims Court
   smallclaims: {
-    keywords: ['small claims', 'court', 'sue', 'money owed', 'dispute', 'judgment'],
+    keywords: [
+      "small claims",
+      "court",
+      "sue",
+      "money owed",
+      "dispute",
+      "judgment",
+    ],
     answer: `**Small Claims Court** - Resolving disputes for smaller amounts of money:
 
 **What is Small Claims Court:**
@@ -357,17 +433,24 @@ export const LEGAL_KNOWLEDGE_BASE = {
 - Court gives you judgment, not money
 - You may need to collect payment separately
 - Options include wage garnishment or bank levy`,
-    category: 'Small Claims',
-    urgency: 'low' as const,
+    category: "Small Claims",
+    urgency: "low" as const,
     sources: [
-      { title: 'Small Claims Procedures', type: 'procedure' as const },
-      { title: 'Court Self-Help Guide', type: 'guidance' as const }
-    ]
+      { title: "Small Claims Procedures", type: "procedure" as const },
+      { title: "Court Self-Help Guide", type: "guidance" as const },
+    ],
   },
 
   // Immigration Issues
   immigration: {
-    keywords: ['immigration', 'visa', 'green card', 'citizenship', 'deportation', 'asylum'],
+    keywords: [
+      "immigration",
+      "visa",
+      "green card",
+      "citizenship",
+      "deportation",
+      "asylum",
+    ],
     answer: `**Immigration Law** - Issues related to citizenship and legal status:
 
 **Common Immigration Matters:**
@@ -402,17 +485,25 @@ export const LEGAL_KNOWLEDGE_BASE = {
 - Labor certification may be needed
 
 **URGENT**: Immigration issues often have strict deadlines. Get qualified legal help immediately.`,
-    category: 'Immigration',
-    urgency: 'high' as const,
+    category: "Immigration",
+    urgency: "high" as const,
     sources: [
-      { title: 'Immigration and Nationality Act', type: 'statute' as const },
-      { title: 'USCIS Guidelines', type: 'guidance' as const }
-    ]
+      { title: "Immigration and Nationality Act", type: "statute" as const },
+      { title: "USCIS Guidelines", type: "guidance" as const },
+    ],
   },
 
   // Traffic and DUI
   traffic: {
-    keywords: ['traffic ticket', 'dui', 'dwi', 'speeding', 'license', 'suspended', 'driving'],
+    keywords: [
+      "traffic ticket",
+      "dui",
+      "dwi",
+      "speeding",
+      "license",
+      "suspended",
+      "driving",
+    ],
     answer: `**Traffic and DUI Issues** - Dealing with driving-related legal problems:
 
 **Traffic Tickets:**
@@ -445,13 +536,13 @@ export const LEGAL_KNOWLEDGE_BASE = {
 - Know that prescription drugs can also cause DUI
 
 **IMPORTANT**: DUI has serious long-term consequences. Get experienced legal help immediately.`,
-    category: 'Traffic/DUI',
-    urgency: 'high' as const,
+    category: "Traffic/DUI",
+    urgency: "high" as const,
     sources: [
-      { title: 'Vehicle Code', type: 'statute' as const },
-      { title: 'DUI Defense Guidelines', type: 'guidance' as const }
-    ]
-  }
+      { title: "Vehicle Code", type: "statute" as const },
+      { title: "DUI Defense Guidelines", type: "guidance" as const },
+    ],
+  },
 };
 
 // Query classification
@@ -464,10 +555,20 @@ export function classifyQuery(query: string): string {
       // Check for exact word matches or phrases
       if (lowerQuery.includes(keyword)) {
         // Additional context checks for better classification
-        if (category === 'housing' && (lowerQuery.includes('rent') || lowerQuery.includes('landlord') || lowerQuery.includes('eviction'))) {
+        if (
+          category === "housing" &&
+          (lowerQuery.includes("rent") ||
+            lowerQuery.includes("landlord") ||
+            lowerQuery.includes("eviction"))
+        ) {
           return category;
         }
-        if (category === 'traffic' && (lowerQuery.includes('ticket') || lowerQuery.includes('dui') || lowerQuery.includes('driving'))) {
+        if (
+          category === "traffic" &&
+          (lowerQuery.includes("ticket") ||
+            lowerQuery.includes("dui") ||
+            lowerQuery.includes("driving"))
+        ) {
           return category;
         }
         return category;
@@ -476,27 +577,38 @@ export function classifyQuery(query: string): string {
   }
 
   // Additional pattern matching for common phrases
-  if (lowerQuery.includes('money owed') || lowerQuery.includes('small amount') || lowerQuery.includes('minor dispute')) {
-    return 'smallclaims';
+  if (
+    lowerQuery.includes("money owed") ||
+    lowerQuery.includes("small amount") ||
+    lowerQuery.includes("minor dispute")
+  ) {
+    return "smallclaims";
   }
-  if (lowerQuery.includes('can\'t pay') || lowerQuery.includes('collections') || lowerQuery.includes('creditor')) {
-    return 'debt';
+  if (
+    lowerQuery.includes("can't pay") ||
+    lowerQuery.includes("collections") ||
+    lowerQuery.includes("creditor")
+  ) {
+    return "debt";
   }
-  if (lowerQuery.includes('bought') && (lowerQuery.includes('broken') || lowerQuery.includes('defective'))) {
-    return 'consumer';
+  if (
+    lowerQuery.includes("bought") &&
+    (lowerQuery.includes("broken") || lowerQuery.includes("defective"))
+  ) {
+    return "consumer";
   }
 
-  return 'general';
+  return "general";
 }
 
 // Get answer from knowledge base
 export function getKnowledgeBaseAnswer(query: string): LegalAnswer | null {
   const category = classifyQuery(query);
-  
-  if (category === 'general') {
+
+  if (category === "general") {
     return null;
   }
-  
+
   return LEGAL_KNOWLEDGE_BASE[category as keyof typeof LEGAL_KNOWLEDGE_BASE];
 }
 
@@ -553,5 +665,5 @@ export const GENERAL_LEGAL_GUIDANCE = {
 - IRS audit or tax problems
 - Employment discrimination
 - Serious injury or accident
-- Divorce or child custody disputes`
+- Divorce or child custody disputes`,
 };

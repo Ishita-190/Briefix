@@ -37,7 +37,6 @@ type ApiResponse = {
   sources: Source[];
 };
 
-
 export default function ExplainPage() {
   const [question, setQuestion] = useState("");
   const [complexityLevel, setComplexityLevel] =
@@ -173,7 +172,7 @@ export default function ExplainPage() {
                             </div>
                           </div>
                         );
-                      }
+                      },
                     )}
                   </RadioGroup>
                 </div>
@@ -205,7 +204,9 @@ export default function ExplainPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Popular Questions</CardTitle>
-                <CardDescription>Click any example to try it out</CardDescription>
+                <CardDescription>
+                  Click any example to try it out
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
                 {[
@@ -253,13 +254,19 @@ export default function ExplainPage() {
                   <Badge variant="outline">{complexityLevel} level</Badge>
                   {category && (
                     <Badge
-                      variant={urgency === 'high' ? 'destructive' : urgency === 'medium' ? 'default' : 'secondary'}
+                      variant={
+                        urgency === "high"
+                          ? "destructive"
+                          : urgency === "medium"
+                            ? "default"
+                            : "secondary"
+                      }
                     >
                       {category}
                     </Badge>
                   )}
                 </CardTitle>
-                {urgency === 'high' && (
+                {urgency === "high" && (
                   <div className="text-sm text-destructive font-medium">
                     ⚠️ This is urgent - please seek immediate legal assistance
                   </div>
