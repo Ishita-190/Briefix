@@ -71,12 +71,12 @@ export async function getCachedAnswer(
   question: string,
   level: string = "15-year-old",
   useCache: boolean = true
-): Promise<{ answer: string; sources: any[] }> {
+): Promise<{ answer: string; sources: any[]; category?: string; urgency?: string }> {
   const options = { level };
-  
+
   // Try cache first
   if (useCache) {
-    const cached = apiCache.get<{ answer: string; sources: any[] }>(question, options);
+    const cached = apiCache.get<{ answer: string; sources: any[]; category?: string; urgency?: string }>(question, options);
     if (cached) {
       return cached;
     }
@@ -99,12 +99,12 @@ export async function getCachedAnswer(
     }
 
     const data = await response.json();
-    
+
     // Cache the successful response
     if (useCache) {
       apiCache.set(question, data, options);
     }
-    
+
     return data;
   } catch (err) {
     console.error("Error fetching answer:", err);
