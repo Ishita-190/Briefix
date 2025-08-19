@@ -200,7 +200,7 @@ export default function ExplainPage() {
           </div>
 
           {/* Quick Examples */}
-          <div>
+          <div className="order-1 lg:order-2">
             <Card>
               <CardHeader>
                 <CardTitle>Popular Questions</CardTitle>
