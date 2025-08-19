@@ -180,6 +180,7 @@ pnpm format.fix   # Format code with Prettier
      │  public/ (static files)     │
      └─────────────────────────────┘
 ### Project Structure
+'''text
 Briefix/
 ├── .dockerignore
 ├── .env
