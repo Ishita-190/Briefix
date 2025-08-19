@@ -24,10 +24,10 @@ function loadCorpusOnce() {
     if (Array.isArray(data)) {
       CORPUS = data
         .map((d) => ({
-          id: d.id,
-          title: d.title,
-          section: d.section,
-          text: String(d.text ?? "")
+          id: d.Section ? `Section ${d.Section}` : d.id,
+          title: d.section_title || d.title,
+          section: d.chapter ? `Chapter ${d.chapter}: ${d.chapter_title}` : d.section,
+          text: String(d.section_desc || d.text || "")
             .replace(/\s+/g, " ")
             .trim(),
         }))
@@ -35,10 +35,10 @@ function loadCorpusOnce() {
     } else if (data && typeof data === "object" && Array.isArray(data.items)) {
       CORPUS = data.items
         .map((d: any) => ({
-          id: d.id,
-          title: d.title,
-          section: d.section,
-          text: String(d.text ?? "")
+          id: d.Section ? `Section ${d.Section}` : d.id,
+          title: d.section_title || d.title,
+          section: d.chapter ? `Chapter ${d.chapter}: ${d.chapter_title}` : d.section,
+          text: String(d.section_desc || d.text || "")
             .replace(/\s+/g, " ")
             .trim(),
         }))
