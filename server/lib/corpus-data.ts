@@ -55,15 +55,18 @@ export async function loadCorpusDataAsync(): Promise<CorpusItem[]> {
       console.error("[Corpus] Tried paths:", possiblePaths);
       console.error("[Corpus] Current working directory:", process.cwd());
       console.error("[Corpus] __dirname:", __dirname);
-      
-      // List available files for debugging
+
+      // Try embedded data as fallback
       try {
-        const cwdFiles = fs.readdirSync(process.cwd());
-        console.error("[Corpus] Files in cwd:", cwdFiles.slice(0, 20));
-      } catch (e) {
-        console.error("[Corpus] Could not list cwd files:", e);
+        const { loadEmbeddedData } = await import("./embedded-data");
+        CORPUS = await loadEmbeddedData();
+        console.log(`[Corpus] Loaded ${CORPUS.length} items from embedded data`);
+        corpusLoaded = true;
+        return CORPUS;
+      } catch (embeddedError) {
+        console.error("[Corpus] Embedded data fallback also failed:", embeddedError);
       }
-      
+
       corpusLoaded = true;
       return CORPUS; // Return empty array
     }
