@@ -36,9 +36,36 @@ let CORPUS: CorpusItem[] = [];
 function loadCorpusOnce() {
   if (CORPUS.length) return;
   try {
-    const p = path.join(process.cwd(), "public", "ipc.json");
-    const raw = fs.readFileSync(p, "utf8");
-    const data = JSON.parse(raw);
+    // Try multiple possible paths for different environments
+    let p: string;
+    let raw: string;
+
+    const possiblePaths = [
+      path.join(process.cwd(), "public", "ipc.json"),
+      path.join(__dirname, "..", "..", "public", "ipc.json"),
+      path.join(__dirname, "..", "..", "..", "public", "ipc.json"),
+      "/opt/buildhome/public/ipc.json", // Netlify build environment
+      "./public/ipc.json", // Relative path
+    ];
+
+    for (const tryPath of possiblePaths) {
+      try {
+        if (fs.existsSync(tryPath)) {
+          p = tryPath;
+          raw = fs.readFileSync(p, "utf8");
+          console.log(`[Corpus] Successfully loaded from: ${p}`);
+          break;
+        }
+      } catch (e) {
+        continue;
+      }
+    }
+
+    if (!raw!) {
+      throw new Error("Could not find ipc.json in any expected location");
+    }
+
+    const data = JSON.parse(raw!);
     if (Array.isArray(data)) {
       CORPUS = data
         .map((d) => ({
