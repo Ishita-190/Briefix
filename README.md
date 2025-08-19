@@ -179,7 +179,7 @@ pnpm format.fix   # Format code with Prettier
      │  README, blueprint, pdfs    │
      │  public/ (static files)     │
      └─────────────────────────────┘
- ## Project Structure
+### Project Structure
 Briefix/
 ├── .dockerignore
 ├── .env
