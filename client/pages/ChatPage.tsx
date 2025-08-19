@@ -22,6 +22,7 @@ import {
   Loader2,
   BookOpen,
   ExternalLink,
+  AlertCircle,
 } from "lucide-react";
 import { getCachedAnswer } from "../lib/api-cache";
 
@@ -152,51 +153,45 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-primary mb-4">
-          AI Legal Assistant
-        </h1>
-        <p className="text-xl text-muted-foreground">
-          Get immediate answers to your legal questions in plain English
-        </p>
+    <div className="flex flex-col h-screen bg-gradient-to-br from-background via-background to-primary/5">
+      {/* Header */}
+      <div className="bg-white/80 backdrop-blur-xl border-b border-border/50 px-6 py-6 shadow-sm">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-3xl lg:text-4xl font-bold text-primary mb-2">
+            AI Legal Assistant
+          </h1>
+          <p className="text-lg text-muted-foreground">
+            Get immediate answers to your legal questions in plain English
+          </p>
+        </div>
       </div>
 
-      <Card className="h-[600px] flex flex-col">
-        <CardHeader className="border-b">
-          <CardTitle className="flex items-center gap-2">
-            <MessageSquare className="h-5 w-5" />
-            Legal Chat Assistant
-          </CardTitle>
-          <CardDescription>
-            Ask questions, request explanations, or get guidance on legal
-            matters
-          </CardDescription>
-        </CardHeader>
-
-        <CardContent className="flex-1 flex flex-col p-0">
-          <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
+      {/* Chat Container */}
+      <div className="flex-1 max-w-4xl mx-auto w-full flex flex-col px-4 py-4">
+        {/* Messages Area */}
+        <div className="flex-1 overflow-hidden">
+          <ScrollArea className="h-full px-4" ref={scrollAreaRef}>
             <div className="space-y-4">
               {messages.map((message) => (
                 <div
                   key={message.id}
-                  className={`flex gap-3 ${
+                  className={`flex gap-4 mb-6 animate-fade-in ${
                     message.role === "user" ? "justify-end" : "justify-start"
                   }`}
                 >
                   {message.role === "assistant" && (
-                    <div className="flex-shrink-0 w-8 h-8 bg-accent text-accent-foreground rounded-full flex items-center justify-center">
+                    <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-accent to-primary text-white rounded-xl flex items-center justify-center shadow-lg">
                       {getMessageIcon(message.type)}
                     </div>
                   )}
 
                   <div
-                    className={`max-w-[80%] rounded-lg p-3 ${
+                    className={`max-w-[85%] rounded-2xl p-4 shadow-lg ${
                       message.role === "user"
-                        ? "bg-primary text-primary-foreground ml-12"
+                        ? "bg-gradient-to-r from-primary to-accent text-white ml-12"
                         : message.error
-                          ? "bg-destructive/10 border border-destructive/20 mr-12"
-                          : "bg-muted mr-12"
+                          ? "bg-red-50 border border-red-200 text-red-800 mr-12 dark:bg-red-950 dark:border-red-800 dark:text-red-200"
+                          : "bg-white/80 backdrop-blur-sm border border-white/20 mr-12"
                     }`}
                   >
                     {message.role === "assistant" && (
@@ -293,81 +288,100 @@ export default function ChatPage() {
                   </div>
 
                   {message.role === "user" && (
-                    <div className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center">
-                      <User className="h-4 w-4" />
+                    <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-primary to-accent text-white rounded-xl flex items-center justify-center shadow-lg">
+                      <User className="h-5 w-5" />
                     </div>
                   )}
                 </div>
               ))}
 
               {isLoading && (
-                <div className="flex gap-3 justify-start">
-                  <div className="flex-shrink-0 w-8 h-8 bg-accent text-accent-foreground rounded-full flex items-center justify-center">
-                    <Bot className="h-4 w-4" />
+                <div className="flex gap-4 justify-start mb-6 animate-fade-in">
+                  <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-accent to-primary text-white rounded-xl flex items-center justify-center shadow-lg">
+                    <Bot className="h-5 w-5" />
                   </div>
-                  <div className="bg-muted rounded-lg p-3 mr-12">
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      AI is thinking...
+                  <div className="bg-white/80 backdrop-blur-sm border border-white/20 rounded-2xl p-4 mr-12 shadow-lg">
+                    <div className="flex items-center gap-3 text-muted-foreground">
+                      <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                      <span className="font-medium">AI is thinking...</span>
+                      <div className="flex gap-1">
+                        <div className="w-2 h-2 bg-primary/60 rounded-full animate-pulse"></div>
+                        <div className="w-2 h-2 bg-primary/60 rounded-full animate-pulse delay-100"></div>
+                        <div className="w-2 h-2 bg-primary/60 rounded-full animate-pulse delay-200"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
               )}
             </div>
           </ScrollArea>
+        </div>
 
-          {messages.length <= 1 && (
-            <div className="border-t p-4">
-              <h4 className="font-medium mb-3 text-sm">Popular Questions:</h4>
-              <div className="flex flex-wrap gap-2">
-                {quickQuestions.map((question, index) => (
-                  <Button
-                    key={index}
-                    variant="outline"
-                    size="sm"
-                    className="text-xs h-auto py-2"
-                    onClick={() => sendMessage(question)}
-                  >
-                    {question}
-                  </Button>
-                ))}
-              </div>
+        {/* Quick Questions - Only show when no conversation */}
+        {messages.length <= 1 && (
+          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 m-4 border border-white/20 shadow-lg">
+            <h4 className="font-semibold mb-3 text-primary">Popular Questions:</h4>
+            <div className="flex flex-wrap gap-2">
+              {quickQuestions.map((question, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  size="sm"
+                  className="text-xs h-auto py-2 hover:bg-primary/5 hover:border-primary/20"
+                  onClick={() => sendMessage(question)}
+                >
+                  {question}
+                </Button>
+              ))}
             </div>
-          )}
+          </div>
+        )}
 
-          <div className="border-t p-4">
-            <div className="flex gap-2">
-              <Textarea
-                ref={textareaRef}
-                placeholder="Ask any legal question..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
-                className="resize-none"
-                rows={2}
-              />
-              <Button
-                onClick={() => sendMessage(input)}
-                disabled={!input.trim() || isLoading}
-                size="icon"
-                className="self-end"
-              >
-                <Send className="h-4 w-4" />
-              </Button>
-            </div>
-            <p className="text-xs text-muted-foreground mt-2">
+        {/* Sticky Input Area */}
+        <div className="bg-white/90 backdrop-blur-xl border-t border-border/50 p-4 shadow-lg">
+          <div className="flex gap-3">
+            <Textarea
+              ref={textareaRef}
+              placeholder="Ask any legal question..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              className="resize-none bg-white/80 border-border/30 focus:border-primary/50 focus:bg-white transition-all duration-200"
+              rows={2}
+              maxLength={1000}
+            />
+            <Button
+              onClick={() => sendMessage(input)}
+              disabled={!input.trim() || isLoading}
+              size="icon"
+              className="self-end bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 shadow-lg h-[72px] w-[72px]"
+            >
+              {isLoading ? (
+                <Loader2 className="h-5 w-5 animate-spin" />
+              ) : (
+                <Send className="h-5 w-5" />
+              )}
+            </Button>
+          </div>
+          <div className="flex justify-between items-center mt-2">
+            <p className="text-xs text-muted-foreground">
               Press Enter to send, Shift+Enter for new line
             </p>
+            <p className="text-xs text-muted-foreground">
+              {input.length}/1000
+            </p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-        <p className="text-sm text-muted-foreground text-center">
-          ⚠️ <strong>Important:</strong> This AI provides educational
-          information only. Responses are not legal advice. For specific legal
-          matters, consult with a qualified attorney.
-        </p>
+      {/* Disclaimer */}
+      <div className="bg-primary/5 backdrop-blur-sm border-t border-border/50 px-6 py-4">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-sm text-muted-foreground text-center flex items-center justify-center gap-2">
+            <AlertCircle className="h-4 w-4 text-amber-500" />
+            <strong>Important:</strong> This AI provides educational information only. Responses are not legal advice. For specific legal matters, consult with a qualified attorney.
+          </p>
+        </div>
       </div>
     </div>
   );
