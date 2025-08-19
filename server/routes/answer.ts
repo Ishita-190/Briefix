@@ -103,31 +103,34 @@ function summarize(text: string, maxSentences = 2) {
 }
 
 function rewriteForLevel(text: string, level: string) {
+  // Clean up the text first
+  const cleaned = text
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\b(Repealed by[^.]*\.)\s*/g, "") // Remove repeated "Repealed by" text
+    .replace(/\b(S\.\s*\d+\s*and\s*Sch\.)\s*/g, ""); // Remove schedule references
+
   const base = summarize(
-    text,
-    level === "lawyer" ? 5 : level === "15-year-old" ? 4 : 3,
+    cleaned,
+    level === "lawyer" ? 3 : level === "15-year-old" ? 2 : 2,
   );
+
   if (level === "12-year-old") {
     // simpler words and shorter lines
     return (
       base
-        .replace(/contract/gi, "agreement")
-        .replace(/obligation/gi, "requirement")
-        .replace(/proceedings?/gi, "process") +
-      " This is a simple explanation to help you understand."
+        .replace(/shall be punished/gi, "can be punished")
+        .replace(/imprisonment/gi, "jail time")
+        .replace(/offender/gi, "person who breaks the law")
+        .replace(/voluntarily/gi, "on purpose") +
+      " (This is explained in simple terms)"
     );
   }
   if (level === "15-year-old") {
-    return (
-      base +
-      " Key ideas are simplified and focused on what matters in practice."
-    );
+    return base + " (Key legal concepts explained for practical understanding)";
   }
   // lawyer
-  return (
-    base +
-    " This overview focuses on material elements, scope, and typical limitations."
-  );
+  return base + " (Legal reference from Indian Penal Code)";
 }
 
 const BodySchema = z.object({
