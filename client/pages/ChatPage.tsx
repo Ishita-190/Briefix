@@ -20,9 +20,16 @@ import {
   Scale,
   Clock,
   Loader2,
+  BookOpen,
+  ExternalLink,
 } from "lucide-react";
 
-import { queryIPC } from "../../shared/api"; // Ensure this path matches your structure
+type Source = {
+  id?: string;
+  title?: string;
+  section?: string;
+  score?: number;
+};
 
 type Message = {
   id: string;
@@ -30,7 +37,40 @@ type Message = {
   content: string;
   timestamp: Date;
   type?: "explanation" | "document" | "procedure" | "general";
+  sources?: Source[];
+  error?: boolean;
 };
+
+type ApiResponse = {
+  answer: string;
+  sources: Source[];
+};
+
+// Enhanced function to use the better /api/answer endpoint
+async function getAnswer(question: string): Promise<ApiResponse> {
+  try {
+    const response = await fetch("/api/answer", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: question,
+        level: "15-year-old", // Default level for chat
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data: ApiResponse = await response.json();
+    return data;
+  } catch (err) {
+    console.error("Error fetching answer:", err);
+    throw err;
+  }
+}
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([
@@ -78,28 +118,33 @@ export default function ChatPage() {
     setInput("");
     setIsLoading(true);
 
-    // Query output.json for relevant answers
-    let responseContent = "";
-    let responseType: Message["type"] = "general";
-
     try {
-      const res = await queryIPC(content);
-      responseContent = res.message;
-      responseType = "document"; // mark as document since it's from the JSON
+      const result = await getAnswer(content);
+
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: result.answer,
+        timestamp: new Date(),
+        type: result.sources.length > 0 ? "document" : "general",
+        sources: result.sources,
+      };
+
+      setMessages((prev) => [...prev, assistantMessage]);
     } catch (err) {
-      responseContent = "Sorry, I couldn't fetch the document data.";
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: "I'm sorry, I couldn't process your question at the moment. Please try again later.",
+        timestamp: new Date(),
+        type: "general",
+        error: true,
+      };
+
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
     }
-
-    const assistantMessage: Message = {
-      id: (Date.now() + 1).toString(),
-      role: "assistant",
-      content: responseContent,
-      timestamp: new Date(),
-      type: responseType,
-    };
-
-    setMessages((prev) => [...prev, assistantMessage]);
-    setIsLoading(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -169,6 +214,8 @@ export default function ChatPage() {
                     className={`max-w-[80%] rounded-lg p-3 ${
                       message.role === "user"
                         ? "bg-primary text-primary-foreground ml-12"
+                        : message.error
+                        ? "bg-destructive/10 border border-destructive/20 mr-12"
                         : "bg-muted mr-12"
                     }`}
                   >
@@ -180,6 +227,37 @@ export default function ChatPage() {
                     <div className="whitespace-pre-wrap text-sm leading-relaxed">
                       {message.content}
                     </div>
+
+                    {/* Sources for assistant messages */}
+                    {message.role === "assistant" && message.sources && message.sources.length > 0 && (
+                      <div className="mt-3 pt-3 border-t border-border/50">
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground mb-2">
+                          <BookOpen className="h-3 w-3" />
+                          <span>Sources:</span>
+                        </div>
+                        <div className="space-y-1">
+                          {message.sources.slice(0, 3).map((source, index) => (
+                            <div key={index} className="flex items-center gap-2 text-xs text-muted-foreground">
+                              <ExternalLink className="h-3 w-3 flex-shrink-0" />
+                              <span className="truncate">
+                                {source.title || source.section || source.id || "Legal Document"}
+                              </span>
+                              {source.score && (
+                                <Badge variant="secondary" className="text-xs px-1 py-0">
+                                  {Math.round(source.score * 100)}%
+                                </Badge>
+                              )}
+                            </div>
+                          ))}
+                          {message.sources.length > 3 && (
+                            <div className="text-xs text-muted-foreground">
+                              +{message.sources.length - 3} more sources
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
                     <div
                       className={`text-xs mt-2 opacity-70 ${
                         message.role === "user" ? "text-right" : "text-left"
