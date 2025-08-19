@@ -39,6 +39,8 @@ type Message = {
   timestamp: Date;
   type?: "explanation" | "document" | "procedure" | "general";
   sources?: Source[];
+  category?: string;
+  urgency?: string;
   error?: boolean;
 };
 
@@ -104,6 +106,8 @@ export default function ChatPage() {
         timestamp: new Date(),
         type: result.sources.length > 0 ? "document" : "general",
         sources: result.sources,
+        category: result.category,
+        urgency: result.urgency,
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -195,10 +199,32 @@ export default function ChatPage() {
                         : "bg-muted mr-12"
                     }`}
                   >
-                    {message.type && message.role === "assistant" && (
-                      <Badge variant="outline" className="mb-2 text-xs">
-                        {message.type}
-                      </Badge>
+                    {message.role === "assistant" && (
+                      <div className="flex flex-wrap gap-1 mb-2">
+                        {message.type && (
+                          <Badge variant="outline" className="text-xs">
+                            {message.type}
+                          </Badge>
+                        )}
+                        {message.category && (
+                          <Badge
+                            variant={message.urgency === 'high' ? 'destructive' : message.urgency === 'medium' ? 'default' : 'secondary'}
+                            className="text-xs"
+                          >
+                            {message.category}
+                          </Badge>
+                        )}
+                        {message.urgency === 'high' && (
+                          <Badge variant="destructive" className="text-xs">
+                            Urgent
+                          </Badge>
+                        )}
+                      </div>
+                    )}
+                    {message.urgency === 'high' && message.role === "assistant" && (
+                      <div className="mb-2 p-2 bg-destructive/10 border border-destructive/20 rounded text-xs text-destructive">
+                        ⚠️ <strong>Important:</strong> This appears to be an urgent legal matter. Please seek immediate legal assistance.
+                      </div>
                     )}
                     <div className="whitespace-pre-wrap text-sm leading-relaxed">
                       {message.content}
