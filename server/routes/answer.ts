@@ -2,6 +2,11 @@ import type { RequestHandler } from "express";
 import fs from "fs";
 import path from "path";
 import { z } from "zod";
+import { 
+  getKnowledgeBaseAnswer, 
+  classifyQuery, 
+  GENERAL_LEGAL_GUIDANCE 
+} from "../lib/legal-knowledge";
 
 // Very small in-memory index built from public/ipc.json
 // Expected schema: Array<{ id?: string; title?: string; section?: string; text: string }>
@@ -113,7 +118,26 @@ function summarize(text: string, maxSentences = 2) {
 }
 
 function rewriteForLevel(text: string, level: string) {
-  // Clean up the text first
+  // For knowledge base content, preserve structure but adjust complexity
+  if (text.includes('**') || text.includes('\n')) {
+    // This is formatted knowledge base content
+    if (level === "12-year-old") {
+      return text
+        .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold formatting for simplicity
+        .replace(/shall be/gi, "can be")
+        .replace(/litigation/gi, "court case")
+        .replace(/consultation/gi, "meeting")
+        .split('\n').slice(0, 8).join('\n') + // Limit content for younger audience
+        "\n\n(Simplified legal guidance)";
+    }
+    if (level === "15-year-old") {
+      return text + "\n\n(Legal guidance for educational purposes)";
+    }
+    // lawyer level - return full content
+    return text + "\n\n(Professional legal reference)";
+  }
+  
+  // For IPC content, clean up as before
   let cleaned = text
     .replace(/\s+/g, " ")
     .trim()
@@ -133,14 +157,13 @@ function rewriteForLevel(text: string, level: string) {
   );
 
   if (level === "12-year-old") {
-    // simpler words and shorter lines
     return (
       base
         .replace(/shall be punished/gi, "can be punished")
         .replace(/imprisonment/gi, "jail time")
         .replace(/offender/gi, "person who breaks the law")
         .replace(/voluntarily/gi, "on purpose") +
-      " (This is explained in simple terms)"
+      " (From Indian Penal Code - simplified)"
     );
   }
   if (level === "15-year-old") {
@@ -156,21 +179,13 @@ const BodySchema = z.object({
 });
 
 export const handleAnswer: RequestHandler = (req, res) => {
-  loadCorpusOnce();
   const parsed = BodySchema.safeParse(req.body);
   if (!parsed.success) {
     return res.status(400).json({ error: "Invalid request body" });
   }
   const { query, level = "15-year-old" } = parsed.data;
 
-  console.log(`[Answer API] Query: "${query}", Level: ${level}, Corpus size: ${CORPUS.length}`);
-
-  if (!CORPUS.length) {
-    console.error("[Answer API] Knowledge base is empty - check ipc.json file");
-    return res
-      .status(200)
-      .json({ answer: "Knowledge base is empty.", sources: [] });
-  }
+  console.log(`[Answer API] Query: "${query}", Level: ${level}`);
 
   // Filter out very short or generic queries
   if (query.trim().length < 3) {
@@ -179,14 +194,78 @@ export const handleAnswer: RequestHandler = (req, res) => {
       sources: [],
     });
   }
+
+  // First, try the comprehensive knowledge base
+  const knowledgeAnswer = getKnowledgeBaseAnswer(query);
+  if (knowledgeAnswer) {
+    console.log(`[Answer API] Found knowledge base answer for category: ${knowledgeAnswer.category}`);
+    return res.json({
+      answer: rewriteForLevel(knowledgeAnswer.answer, level),
+      sources: knowledgeAnswer.sources.map(source => ({
+        title: source.title,
+        type: source.type,
+        category: knowledgeAnswer.category,
+        urgency: knowledgeAnswer.urgency
+      })),
+      category: knowledgeAnswer.category,
+      urgency: knowledgeAnswer.urgency
+    });
+  }
+
+  // If not found in knowledge base, try IPC data
+  loadCorpusOnce();
+  console.log(`[Answer API] Searching IPC corpus (size: ${CORPUS.length})`);
+
+  if (!CORPUS.length) {
+    console.error("[Answer API] Knowledge base is empty - check ipc.json file");
+    // Provide general legal guidance as fallback
+    const fallbackAnswer = `I don't have access to the Indian Penal Code database right now, but I can provide general legal guidance.
+
+${GENERAL_LEGAL_GUIDANCE.generalAdvice}
+
+**For your specific question, I recommend:**
+- Consulting with a qualified attorney
+- Contacting your local bar association for referrals
+- Seeking legal aid if you qualify for free assistance`;
+    
+    return res.status(200).json({
+      answer: rewriteForLevel(fallbackAnswer, level),
+      sources: [{
+        title: "General Legal Guidance",
+        type: "guidance",
+        category: "General"
+      }],
+      category: "General Guidance"
+    });
+  }
+
   const matches = topMatches(query, 3);
   if (!matches.length) {
+    // Provide general legal guidance as fallback
+    const queryType = classifyQuery(query);
+    let fallbackAnswer = "";
+
+    if (query.toLowerCase().includes('lawyer') || query.toLowerCase().includes('attorney')) {
+      fallbackAnswer = GENERAL_LEGAL_GUIDANCE.findLawyer;
+    } else {
+      fallbackAnswer = `I couldn't find specific information about "${query}" in the Indian Penal Code (criminal law database). 
+
+${GENERAL_LEGAL_GUIDANCE.generalAdvice}
+
+**For your specific question, I recommend:**
+- Consulting with a qualified attorney
+- Contacting your local bar association for referrals
+- Seeking legal aid if you qualify for free assistance`;
+    }
+
     return res.status(200).json({
-      answer: rewriteForLevel(
-        "No direct match found in the Indian Penal Code for this query. Please try rephrasing your question or ask about specific legal concepts like theft, assault, contracts, or procedures.",
-        level,
-      ),
-      sources: [],
+      answer: rewriteForLevel(fallbackAnswer, level),
+      sources: [{
+        title: "General Legal Guidance",
+        type: "guidance",
+        category: "General"
+      }],
+      category: "General Guidance"
     });
   }
 
@@ -197,10 +276,22 @@ export const handleAnswer: RequestHandler = (req, res) => {
   if (bestMatch.score < 1) {
     return res.status(200).json({
       answer: rewriteForLevel(
-        "I couldn't find a specific section in the Indian Penal Code that directly answers your question. Please try asking about specific legal concepts like 'theft', 'assault', 'murder', 'contract', or 'fraud'.",
+        `I couldn't find a specific section in the Indian Penal Code that directly answers your question about "${query}". 
+
+The Indian Penal Code primarily covers criminal offenses. For civil matters, contracts, or legal procedures, you may need guidance from other legal sources.
+
+**I recommend:**
+- Consulting with a qualified attorney
+- Contacting your local bar association for referrals
+- Seeking legal aid if you qualify for assistance`,
         level,
       ),
-      sources: [],
+      sources: [{
+        title: "General Legal Guidance",
+        type: "guidance", 
+        category: "General"
+      }],
+      category: "General Guidance"
     });
   }
 
@@ -224,5 +315,11 @@ export const handleAnswer: RequestHandler = (req, res) => {
       });
     }
   });
-  res.json({ answer, sources });
+
+  res.json({ 
+    answer, 
+    sources,
+    category: "Indian Penal Code",
+    urgency: "medium"
+  });
 };
