@@ -25,7 +25,7 @@ type ComplexityLevel = "12-year-old" | "15-year-old" | "lawyer";
 // Helper function to fetch output.json and search for relevant snippet
 async function queryIPC(question: string): Promise<string> {
   try {
-    const res = await fetch("/output.json"); // output.json should be in public/
+    const res = await fetch("/ipc.json"); 
     const data = await res.json();
 
     // Simple keyword match in JSON
