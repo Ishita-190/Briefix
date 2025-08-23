@@ -1,31 +1,31 @@
 import type { Context } from "@netlify/functions";
 
 export default async (req: Request, context: Context) => {
-  const url = new URL(req.url);
-  const path = url.pathname.replace("/.netlify/functions/api", "");
-  const method = req.method;
-
-  console.log("=== Netlify Function Debug ===");
-  console.log("Full URL:", req.url);
-  console.log("Pathname:", url.pathname);
-  console.log("Processed path:", path);
-  console.log("Method:", method);
-  console.log("Headers:", Object.fromEntries(req.headers.entries()));
-
-  // Set CORS headers
-  const headers = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  };
-
-  // Handle preflight
-  if (method === "OPTIONS") {
-    console.log("Handling OPTIONS preflight");
-    return new Response(null, { status: 200, headers });
-  }
-
   try {
+    const url = new URL(req.url);
+    const path = url.pathname.replace("/.netlify/functions/api", "");
+    const method = req.method;
+
+    console.log("=== Netlify Function Debug ===");
+    console.log("Full URL:", req.url);
+    console.log("Pathname:", url.pathname);
+    console.log("Processed path:", path);
+    console.log("Method:", method);
+
+    // Set CORS headers
+    const headers = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Content-Type": "application/json",
+    };
+
+    // Handle preflight
+    if (method === "OPTIONS") {
+      console.log("Handling OPTIONS preflight");
+      return new Response(null, { status: 200, headers });
+    }
+
     // ---- TEST ENDPOINT ----
     if (path === "/test" && method === "GET") {
       console.log("Handling /test request");
@@ -36,44 +36,50 @@ export default async (req: Request, context: Context) => {
         method: method
       }), {
         status: 200,
-        headers: { ...headers, "Content-Type": "application/json" },
+        headers,
       });
     }
 
     // ---- PING ----
     if (path === "/ping" && method === "GET") {
       console.log("Handling /ping request");
-      const ping = process.env.PING_MESSAGE ?? "ping";
-      return new Response(JSON.stringify({ message: ping }), {
+      return new Response(JSON.stringify({ 
+        message: "pong",
+        timestamp: new Date().toISOString()
+      }), {
         status: 200,
-        headers: { ...headers, "Content-Type": "application/json" },
+        headers,
       });
     }
 
     // ---- DEMO ----
     if (path === "/demo" && method === "GET") {
       console.log("Handling /demo request");
-      const response = {
+      return new Response(JSON.stringify({
         message: "Hello from Netlify Function - Legal AI Assistant is ready!",
-      };
-      return new Response(JSON.stringify(response), {
+        timestamp: new Date().toISOString()
+      }), {
         status: 200,
-        headers: { ...headers, "Content-Type": "application/json" },
+        headers,
       });
     }
 
     // ---- ANSWER ----
     if (path === "/answer" && method === "POST") {
       console.log("Handling /answer request");
+      
       let body: any;
       try {
         body = await req.json();
         console.log("Request body:", body);
       } catch (err) {
         console.error("Invalid JSON:", err);
-        return new Response(JSON.stringify({ error: "Invalid JSON" }), {
+        return new Response(JSON.stringify({ 
+          error: "Invalid JSON",
+          details: err instanceof Error ? err.message : "Unknown error"
+        }), {
           status: 400,
-          headers: { ...headers, "Content-Type": "application/json" },
+          headers,
         });
       }
 
@@ -89,7 +95,7 @@ export default async (req: Request, context: Context) => {
           urgency: "low"
         }), {
           status: 200,
-          headers: { ...headers, "Content-Type": "application/json" },
+          headers,
         });
       }
 
@@ -358,18 +364,34 @@ Remember: While I can provide general information, legal advice should come from
       console.log("Sending response:", response);
       return new Response(JSON.stringify(response), {
         status: 200,
-        headers: { ...headers, "Content-Type": "application/json" },
+        headers,
       });
     }
 
     // ---- NOT FOUND ----
     console.log("No matching route found, returning 404");
-    return new Response("Not Found", { status: 404, headers });
+    return new Response(JSON.stringify({ 
+      error: "Not Found",
+      message: "The requested endpoint was not found",
+      availableEndpoints: ["/test", "/ping", "/demo", "/answer"]
+    }), { 
+      status: 404, 
+      headers 
+    });
   } catch (err) {
     console.error("Top-level error:", err);
-    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+    return new Response(JSON.stringify({ 
+      error: "Internal Server Error",
+      message: err instanceof Error ? err.message : "Unknown error occurred",
+      timestamp: new Date().toISOString()
+    }), {
       status: 500,
-      headers: { ...headers, "Content-Type": "application/json" },
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Content-Type": "application/json",
+      },
     });
   }
 };
