@@ -75,312 +75,444 @@ export const apiCache = new ApiCache();
 function getFallbackResponse(query: string, level: string = "15-year-old") {
   const queryLower = query.toLowerCase();
   
-  // Legal concept explanations
-  if (queryLower.includes("misdemeanor") || queryLower.includes("felony")) {
+  // ===== GENERAL RIGHTS & CRIMINAL LAW =====
+  if (queryLower.includes("arrested") && queryLower.includes("rights")) {
     return {
-      answer: `A **misdemeanor** is a less serious crime that typically results in fines, probation, or jail time of less than one year. Examples include petty theft, simple assault, and traffic violations.
+      answer: `**Your Rights When Arrested by Police in India:**
 
-A **felony** is a more serious crime that can result in imprisonment for more than one year, and in some cases, life imprisonment or even the death penalty. Examples include murder, rape, robbery, and drug trafficking.
+**Immediate Rights:**
+- **Right to know the reason** for arrest (Article 22(1))
+- **Right to remain silent** - You don't have to answer questions
+- **Right to legal representation** - You can ask for a lawyer
+- **Right to inform family/friend** about your arrest
+- **Right to medical examination** if needed
 
-The main differences are:
-- **Severity**: Felonies are more serious than misdemeanors
-- **Punishment**: Felonies carry longer prison sentences
-- **Rights**: Felony convictions can result in loss of voting rights and gun ownership
-- **Employment**: Felony convictions can make it harder to find employment`,
+**What Police Must Do:**
+- Inform you of the grounds of arrest
+- Take you to the nearest magistrate within 24 hours
+- Allow you to contact a lawyer
+- Provide you with a copy of the arrest memo
+
+**What You Should Do:**
+- Stay calm and don't resist arrest
+- Ask for the reason for arrest
+- Request to call a lawyer immediately
+- Ask to inform your family
+- Don't sign any documents without reading
+- Remember: "I want to speak to my lawyer"
+
+**Important:** These rights apply to everyone, including foreigners. If your rights are violated, document everything and contact a lawyer immediately.`,
       sources: [
-        { title: "Criminal Law Basics", type: "legal_concept" },
-        { title: "Misdemeanor vs Felony", type: "comparison" }
+        { title: "Constitutional Rights - Article 22", type: "constitutional" },
+        { title: "Criminal Procedure Code", type: "legal_concept" }
+      ],
+      category: "criminal_law",
+      urgency: "high"
+    };
+  } else if (queryLower.includes("search") && queryLower.includes("warrant")) {
+    return {
+      answer: `**Police Search Without Warrant - Your Rights:**
+
+**When Police CAN Search Without Warrant:**
+- **Arrest situations** - During lawful arrest
+- **Hot pursuit** - Chasing a suspect
+- **Consent given** - If you voluntarily allow
+- **Emergency situations** - To prevent crime or injury
+- **Vehicle searches** - If there's reasonable suspicion
+
+**When Police CANNOT Search Without Warrant:**
+- **Your home** - Unless you consent or it's an emergency
+- **Private property** - Without proper authorization
+- **Personal belongings** - Without reasonable cause
+
+**Your Rights During Search:**
+- **Ask to see the warrant** (if they claim to have one)
+- **Refuse consent** - You can say "I do not consent to this search"
+- **Witness requirement** - Two independent witnesses should be present
+- **Receipt for seized items** - You must get a list of items taken
+- **Right to remain silent** - Don't answer questions
+
+**What to Do:**
+- Stay calm and respectful
+- Ask "Do you have a warrant?"
+- If no warrant, say "I do not consent to this search"
+- Document everything that happens
+- Contact a lawyer immediately if rights are violated
+
+**Remember:** Always consult a lawyer if you believe your rights were violated.`,
+      sources: [
+        { title: "Criminal Procedure Code - Section 100", type: "legal_concept" },
+        { title: "Constitutional Rights", type: "constitutional" }
+      ],
+      category: "criminal_law",
+      urgency: "high"
+    };
+  } else if (queryLower.includes("fir") || queryLower.includes("first information report")) {
+    return {
+      answer: `**How to File an FIR (First Information Report):**
+
+**What is an FIR:**
+- First Information Report is the initial complaint to police
+- It sets the criminal law in motion
+- Must be filed at the police station where the crime occurred
+
+**How to File an FIR:**
+1. **Go to the police station** where the crime occurred
+2. **Ask for the duty officer** or station house officer
+3. **Narrate your complaint** clearly and completely
+4. **Provide all details** - date, time, place, people involved
+5. **Sign the complaint** after reading it carefully
+6. **Get a copy** of the FIR with stamp and signature
+
+**What to Include in FIR:**
+- Your name and address
+- Date and time of incident
+- Place where it happened
+- Names of accused (if known)
+- Description of what happened
+- Names of witnesses (if any)
+
+**If Police Refuse to Register FIR:**
+- **Ask for written refusal** with reasons
+- **File complaint to Superintendent of Police**
+- **Approach the Magistrate** under Section 156(3) CrPC
+- **Contact a lawyer** for legal assistance
+
+**Important:** 
+- Don't leave without getting a copy of the FIR
+- Keep the FIR number safe for future reference
+- You can file an FIR even if you don't know the accused
+
+**Remember:** FIR is your right - police cannot refuse without valid reasons.`,
+      sources: [
+        { title: "Criminal Procedure Code - Section 154", type: "legal_concept" },
+        { title: "Police Manual", type: "procedure" }
+      ],
+      category: "criminal_law",
+      urgency: "high"
+    };
+  } else if (queryLower.includes("bail") && queryLower.includes("arrested")) {
+    return {
+      answer: `**How to Get Bail When Arrested:**
+
+**Types of Bail:**
+1. **Regular Bail** - After arrest, before trial
+2. **Anticipatory Bail** - Before arrest (preventive)
+3. **Interim Bail** - Temporary bail during proceedings
+
+**Regular Bail Process:**
+1. **File bail application** in the appropriate court
+2. **Hire a lawyer** (recommended for better chances)
+3. **Present arguments** for why bail should be granted
+4. **Court decides** based on various factors
+
+**Factors Courts Consider:**
+- **Nature of offence** - Serious crimes get stricter scrutiny
+- **Evidence against you** - Strong evidence may deny bail
+- **Criminal history** - Previous convictions matter
+- **Flight risk** - Will you appear for trial?
+- **Witness tampering** - Risk of influencing witnesses
+- **Public safety** - Risk to society if released
+
+**Grounds for Bail:**
+- **Bailable offences** - Right to bail
+- **Non-bailable offences** - Court's discretion
+- **Reasonable grounds** to believe you're not guilty
+- **No risk** of absconding or tampering with evidence
+
+**What to Do:**
+- **Contact a lawyer immediately** after arrest
+- **Gather character certificates** and references
+- **Show strong community ties** (family, job, property)
+- **Demonstrate you'll appear** for trial
+- **Be prepared to give sureties** if required
+
+**Important:** Bail is not acquittal - you must attend all court hearings.`,
+      sources: [
+        { title: "Criminal Procedure Code - Sections 436-450", type: "legal_concept" },
+        { title: "Bail Guidelines", type: "procedure" }
+      ],
+      category: "criminal_law",
+      urgency: "high"
+    };
+  } else if (queryLower.includes("anticipatory bail")) {
+    return {
+      answer: `**Anticipatory Bail - Protection Before Arrest:**
+
+**What is Anticipatory Bail:**
+- Protection against arrest before it happens
+- Granted when you fear wrongful arrest
+- Prevents harassment and protects reputation
+
+**When to Apply:**
+- **Fear of false arrest** in a case
+- **Political vendetta** or personal enmity
+- **Business disputes** leading to criminal complaints
+- **Matrimonial disputes** with false allegations
+- **Property disputes** with criminal complaints
+
+**How to Apply:**
+1. **File application** in High Court or Sessions Court
+2. **Show reasonable apprehension** of arrest
+3. **Provide grounds** why arrest is not justified
+4. **Submit supporting documents**
+5. **Court hears both sides** and decides
+
+**Factors Courts Consider:**
+- **Nature of allegations** - Seriousness of offence
+- **Evidence available** - Strength of case against you
+- **Your background** - Criminal history, character
+- **Genuineness of fear** - Real apprehension vs. delaying tactics
+- **Public interest** - Impact on investigation
+
+**Conditions Usually Imposed:**
+- **Cooperate with investigation**
+- **Not leave the country** without permission
+- **Not contact witnesses** or co-accused
+- **Appear before police** when called
+- **Not commit similar offences**
+
+**Advantages:**
+- **Protects from arrest** during investigation
+- **Maintains reputation** and dignity
+- **Allows normal life** while case is pending
+- **Reduces harassment** and mental stress
+
+**Important:** Apply before arrest - once arrested, you need regular bail.`,
+      sources: [
+        { title: "Criminal Procedure Code - Section 438", type: "legal_concept" },
+        { title: "Supreme Court Guidelines", type: "precedent" }
       ],
       category: "criminal_law",
       urgency: "medium"
     };
-  } else if (queryLower.includes("lawyer") || queryLower.includes("attorney")) {
+  } else if (queryLower.includes("landlord") && queryLower.includes("evict")) {
     return {
-      answer: `You typically need a lawyer when:
+      answer: `**Landlord Eviction Rights in India:**
 
-**Criminal Cases:**
-- You're charged with a crime
-- You're under investigation
-- You need to understand your rights
+**When Landlord CAN Evict:**
+- **Non-payment of rent** for 2+ months
+- **Subletting without permission**
+- **Using property for illegal purposes**
+- **Causing nuisance** to neighbors
+- **Property damage** beyond normal wear
+- **Landlord needs property** for personal use
+- **Renovation/repair** requiring vacant possession
 
-**Civil Cases:**
-- You're being sued or want to sue someone
-- You're involved in a contract dispute
-- You're dealing with family law issues (divorce, custody)
+**Proper Eviction Process:**
+1. **Notice period required** - Usually 30-90 days
+2. **Written notice** with reasons for eviction
+3. **Reasonable time** to vacate
+4. **Court order** if tenant refuses to leave
+5. **No force** - Cannot use physical force
 
-**Business Matters:**
-- Starting a business
-- Employment disputes
-- Real estate transactions
+**Tenant Rights:**
+- **Right to notice** before eviction
+- **Right to challenge** eviction in court
+- **Right to reasonable time** to find alternative accommodation
+- **Right to security deposit** return
+- **Right to peaceful possession** until court order
 
-**Other Situations:**
-- Estate planning (wills, trusts)
-- Bankruptcy
-- Immigration issues
+**What to Do If Threatened with Eviction:**
+1. **Check your lease agreement** for terms
+2. **Pay rent on time** if that's the issue
+3. **Get legal notice** in writing
+4. **Consult a lawyer** immediately
+5. **File case** if eviction is illegal
+6. **Document everything** - notices, payments, communications
 
-**When you DON'T need a lawyer:**
-- Simple traffic tickets
-- Small claims court (usually under $5,000)
-- Basic legal forms (with proper research)
+**Illegal Eviction Tactics to Watch For:**
+- **Cutting electricity/water** supply
+- **Changing locks** without notice
+- **Threatening behavior** or harassment
+- **Removing belongings** without permission
+- **Physical force** or intimidation
 
-**How to find a lawyer:**
-- Ask friends and family for recommendations
-- Contact your local bar association
-- Use online legal directories
-- Consider legal aid if you can't afford one`,
+**Remember:** Landlords cannot evict without following proper legal procedure.`,
       sources: [
-        { title: "When to Hire a Lawyer", type: "guidance" },
-        { title: "Legal Representation Guide", type: "resource" }
+        { title: "Rent Control Laws", type: "legal_concept" },
+        { title: "Tenant Rights", type: "rights" }
       ],
-      category: "legal_guidance",
-      urgency: "medium"
-    };
-  } else if (queryLower.includes("rights") && queryLower.includes("police")) {
-    return {
-      answer: `**Your Rights During a Police Stop:**
-
-**You have the right to:**
-- Remain silent (5th Amendment)
-- Ask if you're free to leave
-- Refuse consent to search (unless they have a warrant)
-- Request a lawyer if arrested
-- Know why you're being detained
-
-**What you should do:**
-- Stay calm and respectful
-- Keep your hands visible
-- Don't resist or argue
-- Ask "Am I free to leave?"
-- If arrested, say "I want to speak to a lawyer"
-
-**What you DON'T have to do:**
-- Answer questions beyond basic identification
-- Consent to searches without a warrant
-- Allow police into your home without a warrant
-- Submit to field sobriety tests (though refusing may have consequences)
-
-**Important:** These rights apply to everyone, regardless of citizenship status. If your rights are violated, document everything and contact a lawyer.`,
-      sources: [
-        { title: "Constitutional Rights", type: "constitutional" },
-        { title: "Police Interaction Guide", type: "rights" }
-      ],
-      category: "constitutional_rights",
+      category: "property_law",
       urgency: "high"
     };
-  } else if (queryLower.includes("bankruptcy")) {
+  } else if (queryLower.includes("terminate") && queryLower.includes("notice")) {
     return {
-      answer: `**Bankruptcy** is a legal process that helps people who can't pay their debts get a fresh start.
+      answer: `**Employee Termination Rights in India:**
 
-**Types of Bankruptcy:**
+**Legal Termination Requirements:**
+- **Written notice** required (usually 30-90 days)
+- **Valid reasons** for termination
+- **Proper procedure** must be followed
+- **Severance pay** in many cases
+- **No discrimination** based on protected categories
 
-**Chapter 7 (Liquidation):**
-- Sells your non-exempt property to pay creditors
-- Discharges most debts
-- Takes 3-6 months to complete
-- You can keep essential items (clothing, basic furniture, tools)
+**Valid Reasons for Termination:**
+- **Poor performance** after warnings and improvement time
+- **Misconduct** - theft, fraud, violence, harassment
+- **Absenteeism** without proper leave
+- **Breach of company policies**
+- **Redundancy** - job no longer exists
+- **Business closure** or restructuring
 
-**Chapter 13 (Reorganization):**
-- Creates a 3-5 year repayment plan
-- You keep your property
-- Pay back a portion of your debts
-- Good for people with regular income
+**Employee Rights:**
+- **Notice period** or pay in lieu
+- **Severance pay** (if applicable)
+- **Gratuity** (after 5 years of service)
+- **Leave encashment** for unused leaves
+- **Experience certificate** and relieving letter
+- **No discrimination** based on caste, religion, gender, etc.
 
-**What Bankruptcy CAN do:**
-- Stop creditor harassment
-- Stop wage garnishment
-- Discharge credit card debt
-- Stop foreclosure (temporarily)
-- Give you a fresh financial start
+**What to Do If Terminated:**
+1. **Get termination letter** in writing
+2. **Ask for reasons** in writing
+3. **Check if notice period** was given
+4. **Calculate dues** - salary, leave, gratuity
+5. **Get experience certificate**
+6. **Consult a lawyer** if termination seems unfair
 
-**What Bankruptcy CAN'T do:**
-- Discharge student loans (usually)
-- Discharge recent taxes
-- Discharge child support/alimony
-- Protect co-signers
+**Unfair Termination Grounds:**
+- **No valid reason** provided
+- **No notice period** given
+- **Discrimination** based on protected categories
+- **Retaliation** for whistleblowing
+- **Pregnancy** or maternity leave
+- **Union activities** or organizing
 
-**Before filing:**
-- Consult with a bankruptcy attorney
-- Consider alternatives (debt consolidation, credit counseling)
-- Understand the long-term impact on your credit`,
+**Legal Remedies:**
+- **File complaint** with Labor Commissioner
+- **Approach Industrial Tribunal** (for covered establishments)
+- **File civil suit** for damages
+- **Approach High Court** for writ petition
+
+**Important:** Document everything and get legal advice if termination seems unfair.`,
       sources: [
-        { title: "Bankruptcy Law", type: "legal_concept" },
-        { title: "Financial Relief Options", type: "guidance" }
+        { title: "Industrial Disputes Act", type: "legal_concept" },
+        { title: "Payment of Gratuity Act", type: "legal_concept" }
       ],
-      category: "bankruptcy",
-      urgency: "medium"
-    };
-  } else if (queryLower.includes("sued") || queryLower.includes("lawsuit")) {
-    return {
-      answer: `**If you're being sued, here's what you need to do:**
-
-**Immediate Steps:**
-1. **Don't ignore it** - You must respond within the deadline (usually 20-30 days)
-2. **Read the papers carefully** - Understand what you're being sued for
-3. **Contact a lawyer immediately** - This is crucial
-4. **Document everything** - Keep copies of all papers and communications
-
-**What the papers mean:**
-- **Complaint**: Explains why you're being sued
-- **Summons**: Tells you when to respond
-- **Service**: How you received the papers
-
-**Your options:**
-- **Respond and defend** - Fight the lawsuit
-- **Settle** - Agree to pay or compromise
-- **Default** - Don't respond (NOT recommended - you'll lose)
-
-**How to respond:**
-- File an "Answer" with the court
-- Deny or admit each allegation
-- Raise any defenses you have
-- Meet all deadlines
-
-**Common defenses:**
-- Statute of limitations (too much time has passed)
-- Lack of jurisdiction
-- Improper service
-- Factual disputes
-
-**Important:** Never ignore a lawsuit. Even if you think it's unfair, you must respond or you'll lose by default.`,
-      sources: [
-        { title: "Civil Procedure", type: "legal_concept" },
-        { title: "Responding to Lawsuits", type: "guidance" }
-      ],
-      category: "civil_law",
+      category: "employment_law",
       urgency: "high"
     };
-  } else if (queryLower.includes("restraining order") || queryLower.includes("protection order")) {
+  } else if (queryLower.includes("divorce") && queryLower.includes("grounds")) {
     return {
-      answer: `**Restraining Orders (Protection Orders):**
+      answer: `**Grounds for Divorce in India:**
 
-**What they do:**
-- Order someone to stay away from you
-- Prohibit contact (calls, texts, social media)
-- Can order them to move out of shared home
-- Can include children and pets
+**Mutual Consent Divorce:**
+- **Both parties agree** to divorce
+- **Living separately** for 1+ years
+- **No coercion** or pressure
+- **Settlement** of all issues (maintenance, custody, property)
+- **Faster process** - 6-18 months
 
-**Types:**
-- **Emergency/Temporary**: Immediate protection (24-72 hours)
-- **Permanent**: Longer-term protection (1-5 years)
-- **Criminal**: Issued after criminal charges
+**Fault-Based Grounds (Hindu Marriage Act):**
+1. **Adultery** - Extra-marital relationship
+2. **Cruelty** - Physical or mental cruelty
+3. **Desertion** - Abandonment for 2+ years
+4. **Conversion** to another religion
+5. **Mental disorder** making cohabitation impossible
+6. **Venereal disease** in communicable form
+7. **Renunciation** of world (sanyas)
+8. **Presumption of death** - missing for 7+ years
 
-**How to get one:**
-1. **Go to courthouse** - Family court or domestic violence court
-2. **Fill out forms** - Explain why you need protection
-3. **See a judge** - Usually same day for emergency orders
-4. **Serve the other person** - They must be notified
+**Special Grounds for Wife:**
+- **Bigamy** by husband
+- **Rape, sodomy, or bestiality** by husband
+- **Non-resumption of cohabitation** after maintenance order
+- **Marriage before 15 years** of age
 
-**What you need to prove:**
-- You're in immediate danger
-- The person has harmed or threatened you
-- You have a relationship (spouse, ex, family, roommate)
+**Process for Divorce:**
+1. **File petition** in appropriate court
+2. **Serve notice** to other party
+3. **Attempt reconciliation** (mandatory in some cases)
+4. **Present evidence** and arguments
+5. **Court decision** based on grounds and evidence
 
-**If you're served with one:**
-- **Don't violate it** - Even if you disagree
-- **Get a lawyer** - You can fight it in court
-- **Document everything** - Keep records of violations
-- **Stay away** - No contact means NO contact
+**Required Documents:**
+- **Marriage certificate**
+- **Address proof** of both parties
+- **Evidence** supporting grounds for divorce
+- **Witness statements** (if applicable)
+- **Financial documents** for maintenance/alimony
 
-**Violations are serious:**
-- Can result in arrest
-- Criminal charges
-- Jail time
+**Important Considerations:**
+- **Child custody** arrangements
+- **Maintenance/alimony** calculations
+- **Property division** and settlement
+- **Future remarriage** implications
+- **Social and family** impact
 
-**Resources:**
-- Domestic violence hotlines
-- Legal aid organizations
-- Court self-help centers`,
+**Remember:** Divorce is a serious decision - consider counseling and mediation before filing.`,
       sources: [
-        { title: "Domestic Violence Law", type: "legal_concept" },
-        { title: "Protection Order Guide", type: "procedure" }
-      ],
-      category: "domestic_violence",
-      urgency: "high"
-    };
-  } else if (queryLower.includes("divorce") || queryLower.includes("custody")) {
-    return {
-      answer: `**Divorce and Custody Proceedings:**
-
-**Divorce Process:**
-1. **File a petition** - Start the divorce process
-2. **Serve papers** - Notify your spouse
-3. **Discovery** - Exchange financial information
-4. **Negotiation** - Try to reach agreement
-5. **Trial** - If no agreement, court decides
-
-**Child Custody:**
-- **Legal custody**: Right to make major decisions
-- **Physical custody**: Where child lives
-- **Joint custody**: Both parents share responsibilities
-- **Sole custody**: One parent has primary responsibility
-
-**Factors courts consider:**
-- Child's best interests
-- Parent's ability to care for child
-- Child's relationship with each parent
-- Stability and continuity
-- Any history of abuse or neglect
-
-**Child Support:**
-- Based on income of both parents
-- Considers child's needs
-- Can be modified if circumstances change
-
-**Property Division:**
-- Marital property is divided fairly
-- Separate property usually stays with original owner
-- Consider length of marriage, contributions, needs
-
-**Important:** Divorce and custody cases are complex. Always consult with a family law attorney.`,
-      sources: [
-        { title: "Family Law", type: "legal_concept" },
-        { title: "Divorce and Custody Guide", type: "procedure" }
+        { title: "Hindu Marriage Act", type: "legal_concept" },
+        { title: "Special Marriage Act", type: "legal_concept" }
       ],
       category: "family_law",
       urgency: "high"
     };
-  } else if (queryLower.includes("contract") || queryLower.includes("agreement")) {
+  } else if (queryLower.includes("consumer complaint")) {
     return {
-      answer: `**Understanding Contracts and Agreements:**
+      answer: `**How to File a Consumer Complaint:**
 
-**What makes a contract valid:**
-- **Offer and acceptance** - Both parties agree
-- **Consideration** - Something of value exchanged
-- **Capacity** - Both parties are legally able to contract
-- **Legality** - Purpose must be legal
-- **Mutual intent** - Both parties intend to be bound
+**What is Consumer Complaint:**
+- Dispute with seller/service provider
+- Defective products or poor services
+- Unfair trade practices
+- Overcharging or hidden charges
 
-**Types of contracts:**
-- **Written contracts** - Most formal, best protection
-- **Oral contracts** - Valid but harder to prove
-- **Implied contracts** - Created by actions, not words
+**Where to File:**
+1. **District Consumer Forum** - Claims up to ₹20 lakhs
+2. **State Commission** - Claims ₹20 lakhs to ₹1 crore
+3. **National Commission** - Claims above ₹1 crore
 
-**Common contract issues:**
-- **Breach of contract** - One party doesn't fulfill obligations
-- **Misrepresentation** - False statements made
-- **Duress** - Forced to sign under pressure
-- **Unconscionability** - Extremely unfair terms
+**How to File Complaint:**
+1. **Draft complaint** with all details
+2. **Attach supporting documents**
+3. **Pay filing fee** (varies by claim amount)
+4. **Submit to appropriate forum**
+5. **Attend hearings** when called
 
-**Before signing a contract:**
-- Read it completely
-- Understand all terms
-- Ask questions about unclear parts
-- Consider having a lawyer review it
-- Don't sign under pressure
+**Required Information:**
+- **Your details** - name, address, contact
+- **Opposite party details** - seller/service provider
+- **Description of problem** - what went wrong
+- **Relief sought** - refund, replacement, compensation
+- **Supporting documents** - bills, receipts, correspondence
 
-**If you have a contract dispute:**
-- Document everything
-- Try to resolve informally first
-- Consider mediation
-- Consult with a contract lawyer
-- Be aware of time limits for legal action
+**Supporting Documents:**
+- **Purchase receipts** and bills
+- **Warranty cards** and guarantees
+- **Correspondence** with seller
+- **Photos/videos** of defective product
+- **Expert reports** (if applicable)
+- **Bank statements** showing payment
 
-**Remember:** A contract is a legally binding agreement. Take it seriously and get help if you're unsure.`,
+**Relief You Can Claim:**
+- **Refund** of money paid
+- **Replacement** of defective product
+- **Repair** of product at seller's cost
+- **Compensation** for mental harassment
+- **Punitive damages** for unfair practices
+
+**Process Timeline:**
+- **Filing** - Same day
+- **Notice to opposite party** - 1-2 weeks
+- **Response time** - 30-45 days
+- **Hearing and decision** - 3-6 months
+- **Appeal period** - 30 days
+
+**Advantages of Consumer Forum:**
+- **No lawyer required** in most cases
+- **Faster resolution** than civil courts
+- **Lower costs** than regular courts
+- **Consumer-friendly** procedures
+- **Can claim compensation** for harassment
+
+**Remember:** Keep all documents and correspondence for evidence.`,
       sources: [
-        { title: "Contract Law", type: "legal_concept" },
-        { title: "Contract Basics", type: "guidance" }
+        { title: "Consumer Protection Act", type: "legal_concept" },
+        { title: "Consumer Rights", type: "rights" }
       ],
-      category: "contract_law",
+      category: "consumer_law",
       urgency: "medium"
     };
   } else {
