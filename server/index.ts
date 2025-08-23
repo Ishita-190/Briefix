@@ -1,8 +1,8 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import { handleDemo } from "./routes/demo";
-import { handleAnswer } from "./routes/answer";
+import { handler as demoHandler } from "./routes/demo";
+import { handler as answerHandler } from "./routes/answer";
 
 export function createServer() {
   const app = express();
@@ -18,8 +18,24 @@ export function createServer() {
     res.json({ message: ping });
   });
 
-  app.get("/api/demo", handleDemo);
-  app.post("/api/answer", handleAnswer);
+  // Wrapper functions to convert Netlify handler format to Express format
+  app.get("/api/demo", async (req, res) => {
+    try {
+      const result = await demoHandler({});
+      res.status(result.statusCode).json(JSON.parse(result.body));
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.post("/api/answer", async (req, res) => {
+    try {
+      const result = await answerHandler({ body: JSON.stringify(req.body) });
+      res.status(result.statusCode).json(JSON.parse(result.body));
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
 
   return app;
 }
