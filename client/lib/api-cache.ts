@@ -98,7 +98,14 @@ export async function getCachedAnswer(
   }
 
   try {
-    const response = await fetch("/api/answer", {
+    // Determine the correct API URL based on environment
+    const isDevelopment = import.meta.env.DEV;
+    const baseUrl = isDevelopment ? "" : "";
+    const apiUrl = `${baseUrl}/api/answer`;
+
+    console.log("Making API request to:", apiUrl);
+
+    const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -109,11 +116,17 @@ export async function getCachedAnswer(
       }),
     });
 
+    console.log("Response status:", response.status);
+    console.log("Response headers:", Object.fromEntries(response.headers.entries()));
+
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorText = await response.text();
+      console.error("Response error:", errorText);
+      throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
     }
 
     const data = await response.json();
+    console.log("Response data:", data);
 
     // Cache the successful response
     if (useCache) {

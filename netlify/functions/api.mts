@@ -5,6 +5,13 @@ export default async (req: Request, context: Context) => {
   const path = url.pathname.replace("/.netlify/functions/api", "");
   const method = req.method;
 
+  console.log("=== Netlify Function Debug ===");
+  console.log("Full URL:", req.url);
+  console.log("Pathname:", url.pathname);
+  console.log("Processed path:", path);
+  console.log("Method:", method);
+  console.log("Headers:", Object.fromEntries(req.headers.entries()));
+
   // Set CORS headers
   const headers = {
     "Access-Control-Allow-Origin": "*",
@@ -14,12 +21,14 @@ export default async (req: Request, context: Context) => {
 
   // Handle preflight
   if (method === "OPTIONS") {
+    console.log("Handling OPTIONS preflight");
     return new Response(null, { status: 200, headers });
   }
 
   try {
     // ---- PING ----
     if (path === "/ping" && method === "GET") {
+      console.log("Handling /ping request");
       const ping = process.env.PING_MESSAGE ?? "ping";
       return new Response(JSON.stringify({ message: ping }), {
         status: 200,
@@ -29,6 +38,7 @@ export default async (req: Request, context: Context) => {
 
     // ---- DEMO ----
     if (path === "/demo" && method === "GET") {
+      console.log("Handling /demo request");
       const response = {
         message: "Hello from Netlify Function - Legal AI Assistant is ready!",
       };
@@ -40,9 +50,11 @@ export default async (req: Request, context: Context) => {
 
     // ---- ANSWER ----
     if (path === "/answer" && method === "POST") {
+      console.log("Handling /answer request");
       let body: any;
       try {
         body = await req.json();
+        console.log("Request body:", body);
       } catch (err) {
         console.error("Invalid JSON:", err);
         return new Response(JSON.stringify({ error: "Invalid JSON" }), {
@@ -51,10 +63,11 @@ export default async (req: Request, context: Context) => {
         });
       }
 
-      console.log("Incoming /answer body:", body);
       const { query, level = "15-year-old" } = body;
+      console.log("Query:", query, "Level:", level);
 
       if (!query || query.trim().length < 3) {
+        console.log("Query too short, returning error");
         return new Response(JSON.stringify({
           answer: "Please provide a more specific question about legal concepts or procedures.",
           sources: [],
@@ -328,6 +341,7 @@ Remember: While I can provide general information, legal advice should come from
         };
       }
 
+      console.log("Sending response:", response);
       return new Response(JSON.stringify(response), {
         status: 200,
         headers: { ...headers, "Content-Type": "application/json" },
@@ -335,6 +349,7 @@ Remember: While I can provide general information, legal advice should come from
     }
 
     // ---- NOT FOUND ----
+    console.log("No matching route found, returning 404");
     return new Response("Not Found", { status: 404, headers });
   } catch (err) {
     console.error("Top-level error:", err);
