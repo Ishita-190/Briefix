@@ -5,8 +5,9 @@
 
 
 [functions]
-  external_node_modules = ["express"]
+  external_node_modules = ["express", "@google/generative-ai", "zod"]
   node_bundler = "esbuild"
+  directory = "netlify/functions"
   
 [[redirects]]
   from = "/api/*"
