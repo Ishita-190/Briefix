@@ -32,6 +32,9 @@ export default defineConfig({
         // External dependencies that should not be bundled
         "express",
         "cors",
+        "zenscroll",
+        "@google/generative-ai",
+        "zod",
       ],
       output: {
         format: "es",
