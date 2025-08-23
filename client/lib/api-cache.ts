@@ -286,6 +286,222 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       category: "criminal_law",
       urgency: "medium"
     };
+  } else if (queryLower.includes("legal notice")) {
+    return {
+      answer: `**What to Do When You Receive a Legal Notice:**
+
+**What is a Legal Notice:**
+- Formal communication from lawyer/opposite party
+- Usually sent before filing a case
+- Gives you opportunity to respond or settle
+
+**Types of Legal Notices:**
+- **Cease and Desist** - Stop doing something
+- **Demand Notice** - Pay money or perform action
+- **Eviction Notice** - Vacate property
+- **Employment Notice** - Termination or warning
+- **Divorce Notice** - Intent to file for divorce
+
+**Immediate Steps:**
+1. **Don't panic** - Legal notices are common
+2. **Read carefully** - Understand what's being demanded
+3. **Note the deadline** - Usually 15-30 days to respond
+4. **Don't ignore** - Always respond within deadline
+5. **Consult a lawyer** - Get professional advice
+
+**How to Respond:**
+1. **Send reply** through your lawyer
+2. **Address each point** mentioned in notice
+3. **Provide your side** of the story
+4. **Include supporting documents**
+5. **Send by registered post** with acknowledgment
+
+**What NOT to Do:**
+- **Don't ignore** the notice
+- **Don't respond emotionally** or aggressively
+- **Don't admit liability** without legal advice
+- **Don't delay** beyond the deadline
+- **Don't communicate directly** with opposite party
+
+**When to Take Legal Action:**
+- **False allegations** in the notice
+- **Unreasonable demands** being made
+- **Threatening language** or harassment
+- **Notice sent without basis**
+
+**Remember:** Legal notices are serious - always respond through a lawyer.`,
+      sources: [
+        { title: "Civil Procedure Code", type: "legal_concept" },
+        { title: "Legal Notice Guidelines", type: "procedure" }
+      ],
+      category: "civil_law",
+      urgency: "high"
+    };
+  } else if (queryLower.includes("legal notice")) {
+    return {
+      answer: `**What to Do When You Receive a Legal Notice:**
+
+**What is a Legal Notice:**
+- Formal communication from lawyer/opposite party
+- Usually sent before filing a case
+- Gives you opportunity to respond or settle
+
+**Types of Legal Notices:**
+- **Cease and Desist** - Stop doing something
+- **Demand Notice** - Pay money or perform action
+- **Eviction Notice** - Vacate property
+- **Employment Notice** - Termination or warning
+- **Divorce Notice** - Intent to file for divorce
+
+**Immediate Steps:**
+1. **Don't panic** - Legal notices are common
+2. **Read carefully** - Understand what's being demanded
+3. **Note the deadline** - Usually 15-30 days to respond
+4. **Don't ignore** - Always respond within deadline
+5. **Consult a lawyer** - Get professional advice
+
+**How to Respond:**
+1. **Send reply** through your lawyer
+2. **Address each point** mentioned in notice
+3. **Provide your side** of the story
+4. **Include supporting documents**
+5. **Send by registered post** with acknowledgment
+
+**What NOT to Do:**
+- **Don't ignore** the notice
+- **Don't respond emotionally** or aggressively
+- **Don't admit liability** without legal advice
+- **Don't delay** beyond the deadline
+- **Don't communicate directly** with opposite party
+
+**When to Take Legal Action:**
+- **False allegations** in the notice
+- **Unreasonable demands** being made
+- **Threatening language** or harassment
+- **Notice sent without basis**
+
+**Remember:** Legal notices are serious - always respond through a lawyer.`,
+      sources: [
+        { title: "Civil Procedure Code", type: "legal_concept" },
+        { title: "Legal Notice Guidelines", type: "procedure" }
+      ],
+      category: "civil_law",
+      urgency: "high"
+    };
+  } else if (queryLower.includes("police misconduct") || queryLower.includes("police complaint")) {
+    return {
+      answer: `**How to File Complaint Against Police Misconduct:**
+
+**Types of Police Misconduct:**
+- **Physical assault** or torture
+- **Illegal detention** beyond 24 hours
+- **Refusing to register FIR**
+- **Demanding bribes** or money
+- **Harassment** or intimidation
+- **Fabricating evidence**
+- **Unlawful search** or seizure
+
+**Where to File Complaint:**
+1. **Superintendent of Police (SP)** - District level
+2. **Deputy Inspector General (DIG)** - Regional level
+3. **Inspector General (IG)** - State level
+4. **State Human Rights Commission** - For human rights violations
+5. **National Human Rights Commission** - For serious violations
+6. **Magistrate** - Under Section 156(3) CrPC
+
+**How to File Complaint:**
+1. **Write detailed complaint** with all facts
+2. **Include evidence** - photos, videos, medical reports
+3. **Mention witnesses** if any
+4. **Send by registered post** with acknowledgment
+5. **Keep copy** of complaint and receipt
+6. **Follow up** regularly
+
+**Required Information:**
+- **Your details** - name, address, contact
+- **Police officer details** - name, rank, station
+- **Date and time** of incident
+- **Detailed description** of what happened
+- **Evidence** - documents, photos, witnesses
+- **Relief sought** - action against officer, compensation
+
+**Evidence to Collect:**
+- **Medical reports** if injured
+- **Photos/videos** of incident or injuries
+- **Witness statements** in writing
+- **Correspondence** with police
+- **Receipts** for any payments demanded
+- **Audio recordings** if available
+
+**Legal Remedies:**
+- **Criminal complaint** against police officer
+- **Writ petition** in High Court
+- **Civil suit** for damages
+- **Human rights complaint** for violations
+- **Public Interest Litigation (PIL)**
+
+**Important:** Document everything and file complaint immediately after incident.`,
+      sources: [
+        { title: "Police Act", type: "legal_concept" },
+        { title: "Human Rights Protection", type: "rights" }
+      ],
+      category: "criminal_law",
+      urgency: "high"
+    };
+  } else if (queryLower.includes("custody") && queryLower.includes("police")) {
+    return {
+      answer: `**Police Custody Time Limits in India:**
+
+**Maximum Custody Periods:**
+- **Police Custody** - Maximum 15 days total
+- **Judicial Custody** - Can be extended by court
+- **First Production** - Before magistrate within 24 hours
+- **Remand Extension** - Court can extend judicial custody
+
+**Police Custody Rules:**
+- **24-hour rule** - Must produce before magistrate within 24 hours
+- **15-day limit** - Total police custody cannot exceed 15 days
+- **Reasons required** - Court must give reasons for extending custody
+- **Legal aid** - Right to free legal representation
+- **Medical check** - Right to medical examination
+
+**Your Rights During Custody:**
+- **Right to know** why you're in custody
+- **Right to lawyer** - Free legal aid if needed
+- **Right to medical care** if required
+- **Right to inform family** about arrest
+- **Right to meet lawyer** in private
+- **Right to food** and basic amenities
+
+**What Police Must Do:**
+- **Produce before magistrate** within 24 hours
+- **Inform grounds** of arrest
+- **Allow legal representation**
+- **Provide basic facilities** - food, water, toilet
+- **Maintain custody diary** with all details
+- **Allow family visits** as per rules
+
+**Judicial Custody Process:**
+1. **First production** - Before magistrate within 24 hours
+2. **Remand hearing** - Court decides custody extension
+3. **Arguments** - Both sides present their case
+4. **Court order** - Extends or denies custody
+5. **Regular review** - Custody reviewed periodically
+
+**Bail During Custody:**
+- **Bailable offences** - Right to bail
+- **Non-bailable offences** - Court's discretion
+- **Anticipatory bail** - Can apply before arrest
+- **Regular bail** - After arrest, during custody
+
+**Important:** Police cannot keep you beyond 24 hours without court order.`,
+      sources: [
+        { title: "Criminal Procedure Code - Section 167", type: "legal_concept" },
+        { title: "Constitutional Rights - Article 22", type: "constitutional" }
+      ],
+      category: "criminal_law",
+      urgency: "high"
+    };
   } else if (queryLower.includes("landlord") && queryLower.includes("evict")) {
     return {
       answer: `**Landlord Eviction Rights in India:**
@@ -332,6 +548,110 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       sources: [
         { title: "Rent Control Laws", type: "legal_concept" },
         { title: "Tenant Rights", type: "rights" }
+      ],
+      category: "property_law",
+      urgency: "high"
+    };
+  } else if (queryLower.includes("security deposit") && queryLower.includes("tenant")) {
+    return {
+      answer: `**Tenant Rights for Security Deposit:**
+
+**Landlord's Obligations:**
+- **Return deposit** within 30-60 days of vacating
+- **Provide written statement** of deductions (if any)
+- **Return full amount** if no damage beyond normal wear
+- **Cannot withhold** without valid reasons
+
+**Valid Reasons for Deductions:**
+- **Unpaid rent** or utility bills
+- **Damage beyond normal wear** and tear
+- **Cleaning costs** if property left dirty
+- **Repair costs** for tenant-caused damage
+- **Breach of lease terms**
+
+**What to Do Before Vacating:**
+1. **Give proper notice** as per lease agreement
+2. **Clean the property** thoroughly
+3. **Take photos/videos** of condition
+4. **Get landlord's inspection** in writing
+5. **Pay all outstanding bills**
+6. **Return all keys** and access cards
+
+**If Landlord Refuses to Return Deposit:**
+1. **Send written demand** with deadline
+2. **Keep all documentation** - lease, receipts, photos
+3. **File complaint** with Rent Control Authority
+4. **Approach Consumer Court** (deposit is covered under consumer law)
+5. **Send legal notice** through lawyer
+6. **File civil suit** if necessary
+
+**Documentation to Keep:**
+- **Lease agreement** with deposit terms
+- **Rent receipts** showing deposit payment
+- **Photos/videos** of property condition
+- **Communication records** with landlord
+- **Utility bill receipts** showing payments
+
+**Consumer Court Remedy:**
+- **File complaint** under Consumer Protection Act
+- **Faster resolution** than civil courts
+- **Can claim compensation** for mental harassment
+- **No need for lawyer** in most cases
+
+**Remember:** Security deposit is your money - landlords cannot keep it without valid reasons.`,
+      sources: [
+        { title: "Consumer Protection Act", type: "legal_concept" },
+        { title: "Rent Control Laws", type: "legal_concept" }
+      ],
+      category: "property_law",
+      urgency: "medium"
+    };
+  } else if (queryLower.includes("property") && queryLower.includes("title")) {
+    return {
+      answer: `**How to Check Property Title Before Buying:**
+
+**Documents to Verify:**
+1. **Sale Deed** - Current owner's purchase document
+2. **Mother Deed** - Original property document
+3. **Encumbrance Certificate** - Shows all transactions
+4. **Property Tax Receipts** - Current tax payments
+5. **Building Approval** - Municipal/development authority approval
+6. **Land Use Certificate** - Zoning and land use permission
+
+**Steps to Verify Title:**
+1. **Visit Sub-Registrar Office** - Check registration records
+2. **Get Encumbrance Certificate** - Shows all transactions for 30+ years
+3. **Verify Chain of Ownership** - Check all previous owners
+4. **Check for Pending Litigation** - Court cases or disputes
+5. **Verify Land Use** - Residential, commercial, agricultural
+6. **Check Building Approvals** - If constructed property
+
+**Red Flags to Watch For:**
+- **Missing documents** in the chain
+- **Gaps in ownership** history
+- **Pending court cases** or disputes
+- **Multiple claimants** to the property
+- **Encroachment** or boundary issues
+- **Unauthorized construction**
+- **Land use violations**
+
+**Professional Help Needed:**
+- **Lawyer** - To verify legal documents
+- **Chartered Accountant** - For financial verification
+- **Architect/Engineer** - For construction verification
+- **Local Agent** - For area-specific information
+
+**Important Checks:**
+- **Seller's identity** and ownership proof
+- **Property measurements** and boundaries
+- **Outstanding dues** - taxes, maintenance, loans
+- **Society/Association** membership (if applicable)
+- **Future development** plans in the area
+
+**Remember:** Never buy property without proper title verification - it's the most important step.`,
+      sources: [
+        { title: "Registration Act", type: "legal_concept" },
+        { title: "Property Law", type: "legal_concept" }
       ],
       category: "property_law",
       urgency: "high"
@@ -393,6 +713,62 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       category: "employment_law",
       urgency: "high"
     };
+  } else if (queryLower.includes("salary") && queryLower.includes("withhold")) {
+    return {
+      answer: `**Employer Cannot Withhold Salary Illegally:**
+
+**When Salary Can Be Withheld:**
+- **Court order** or attachment
+- **Employee absconding** without notice
+- **Company closure** due to financial issues
+- **Disciplinary action** with proper procedure
+- **Recovery of advances** or loans (with consent)
+
+**When Salary CANNOT Be Withheld:**
+- **As punishment** without proper procedure
+- **For poor performance** without warnings
+- **For personal disputes** or disagreements
+- **For refusing illegal work**
+- **For union activities** or organizing
+- **For filing complaints** against employer
+
+**Employee Rights:**
+- **Timely payment** of salary (usually monthly)
+- **Full payment** unless valid deductions
+- **Written explanation** for any deductions
+- **Payslip** showing all deductions
+- **No arbitrary deductions** without notice
+
+**What to Do If Salary Withheld:**
+1. **Send written demand** for salary
+2. **Keep attendance records** and work proof
+3. **File complaint** with Labor Commissioner
+4. **Approach Industrial Tribunal** (if applicable)
+5. **Send legal notice** through lawyer
+6. **File civil suit** for recovery
+
+**Legal Remedies:**
+- **Labor Commissioner** - Fast resolution
+- **Industrial Tribunal** - For covered establishments
+- **Civil Court** - For recovery of dues
+- **High Court** - For writ petition
+- **Criminal complaint** - For cheating/fraud
+
+**Documentation Needed:**
+- **Employment contract** or appointment letter
+- **Salary slips** and payment records
+- **Attendance records** and work proof
+- **Communication** with employer
+- **Bank statements** showing payments
+
+**Remember:** Salary is your right - employers cannot withhold it without valid legal reasons.`,
+      sources: [
+        { title: "Payment of Wages Act", type: "legal_concept" },
+        { title: "Minimum Wages Act", type: "legal_concept" }
+      ],
+      category: "employment_law",
+      urgency: "high"
+    };
   } else if (queryLower.includes("divorce") && queryLower.includes("grounds")) {
     return {
       answer: `**Grounds for Divorce in India:**
@@ -445,6 +821,64 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       sources: [
         { title: "Hindu Marriage Act", type: "legal_concept" },
         { title: "Special Marriage Act", type: "legal_concept" }
+      ],
+      category: "family_law",
+      urgency: "high"
+    };
+  } else if (queryLower.includes("custody") && queryLower.includes("children")) {
+    return {
+      answer: `**Child Custody in Divorce Cases:**
+
+**Types of Custody:**
+1. **Physical Custody** - Where child lives
+2. **Legal Custody** - Decision-making authority
+3. **Joint Custody** - Both parents share responsibilities
+4. **Sole Custody** - One parent has primary responsibility
+
+**Factors Courts Consider:**
+- **Child's best interests** (paramount consideration)
+- **Child's age** and preference (if old enough)
+- **Parent's ability** to care for child
+- **Financial stability** of each parent
+- **Living conditions** and environment
+- **Child's relationship** with each parent
+- **Stability and continuity** in child's life
+- **Any history** of abuse or neglect
+
+**Custody Arrangements:**
+- **Primary custody** - Child lives with one parent
+- **Visitation rights** - Regular time with other parent
+- **Shared custody** - Equal time with both parents
+- **Supervised visitation** - If safety concerns exist
+
+**Mother's Rights:**
+- **Presumption in favor** of mother for young children
+- **Equal rights** to custody and guardianship
+- **Right to maintenance** for child's upbringing
+- **Right to make decisions** about child's welfare
+
+**Father's Rights:**
+- **Equal consideration** for custody
+- **Right to visitation** and involvement
+- **Right to participate** in child's upbringing
+- **Right to challenge** custody decisions
+
+**Child's Rights:**
+- **Right to maintain** relationship with both parents
+- **Right to proper** care and upbringing
+- **Right to education** and healthcare
+- **Right to express** preferences (if mature enough)
+
+**Modification of Custody:**
+- **Change in circumstances** of either parent
+- **Child's best interests** require change
+- **Parent's inability** to care for child
+- **Child's preference** (if older)
+
+**Remember:** Custody decisions focus on child's welfare, not parent's rights.`,
+      sources: [
+        { title: "Guardian and Wards Act", type: "legal_concept" },
+        { title: "Hindu Minority and Guardianship Act", type: "legal_concept" }
       ],
       category: "family_law",
       urgency: "high"
@@ -514,6 +948,179 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       ],
       category: "consumer_law",
       urgency: "medium"
+    };
+  } else if (queryLower.includes("verbal agreement") && queryLower.includes("binding")) {
+    return {
+      answer: `**Verbal Agreements - Legal Validity in India:**
+
+**Are Verbal Agreements Binding?**
+- **YES** - Verbal agreements are legally binding
+- **Same legal force** as written agreements
+- **Enforceable in court** if proven
+- **Subject to same laws** as written contracts
+
+**Requirements for Valid Verbal Agreement:**
+- **Offer and acceptance** - Both parties agree
+- **Consideration** - Something of value exchanged
+- **Legal purpose** - Agreement must be lawful
+- **Capacity** - Both parties must be competent
+- **Mutual intent** - Both intend to be bound
+
+**Challenges with Verbal Agreements:**
+- **Difficult to prove** - No written evidence
+- **Memory issues** - People forget details
+- **Misunderstandings** - Different interpretations
+- **Witness dependency** - Need witnesses to prove
+- **Enforcement problems** - Harder to enforce
+
+**When Verbal Agreements Work:**
+- **Simple transactions** - Small purchases, services
+- **Trusted relationships** - Family, close friends
+- **Immediate performance** - Cash transactions
+- **Customary practices** - Regular business dealings
+
+**When Written is Better:**
+- **Large amounts** - Significant money involved
+- **Complex terms** - Detailed conditions
+- **Long-term agreements** - Extended commitments
+- **Property transactions** - Real estate deals
+- **Business contracts** - Commercial agreements
+
+**How to Prove Verbal Agreement:**
+- **Witness testimony** - People who heard the agreement
+- **Performance evidence** - Actions showing agreement
+- **Correspondence** - Emails, messages, letters
+- **Payment records** - Bank transfers, receipts
+- **Circumstantial evidence** - Surrounding circumstances
+
+**Tips for Verbal Agreements:**
+- **Record conversations** (with consent)
+- **Send follow-up messages** confirming terms
+- **Keep witnesses** present during discussions
+- **Document performance** - payments, deliveries
+- **Convert to written** when possible
+
+**Remember:** While verbal agreements are binding, written agreements are always safer and easier to enforce.`,
+      sources: [
+        { title: "Indian Contract Act", type: "legal_concept" },
+        { title: "Contract Law", type: "legal_concept" }
+      ],
+      category: "contract_law",
+      urgency: "medium"
+    };
+  } else if (queryLower.includes("police misconduct") || queryLower.includes("police complaint")) {
+    return {
+      answer: `**How to File Complaint Against Police Misconduct:**
+
+**Types of Police Misconduct:**
+- **Physical assault** or torture
+- **Illegal detention** beyond 24 hours
+- **Refusing to register FIR**
+- **Demanding bribes** or money
+- **Harassment** or intimidation
+- **Fabricating evidence**
+- **Unlawful search** or seizure
+
+**Where to File Complaint:**
+1. **Superintendent of Police (SP)** - District level
+2. **Deputy Inspector General (DIG)** - Regional level
+3. **Inspector General (IG)** - State level
+4. **State Human Rights Commission** - For human rights violations
+5. **National Human Rights Commission** - For serious violations
+6. **Magistrate** - Under Section 156(3) CrPC
+
+**How to File Complaint:**
+1. **Write detailed complaint** with all facts
+2. **Include evidence** - photos, videos, medical reports
+3. **Mention witnesses** if any
+4. **Send by registered post** with acknowledgment
+5. **Keep copy** of complaint and receipt
+6. **Follow up** regularly
+
+**Required Information:**
+- **Your details** - name, address, contact
+- **Police officer details** - name, rank, station
+- **Date and time** of incident
+- **Detailed description** of what happened
+- **Evidence** - documents, photos, witnesses
+- **Relief sought** - action against officer, compensation
+
+**Evidence to Collect:**
+- **Medical reports** if injured
+- **Photos/videos** of incident or injuries
+- **Witness statements** in writing
+- **Correspondence** with police
+- **Receipts** for any payments demanded
+- **Audio recordings** if available
+
+**Legal Remedies:**
+- **Criminal complaint** against police officer
+- **Writ petition** in High Court
+- **Civil suit** for damages
+- **Human rights complaint** for violations
+- **Public Interest Litigation (PIL)**
+
+**Important:** Document everything and file complaint immediately after incident.`,
+      sources: [
+        { title: "Police Act", type: "legal_concept" },
+        { title: "Human Rights Protection", type: "rights" }
+      ],
+      category: "criminal_law",
+      urgency: "high"
+    };
+  } else if (queryLower.includes("custody") && queryLower.includes("police")) {
+    return {
+      answer: `**Police Custody Time Limits in India:**
+
+**Maximum Custody Periods:**
+- **Police Custody** - Maximum 15 days total
+- **Judicial Custody** - Can be extended by court
+- **First Production** - Before magistrate within 24 hours
+- **Remand Extension** - Court can extend judicial custody
+
+**Police Custody Rules:**
+- **24-hour rule** - Must produce before magistrate within 24 hours
+- **15-day limit** - Total police custody cannot exceed 15 days
+- **Reasons required** - Court must give reasons for extending custody
+- **Legal aid** - Right to free legal representation
+- **Medical check** - Right to medical examination
+
+**Your Rights During Custody:**
+- **Right to know** why you're in custody
+- **Right to lawyer** - Free legal aid if needed
+- **Right to medical care** if required
+- **Right to inform family** about arrest
+- **Right to meet lawyer** in private
+- **Right to food** and basic amenities
+
+**What Police Must Do:**
+- **Produce before magistrate** within 24 hours
+- **Inform grounds** of arrest
+- **Allow legal representation**
+- **Provide basic facilities** - food, water, toilet
+- **Maintain custody diary** with all details
+- **Allow family visits** as per rules
+
+**Judicial Custody Process:**
+1. **First production** - Before magistrate within 24 hours
+2. **Remand hearing** - Court decides custody extension
+3. **Arguments** - Both sides present their case
+4. **Court order** - Extends or denies custody
+5. **Regular review** - Custody reviewed periodically
+
+**Bail During Custody:**
+- **Bailable offences** - Right to bail
+- **Non-bailable offences** - Court's discretion
+- **Anticipatory bail** - Can apply before arrest
+- **Regular bail** - After arrest, during custody
+
+**Important:** Police cannot keep you beyond 24 hours without court order.`,
+      sources: [
+        { title: "Criminal Procedure Code - Section 167", type: "legal_concept" },
+        { title: "Constitutional Rights - Article 22", type: "constitutional" }
+      ],
+      category: "criminal_law",
+      urgency: "high"
     };
   } else {
     // General legal guidance for other questions
