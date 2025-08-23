@@ -75,10 +75,35 @@ export const apiCache = new ApiCache();
 function getFallbackResponse(query: string, level: string = "15-year-old") {
   const queryLower = query.toLowerCase();
   
+  // Helper function to get age-appropriate response
+  const getAgeAppropriateResponse = (adultResponse: string, level: string) => {
+    if (level === "12-year-old") {
+      // Simplify for 12-year-olds: shorter sentences, simpler words, more examples
+      return adultResponse
+        .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold formatting
+        .replace(/\[(.*?)\]\(.*?\)/g, '$1') // Remove links
+        .replace(/Section \d+/g, 'the law')
+        .replace(/Article \d+/g, 'the constitution')
+        .replace(/CrPC/g, 'criminal law')
+        .replace(/₹/g, 'rupees')
+        .replace(/lakhs/g, 'hundreds of thousands')
+        .replace(/crore/g, 'millions');
+    } else if (level === "15-year-old") {
+      // Keep most formatting but simplify complex legal terms
+      return adultResponse
+        .replace(/Section \d+/g, 'Section $& of the law')
+        .replace(/Article \d+/g, 'Article $& of the constitution')
+        .replace(/CrPC/g, 'Criminal Procedure Code')
+        .replace(/₹/g, '₹')
+        .replace(/lakhs/g, 'lakhs (₹100,000)')
+        .replace(/crore/g, 'crore (₹10,000,000)');
+    }
+    return adultResponse; // Keep original for lawyer level
+
+  
   // ===== GENERAL RIGHTS & CRIMINAL LAW =====
   if (queryLower.includes("arrested") && queryLower.includes("rights")) {
-    return {
-      answer: `**Your Rights When Arrested by Police in India:**
+    const adultResponse = `**Your Rights When Arrested by Police in India:**
 
 **Immediate Rights:**
 - **Right to know the reason** for arrest (Article 22(1))
@@ -101,7 +126,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - Don't sign any documents without reading
 - Remember: "I want to speak to my lawyer"
 
-**Important:** These rights apply to everyone, including foreigners. If your rights are violated, document everything and contact a lawyer immediately.`,
+**Important:** These rights apply to everyone, including foreigners. If your rights are violated, document everything and contact a lawyer immediately.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Constitutional Rights - Article 22", type: "constitutional" },
         { title: "Criminal Procedure Code", type: "legal_concept" }
@@ -110,8 +138,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "high"
     };
   } else if (queryLower.includes("search") && queryLower.includes("warrant")) {
-    return {
-      answer: `**Police Search Without Warrant - Your Rights:**
+    const adultResponse = `**Police Search Without Warrant - Your Rights:**
 
 **When Police CAN Search Without Warrant:**
 - **Arrest situations** - During lawful arrest
@@ -139,7 +166,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - Document everything that happens
 - Contact a lawyer immediately if rights are violated
 
-**Remember:** Always consult a lawyer if you believe your rights were violated.`,
+**Remember:** Always consult a lawyer if you believe your rights were violated.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Criminal Procedure Code - Section 100", type: "legal_concept" },
         { title: "Constitutional Rights", type: "constitutional" }
@@ -148,8 +178,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "high"
     };
   } else if (queryLower.includes("fir") || queryLower.includes("first information report")) {
-    return {
-      answer: `**How to File an FIR (First Information Report):**
+    const adultResponse = `**How to File an FIR (First Information Report):**
 
 **What is an FIR:**
 - First Information Report is the initial complaint to police
@@ -183,7 +212,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - Keep the FIR number safe for future reference
 - You can file an FIR even if you don't know the accused
 
-**Remember:** FIR is your right - police cannot refuse without valid reasons.`,
+**Remember:** FIR is your right - police cannot refuse without valid reasons.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Criminal Procedure Code - Section 154", type: "legal_concept" },
         { title: "Police Manual", type: "procedure" }
@@ -192,8 +224,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "high"
     };
   } else if (queryLower.includes("bail") && queryLower.includes("arrested")) {
-    return {
-      answer: `**How to Get Bail When Arrested:**
+    const adultResponse = `**How to Get Bail When Arrested:**
 
 **Types of Bail:**
 1. **Regular Bail** - After arrest, before trial
@@ -227,7 +258,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - **Demonstrate you'll appear** for trial
 - **Be prepared to give sureties** if required
 
-**Important:** Bail is not acquittal - you must attend all court hearings.`,
+**Important:** Bail is not acquittal - you must attend all court hearings.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Criminal Procedure Code - Sections 436-450", type: "legal_concept" },
         { title: "Bail Guidelines", type: "procedure" }
@@ -236,8 +270,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "high"
     };
   } else if (queryLower.includes("anticipatory bail")) {
-    return {
-      answer: `**Anticipatory Bail - Protection Before Arrest:**
+    const adultResponse = `**Anticipatory Bail - Protection Before Arrest:**
 
 **What is Anticipatory Bail:**
 - Protection against arrest before it happens
@@ -278,7 +311,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - **Allows normal life** while case is pending
 - **Reduces harassment** and mental stress
 
-**Important:** Apply before arrest - once arrested, you need regular bail.`,
+**Important:** Apply before arrest - once arrested, you need regular bail.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Criminal Procedure Code - Section 438", type: "legal_concept" },
         { title: "Supreme Court Guidelines", type: "precedent" }
@@ -287,8 +323,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "medium"
     };
   } else if (queryLower.includes("legal notice")) {
-    return {
-      answer: `**What to Do When You Receive a Legal Notice:**
+    const adultResponse = `**What to Do When You Receive a Legal Notice:**
 
 **What is a Legal Notice:**
 - Formal communication from lawyer/opposite party
@@ -329,58 +364,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - **Threatening language** or harassment
 - **Notice sent without basis**
 
-**Remember:** Legal notices are serious - always respond through a lawyer.`,
-      sources: [
-        { title: "Civil Procedure Code", type: "legal_concept" },
-        { title: "Legal Notice Guidelines", type: "procedure" }
-      ],
-      category: "civil_law",
-      urgency: "high"
-    };
-  } else if (queryLower.includes("legal notice")) {
+**Remember:** Legal notices are serious - always respond through a lawyer.`;
+
     return {
-      answer: `**What to Do When You Receive a Legal Notice:**
-
-**What is a Legal Notice:**
-- Formal communication from lawyer/opposite party
-- Usually sent before filing a case
-- Gives you opportunity to respond or settle
-
-**Types of Legal Notices:**
-- **Cease and Desist** - Stop doing something
-- **Demand Notice** - Pay money or perform action
-- **Eviction Notice** - Vacate property
-- **Employment Notice** - Termination or warning
-- **Divorce Notice** - Intent to file for divorce
-
-**Immediate Steps:**
-1. **Don't panic** - Legal notices are common
-2. **Read carefully** - Understand what's being demanded
-3. **Note the deadline** - Usually 15-30 days to respond
-4. **Don't ignore** - Always respond within deadline
-5. **Consult a lawyer** - Get professional advice
-
-**How to Respond:**
-1. **Send reply** through your lawyer
-2. **Address each point** mentioned in notice
-3. **Provide your side** of the story
-4. **Include supporting documents**
-5. **Send by registered post** with acknowledgment
-
-**What NOT to Do:**
-- **Don't ignore** the notice
-- **Don't respond emotionally** or aggressively
-- **Don't admit liability** without legal advice
-- **Don't delay** beyond the deadline
-- **Don't communicate directly** with opposite party
-
-**When to Take Legal Action:**
-- **False allegations** in the notice
-- **Unreasonable demands** being made
-- **Threatening language** or harassment
-- **Notice sent without basis**
-
-**Remember:** Legal notices are serious - always respond through a lawyer.`,
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Civil Procedure Code", type: "legal_concept" },
         { title: "Legal Notice Guidelines", type: "procedure" }
@@ -389,8 +376,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "high"
     };
   } else if (queryLower.includes("police misconduct") || queryLower.includes("police complaint")) {
-    return {
-      answer: `**How to File Complaint Against Police Misconduct:**
+    const adultResponse = `**How to File Complaint Against Police Misconduct:**
 
 **Types of Police Misconduct:**
 - **Physical assault** or torture
@@ -440,7 +426,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - **Human rights complaint** for violations
 - **Public Interest Litigation (PIL)**
 
-**Important:** Document everything and file complaint immediately after incident.`,
+**Important:** Document everything and file complaint immediately after incident.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Police Act", type: "legal_concept" },
         { title: "Human Rights Protection", type: "rights" }
@@ -449,8 +438,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "high"
     };
   } else if (queryLower.includes("custody") && queryLower.includes("police")) {
-    return {
-      answer: `**Police Custody Time Limits in India:**
+    const adultResponse = `**Police Custody Time Limits in India:**
 
 **Maximum Custody Periods:**
 - **Police Custody** - Maximum 15 days total
@@ -494,7 +482,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - **Anticipatory bail** - Can apply before arrest
 - **Regular bail** - After arrest, during custody
 
-**Important:** Police cannot keep you beyond 24 hours without court order.`,
+**Important:** Police cannot keep you beyond 24 hours without court order.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Criminal Procedure Code - Section 167", type: "legal_concept" },
         { title: "Constitutional Rights - Article 22", type: "constitutional" }
@@ -503,8 +494,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "high"
     };
   } else if (queryLower.includes("landlord") && queryLower.includes("evict")) {
-    return {
-      answer: `**Landlord Eviction Rights in India:**
+    const adultResponse = `**Landlord Eviction Rights in India:**
 
 **When Landlord CAN Evict:**
 - **Non-payment of rent** for 2+ months
@@ -544,7 +534,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - **Removing belongings** without permission
 - **Physical force** or intimidation
 
-**Remember:** Landlords cannot evict without following proper legal procedure.`,
+**Remember:** Landlords cannot evict without following proper legal procedure.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Rent Control Laws", type: "legal_concept" },
         { title: "Tenant Rights", type: "rights" }
@@ -553,8 +546,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "high"
     };
   } else if (queryLower.includes("security deposit") && queryLower.includes("tenant")) {
-    return {
-      answer: `**Tenant Rights for Security Deposit:**
+    const adultResponse = `**Tenant Rights for Security Deposit:**
 
 **Landlord's Obligations:**
 - **Return deposit** within 30-60 days of vacating
@@ -598,7 +590,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - **Can claim compensation** for mental harassment
 - **No need for lawyer** in most cases
 
-**Remember:** Security deposit is your money - landlords cannot keep it without valid reasons.`,
+**Remember:** Security deposit is your money - landlords cannot keep it without valid reasons.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Consumer Protection Act", type: "legal_concept" },
         { title: "Rent Control Laws", type: "legal_concept" }
@@ -607,8 +602,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "medium"
     };
   } else if (queryLower.includes("property") && queryLower.includes("title")) {
-    return {
-      answer: `**How to Check Property Title Before Buying:**
+    const adultResponse = `**How to Check Property Title Before Buying:**
 
 **Documents to Verify:**
 1. **Sale Deed** - Current owner's purchase document
@@ -648,7 +642,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - **Society/Association** membership (if applicable)
 - **Future development** plans in the area
 
-**Remember:** Never buy property without proper title verification - it's the most important step.`,
+**Remember:** Never buy property without proper title verification - it's the most important step.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Registration Act", type: "legal_concept" },
         { title: "Property Law", type: "legal_concept" }
@@ -657,8 +654,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "high"
     };
   } else if (queryLower.includes("terminate") && queryLower.includes("notice")) {
-    return {
-      answer: `**Employee Termination Rights in India:**
+    const adultResponse = `**Employee Termination Rights in India:**
 
 **Legal Termination Requirements:**
 - **Written notice** required (usually 30-90 days)
@@ -705,7 +701,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - **File civil suit** for damages
 - **Approach High Court** for writ petition
 
-**Important:** Document everything and get legal advice if termination seems unfair.`,
+**Important:** Document everything and get legal advice if termination seems unfair.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Industrial Disputes Act", type: "legal_concept" },
         { title: "Payment of Gratuity Act", type: "legal_concept" }
@@ -714,8 +713,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "high"
     };
   } else if (queryLower.includes("salary") && queryLower.includes("withhold")) {
-    return {
-      answer: `**Employer Cannot Withhold Salary Illegally:**
+    const adultResponse = `**Employer Cannot Withhold Salary Illegally:**
 
 **When Salary Can Be Withheld:**
 - **Court order** or attachment
@@ -761,7 +759,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - **Communication** with employer
 - **Bank statements** showing payments
 
-**Remember:** Salary is your right - employers cannot withhold it without valid legal reasons.`,
+**Remember:** Salary is your right - employers cannot withhold it without valid legal reasons.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Payment of Wages Act", type: "legal_concept" },
         { title: "Minimum Wages Act", type: "legal_concept" }
@@ -770,8 +771,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "high"
     };
   } else if (queryLower.includes("divorce") && queryLower.includes("grounds")) {
-    return {
-      answer: `**Grounds for Divorce in India:**
+    const adultResponse = `**Grounds for Divorce in India:**
 
 **Mutual Consent Divorce:**
 - **Both parties agree** to divorce
@@ -817,7 +817,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - **Future remarriage** implications
 - **Social and family** impact
 
-**Remember:** Divorce is a serious decision - consider counseling and mediation before filing.`,
+**Remember:** Divorce is a serious decision - consider counseling and mediation before filing.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Hindu Marriage Act", type: "legal_concept" },
         { title: "Special Marriage Act", type: "legal_concept" }
@@ -826,8 +829,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "high"
     };
   } else if (queryLower.includes("custody") && queryLower.includes("children")) {
-    return {
-      answer: `**Child Custody in Divorce Cases:**
+    const adultResponse = `**Child Custody in Divorce Cases:**
 
 **Types of Custody:**
 1. **Physical Custody** - Where child lives
@@ -875,7 +877,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - **Parent's inability** to care for child
 - **Child's preference** (if older)
 
-**Remember:** Custody decisions focus on child's welfare, not parent's rights.`,
+**Remember:** Custody decisions focus on child's welfare, not parent's rights.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Guardian and Wards Act", type: "legal_concept" },
         { title: "Hindu Minority and Guardianship Act", type: "legal_concept" }
@@ -884,8 +889,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "high"
     };
   } else if (queryLower.includes("consumer complaint")) {
-    return {
-      answer: `**How to File a Consumer Complaint:**
+    const adultResponse = `**How to File a Consumer Complaint:**
 
 **What is Consumer Complaint:**
 - Dispute with seller/service provider
@@ -941,7 +945,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - **Consumer-friendly** procedures
 - **Can claim compensation** for harassment
 
-**Remember:** Keep all documents and correspondence for evidence.`,
+**Remember:** Keep all documents and correspondence for evidence.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Consumer Protection Act", type: "legal_concept" },
         { title: "Consumer Rights", type: "rights" }
@@ -950,8 +957,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       urgency: "medium"
     };
   } else if (queryLower.includes("verbal agreement") && queryLower.includes("binding")) {
-    return {
-      answer: `**Verbal Agreements - Legal Validity in India:**
+    const adultResponse = `**Verbal Agreements - Legal Validity in India:**
 
 **Are Verbal Agreements Binding?**
 - **YES** - Verbal agreements are legally binding
@@ -1000,7 +1006,10 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
 - **Document performance** - payments, deliveries
 - **Convert to written** when possible
 
-**Remember:** While verbal agreements are binding, written agreements are always safer and easier to enforce.`,
+**Remember:** While verbal agreements are binding, written agreements are always safer and easier to enforce.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Indian Contract Act", type: "legal_concept" },
         { title: "Contract Law", type: "legal_concept" }
@@ -1008,124 +1017,9 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
       category: "contract_law",
       urgency: "medium"
     };
-  } else if (queryLower.includes("police misconduct") || queryLower.includes("police complaint")) {
-    return {
-      answer: `**How to File Complaint Against Police Misconduct:**
-
-**Types of Police Misconduct:**
-- **Physical assault** or torture
-- **Illegal detention** beyond 24 hours
-- **Refusing to register FIR**
-- **Demanding bribes** or money
-- **Harassment** or intimidation
-- **Fabricating evidence**
-- **Unlawful search** or seizure
-
-**Where to File Complaint:**
-1. **Superintendent of Police (SP)** - District level
-2. **Deputy Inspector General (DIG)** - Regional level
-3. **Inspector General (IG)** - State level
-4. **State Human Rights Commission** - For human rights violations
-5. **National Human Rights Commission** - For serious violations
-6. **Magistrate** - Under Section 156(3) CrPC
-
-**How to File Complaint:**
-1. **Write detailed complaint** with all facts
-2. **Include evidence** - photos, videos, medical reports
-3. **Mention witnesses** if any
-4. **Send by registered post** with acknowledgment
-5. **Keep copy** of complaint and receipt
-6. **Follow up** regularly
-
-**Required Information:**
-- **Your details** - name, address, contact
-- **Police officer details** - name, rank, station
-- **Date and time** of incident
-- **Detailed description** of what happened
-- **Evidence** - documents, photos, witnesses
-- **Relief sought** - action against officer, compensation
-
-**Evidence to Collect:**
-- **Medical reports** if injured
-- **Photos/videos** of incident or injuries
-- **Witness statements** in writing
-- **Correspondence** with police
-- **Receipts** for any payments demanded
-- **Audio recordings** if available
-
-**Legal Remedies:**
-- **Criminal complaint** against police officer
-- **Writ petition** in High Court
-- **Civil suit** for damages
-- **Human rights complaint** for violations
-- **Public Interest Litigation (PIL)**
-
-**Important:** Document everything and file complaint immediately after incident.`,
-      sources: [
-        { title: "Police Act", type: "legal_concept" },
-        { title: "Human Rights Protection", type: "rights" }
-      ],
-      category: "criminal_law",
-      urgency: "high"
-    };
-  } else if (queryLower.includes("custody") && queryLower.includes("police")) {
-    return {
-      answer: `**Police Custody Time Limits in India:**
-
-**Maximum Custody Periods:**
-- **Police Custody** - Maximum 15 days total
-- **Judicial Custody** - Can be extended by court
-- **First Production** - Before magistrate within 24 hours
-- **Remand Extension** - Court can extend judicial custody
-
-**Police Custody Rules:**
-- **24-hour rule** - Must produce before magistrate within 24 hours
-- **15-day limit** - Total police custody cannot exceed 15 days
-- **Reasons required** - Court must give reasons for extending custody
-- **Legal aid** - Right to free legal representation
-- **Medical check** - Right to medical examination
-
-**Your Rights During Custody:**
-- **Right to know** why you're in custody
-- **Right to lawyer** - Free legal aid if needed
-- **Right to medical care** if required
-- **Right to inform family** about arrest
-- **Right to meet lawyer** in private
-- **Right to food** and basic amenities
-
-**What Police Must Do:**
-- **Produce before magistrate** within 24 hours
-- **Inform grounds** of arrest
-- **Allow legal representation**
-- **Provide basic facilities** - food, water, toilet
-- **Maintain custody diary** with all details
-- **Allow family visits** as per rules
-
-**Judicial Custody Process:**
-1. **First production** - Before magistrate within 24 hours
-2. **Remand hearing** - Court decides custody extension
-3. **Arguments** - Both sides present their case
-4. **Court order** - Extends or denies custody
-5. **Regular review** - Custody reviewed periodically
-
-**Bail During Custody:**
-- **Bailable offences** - Right to bail
-- **Non-bailable offences** - Court's discretion
-- **Anticipatory bail** - Can apply before arrest
-- **Regular bail** - After arrest, during custody
-
-**Important:** Police cannot keep you beyond 24 hours without court order.`,
-      sources: [
-        { title: "Criminal Procedure Code - Section 167", type: "legal_concept" },
-        { title: "Constitutional Rights - Article 22", type: "constitutional" }
-      ],
-      category: "criminal_law",
-      urgency: "high"
-    };
   } else {
     // General legal guidance for other questions
-    return {
-      answer: `I understand you're asking about "${query}". This is an important legal question that deserves a thorough answer.
+    const adultResponse = `I understand you're asking about "${query}". This is an important legal question that deserves a thorough answer.
 
 **Here's what I can tell you:**
 Legal matters can be complex and the specific answer depends on your unique situation, location, and circumstances. What might be true in one case may not apply to another.
@@ -1148,7 +1042,10 @@ Legal matters can be complex and the specific answer depends on your unique situ
 - Be prepared to discuss your specific situation
 - Ask about costs and payment options
 
-**Important:** While I can provide general information, legal advice should come from a qualified attorney who knows your specific circumstances.`,
+**Important:** While I can provide general information, legal advice should come from a qualified attorney who knows your specific circumstances.`;
+
+    return {
+      answer: getAgeAppropriateResponse(adultResponse, level),
       sources: [
         { title: "Legal Consultation Guide", type: "guidance" },
         { title: "General Legal Information", type: "resource" }
