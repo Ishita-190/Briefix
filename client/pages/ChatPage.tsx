@@ -67,12 +67,11 @@ export default function ChatPage() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const quickQuestions = [
-    "What is the difference between a misdemeanor and a felony?",
-    "How do I know if I need a lawyer?",
-    "What are my rights during a police stop?",
-    "How does bankruptcy work?",
-    "What should I do if I'm being sued?",
-    "How do I file a restraining order?",
+    "How to file an FIR",
+    "What is anticipatory bail and when can I apply?",
+    "How can I file a complaint against police misconduct?",
+    "What is the procedure to register a will?",
+    "Can the police search my house without a warrant?",
   ];
 
   useEffect(() => {
