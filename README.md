@@ -143,35 +143,119 @@ pnpm typecheck    # TypeScript validation (if applicable)
 pnpm format.fix   # Format code with Prettier
 ```
 
-## 📁 Project Structure
+## 📁 Project Diagram
 
-```
+                ┌─────────────────────────┐
+                │       Client (React)    │
+                │  Vite + Tailwind + UI   │
+                │ Pages & Components      │
+                └───────────┬─────────────┘
+                            │  API Calls (REST/Fetch)
+                            ▼
+     ┌────────────────────────────┐         ┌────────────────────────────┐
+     │  Server (Express Backend) │◄────────►│  Netlify Functions (API)   │
+     │  server/routes/demo.ts     │         │  netlify/functions/api.mts │
+     └───────────┬────────────────┘         └─────────────┬──────────────┘
+                 │ Shared Interfaces (TypeScript API contracts)
+                 ▼
+           ┌──────────────┐
+           │  shared/     │
+           │  api.ts      │
+           └──────────────┘
+
+     ┌─────────────────────────────┐
+     │ Utilities / Data Processing │
+     │  extract_ipc.py, json, etc. │
+     └─────────────────────────────┘
+
+     ┌─────────────────────────────┐
+     │  Config & Deployment        │
+     │  vite, tsconfig, tailwind,  │
+     │  netlify.toml, env          │
+     └─────────────────────────────┘
+
+     ┌─────────────────────────────┐
+     │ Docs & Assets               │
+     │  README, blueprint, pdfs    │
+     │  public/ (static files)     │
+     └─────────────────────────────┘
+## Project Structure
+
+```text
 Briefix/
-├── client/                     # React frontend
-│   ├── components/
-│   │   ├── ui/               # Reusable UI components (buttons, cards, etc.)
-│   │   ├── Header.tsx        # Navigation header
-│   │   └── Footer.tsx        # Site footer
-│   ├── pages/                # Route components
-│   │   ├── Index.tsx         # Homepage
-│   │   ├── ExplainPage.tsx   # AI explanation interface
-│   │   ├── DocumentsPage.tsx # Document analysis
-│   │   ├── ProceduresPage.tsx# Legal procedures guide
-│   │   ├── ChatPage.tsx      # AI chat interface
-│   │   └── NotFound.tsx      # 404 page
-│   ├── App.tsx               # Main app component with routing
-│   ├── main.tsx              # App entry point
-│   └── global.css            # Global styles and theme
-├── server/                    # Express backend
-│   ├── routes/               # API route handlers
-│   └── index.ts              # Server configuration
-├── shared/                    # Shared types and utilities
-│   └── api.ts                # API interfaces
-├── public/                    # Static assets
-├── tailwind.config.ts         # TailwindCSS configuration
-├── package.json              # Dependencies and scripts
-└── README.md                 # This file
+├── .dockerignore
+├── .env
+├── .gitignore
+├── .npmrc
+├── .prettierrc
+├── AGENTS.md
+├── README.md
+├── blueprint.docx
+├── components.json
+├── extract_ipc.py
+├── index.html
+├── ipc.pdf
+├── netlify.toml
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.js
+├── tailwind.config.ts
+├── tsconfig.json
+├── vite.config.server.ts
+├── vite.config.ts
+│
+├── .builder/
+│   └── rules/
+│       ├── deploy-app.mdc
+│       └── organize-ui.mdc
+│
+├── client/
+│   ├── App.tsx
+│   ├── global.css
+│   ├── main.tsx
+│   ├── vite-env.d.ts
+│   └── components/
+│       ├── Footer.tsx
+│       ├── Header.tsx
+│       └── ui/
+│           ├── SignIn.tsx
+│           ├── accordion.tsx
+│           ├── alert-dialog.tsx
+│           ├── alert.tsx
+│           ├── animated-background.tsx
+│           ├── aspect-ratio.tsx
+│           ├── avatar.tsx
+│           ├── badge.tsx
+│           ├── breadcrumb.tsx
+│           ├── button.tsx
+│           ├── calendar.tsx
+│           ├── card.tsx
+│           ├── carousel.tsx
+│           ├── chart.tsx
+│           ├── checkbox.tsx
+│           ├── collapsible.tsx
+│           ├── command.tsx
+│           ├── context-menu.tsx
+│           ├── dialog.tsx
+│           ├── drawer.tsx
+│           ├── dropdown-menu.tsx
+│           ├── form.tsx
+│           ...
+│
+├── server/
+│   ├── index.ts
+│   └── routes/
+│       └── demo.ts
+│
+├── shared/
+│   └── api.ts
+│
+└── netlify/
+    └── functions/
+        └── api.mts
 ```
+
+
 
 ## 📖 Usage
 
@@ -240,6 +324,17 @@ We welcome contributions to Briefix! Here's how you can help:
 - ⚡ Performance optimizations
 - 🔧 Additional legal procedures
 - 🌐 Accessibility improvements
+
+### **📚 Documentation**
+
+AGENTS.md
+ → explanation of agents/services
+
+blueprint.docx
+ → initial project design
+
+ipc.pdf
+ → IPC reference
 
 ## 📄 License
 

@@ -1,11 +1,8 @@
-import type { RequestHandler } from "express";
 import { z } from "zod";
 import {
   getKnowledgeBaseAnswer,
-  classifyQuery,
   getQueryIntent,
   ENHANCED_LEGAL_GUIDANCE,
-  GENERAL_LEGAL_GUIDANCE,
 } from "../lib/legal-knowledge";
 import {
   getConstitutionalReferences,
@@ -13,6 +10,7 @@ import {
   formatStatutoryBasis,
   getStatutoryBasis,
 } from "../lib/constitutional-law";
+<<<<<<< HEAD
 import {
   simplifyForAge,
   addExamples,
@@ -166,53 +164,31 @@ function rewriteForLevel(
   // lawyer
   return base + " (IPC Reference)";
 }
+=======
+import { simplifyForAge, addExamples } from "../lib/age-simplification";
+import { loadCorpusData } from "../lib/corpus-data";
+>>>>>>> refs/remotes/origin/main
 
+// --- Validation schema ---
 const BodySchema = z.object({
   query: z.string().min(1),
   level: z.enum(["12-year-old", "15-year-old", "lawyer"]).optional(),
 });
 
-export const handleAnswer: RequestHandler = (req, res) => {
-  const parsed = BodySchema.safeParse(req.body);
-  if (!parsed.success) {
-    return res.status(400).json({ error: "Invalid request body" });
-  }
-  const { query, level = "15-year-old" } = parsed.data;
+// --- Netlify handler ---
+export async function handler(event: any) {
+  try {
+    const body = JSON.parse(event.body || "{}");
+    const parsed = BodySchema.safeParse(body);
 
-  console.log(`[Answer API] Query: "${query}", Level: ${level}`);
-
-  // Filter out very short or generic queries
-  if (query.trim().length < 3) {
-    return res.status(200).json({
-      answer:
-        "Please provide a more specific question about legal concepts or procedures.",
-      sources: [],
-    });
-  }
-
-  // First, try the comprehensive knowledge base
-  const knowledgeAnswer = getKnowledgeBaseAnswer(query);
-  if (knowledgeAnswer) {
-    console.log(
-      `[Answer API] Found knowledge base answer for category: ${knowledgeAnswer.category}`,
-    );
-
-    // Check if this answer should include constitutional references
-    const hasConstitutionalRefs = knowledgeAnswer.constitutionalReferences;
-    let enhancedSources = knowledgeAnswer.sources;
-
-    if (hasConstitutionalRefs) {
-      // Add constitutional reference source
-      enhancedSources = [
-        ...knowledgeAnswer.sources,
-        {
-          title:
-            "Indian Constitution - Fundamental Rights & Directive Principles",
-          type: "constitutional" as const,
-        },
-      ];
+    if (!parsed.success) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "Invalid request body" }),
+      };
     }
 
+<<<<<<< HEAD
     // Get the base answer from existing logic
     const baseAnswer = rewriteForLevel(
       knowledgeAnswer.answer,
@@ -346,26 +322,40 @@ ${specificGuidance}
 - Checking if it's a civil matter (contracts, property, business)
 - Looking into administrative or regulatory requirements
 - Contacting relevant government agencies if applicable`;
+=======
+    const { query, level = "15-year-old" } = parsed.data;
+    console.log(`[Answer API] Query: "${query}", Level: ${level}`);
+
+    if (query.trim().length < 3) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          answer:
+            "Please provide a more specific question about legal concepts or procedures.",
+          sources: [],
+        }),
+      };
+>>>>>>> refs/remotes/origin/main
     }
 
-    return res.status(200).json({
-      answer: rewriteForLevel(contextualAnswer, level),
-      sources: [
-        {
-          title: `${queryIntent.intent === "emergency" ? "Emergency " : ""}Legal Guidance`,
-          type: "guidance",
-          category: queryIntent.intent,
-        },
-      ],
-      category: queryIntent.intent,
-      urgency: queryIntent.urgency,
-      needsLawyer: queryIntent.needsLawyer,
-    });
-  }
+    // --- Knowledge base check ---
+    const knowledgeAnswer = getKnowledgeBaseAnswer(query);
+    if (knowledgeAnswer) {
+      const hasConstitutionalRefs = knowledgeAnswer.constitutionalReferences;
+      let enhancedSources = knowledgeAnswer.sources;
 
-  // Take only the best match for cleaner responses
-  const bestMatch = matches[0];
+      if (hasConstitutionalRefs) {
+        enhancedSources = [
+          ...knowledgeAnswer.sources,
+          {
+            title:
+              "Indian Constitution - Fundamental Rights & Directive Principles",
+            type: "constitutional" as const,
+          },
+        ];
+      }
 
+<<<<<<< HEAD
   // Make sure the match is actually relevant
   if (bestMatch.score < 1) {
     // Use intelligent query understanding for low-relevance matches
@@ -490,9 +480,21 @@ ${specificGuidance}
         section: match.item.section,
         score: Math.round(match.score * 1000) / 1000,
       });
+=======
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          answer: knowledgeAnswer.answer, // can wrap with rewriteForLevel() if you want
+          sources: enhancedSources,
+          category: knowledgeAnswer.category,
+          urgency: knowledgeAnswer.urgency,
+          constitutionalBasis: hasConstitutionalRefs,
+        }),
+      };
+>>>>>>> refs/remotes/origin/main
     }
-  });
 
+<<<<<<< HEAD
   res.json({
     answer: formattedIPCAnswer,
     sources,
@@ -500,3 +502,52 @@ ${specificGuidance}
     urgency: "medium",
   });
 };
+=======
+    // --- IPC Corpus fallback ---
+    const corpus = loadCorpusData();
+    console.log(`[Answer API] Searching IPC corpus (size: ${corpus.length})`);
+
+    if (!corpus.length) {
+      const queryIntent = getQueryIntent(query);
+      const specificGuidance =
+        ENHANCED_LEGAL_GUIDANCE[
+          queryIntent.specificGuidance as keyof typeof ENHANCED_LEGAL_GUIDANCE
+        ];
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          answer: specificGuidance,
+          sources: [
+            {
+              title: `${queryIntent.intent === "emergency" ? "Emergency " : ""}Legal Guidance`,
+              type: "guidance",
+              category: queryIntent.intent,
+            },
+          ],
+          category: queryIntent.intent,
+          urgency: queryIntent.urgency,
+          needsLawyer: queryIntent.needsLawyer,
+        }),
+      };
+    }
+
+    // TODO: add your IPC matching + summarization logic here
+    // just make sure to return { statusCode, body: JSON.stringify(...) }
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        answer: "No direct match found, please try again.",
+        sources: [],
+      }),
+    };
+  } catch (err) {
+    console.error("Error in answer function:", err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Internal server error" }),
+    };
+  }
+}
+>>>>>>> refs/remotes/origin/main
