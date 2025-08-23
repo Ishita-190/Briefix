@@ -19,7 +19,10 @@ import {
   needsExtraSimplification,
 } from "../lib/age-simplification";
 import { loadCorpusData, type CorpusItem } from "../lib/corpus-data";
-import { formatLegalResponse, formatEmergencyResponse } from "../lib/ai-formatter";
+import {
+  formatLegalResponse,
+  formatEmergencyResponse,
+} from "../lib/ai-formatter";
 
 function score(text: string, terms: string[]): number {
   const hay = text.toLowerCase();
@@ -222,18 +225,25 @@ export const handleAnswer: RequestHandler = (req, res) => {
     let formattedAnswer: string;
     try {
       if (knowledgeAnswer.urgency === "high") {
-        formattedAnswer = await formatEmergencyResponse(baseAnswer, query, level);
+        formattedAnswer = await formatEmergencyResponse(
+          baseAnswer,
+          query,
+          level,
+        );
       } else {
         formattedAnswer = await formatLegalResponse(
           baseAnswer,
           query,
           level,
           knowledgeAnswer.category,
-          enhancedSources
+          enhancedSources,
         );
       }
     } catch (error) {
-      console.error("[Answer API] AI formatting failed, using base answer:", error);
+      console.error(
+        "[Answer API] AI formatting failed, using base answer:",
+        error,
+      );
       formattedAnswer = baseAnswer;
     }
 
@@ -272,17 +282,24 @@ export const handleAnswer: RequestHandler = (req, res) => {
     let formattedGuidance: string;
     try {
       if (queryIntent.urgency === "high") {
-        formattedGuidance = await formatEmergencyResponse(baseGuidance, query, level);
+        formattedGuidance = await formatEmergencyResponse(
+          baseGuidance,
+          query,
+          level,
+        );
       } else {
         formattedGuidance = await formatLegalResponse(
           baseGuidance,
           query,
           level,
-          queryIntent.intent
+          queryIntent.intent,
         );
       }
     } catch (error) {
-      console.error("[Answer API] AI formatting failed for guidance, using base:", error);
+      console.error(
+        "[Answer API] AI formatting failed for guidance, using base:",
+        error,
+      );
       formattedGuidance = baseGuidance;
     }
 
@@ -381,17 +398,24 @@ ${specificGuidance}
     let formattedContextual: string;
     try {
       if (queryIntent.urgency === "high") {
-        formattedContextual = await formatEmergencyResponse(baseContextual, query, level);
+        formattedContextual = await formatEmergencyResponse(
+          baseContextual,
+          query,
+          level,
+        );
       } else {
         formattedContextual = await formatLegalResponse(
           baseContextual,
           query,
           level,
-          queryIntent.intent
+          queryIntent.intent,
         );
       }
     } catch (error) {
-      console.error("[Answer API] AI formatting failed for contextual, using base:", error);
+      console.error(
+        "[Answer API] AI formatting failed for contextual, using base:",
+        error,
+      );
       formattedContextual = baseContextual;
     }
 
@@ -411,7 +435,12 @@ ${specificGuidance}
   }
 
   const cleanText = summarize(bestMatch.item.text, level === "lawyer" ? 3 : 2);
-  const baseIPCAnswer = rewriteForLevel(cleanText, level, "Indian Penal Code", query);
+  const baseIPCAnswer = rewriteForLevel(
+    cleanText,
+    level,
+    "Indian Penal Code",
+    query,
+  );
 
   // Format IPC answer with AI
   let formattedIPCAnswer: string;
@@ -421,10 +450,13 @@ ${specificGuidance}
       query,
       level,
       "Indian Penal Code",
-      [bestMatch.item]
+      [bestMatch.item],
     );
   } catch (error) {
-    console.error("[Answer API] AI formatting failed for IPC, using base:", error);
+    console.error(
+      "[Answer API] AI formatting failed for IPC, using base:",
+      error,
+    );
     formattedIPCAnswer = baseIPCAnswer;
   }
 

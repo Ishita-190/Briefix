@@ -2,7 +2,12 @@ const { handleDemo } = require("../../server/routes/demo");
 const { handleAnswer } = require("../../server/routes/answer");
 
 exports.handler = async (event, context) => {
-  const { httpMethod: method, path: fullPath, body, queryStringParameters } = event;
+  const {
+    httpMethod: method,
+    path: fullPath,
+    body,
+    queryStringParameters,
+  } = event;
   const path = fullPath.replace("/.netlify/functions/api", "");
 
   // Set CORS headers
@@ -53,11 +58,13 @@ exports.handler = async (event, context) => {
       // Ensure Gemini API key is available
       const geminiKey = process.env.GEMINI_API_KEY;
       if (!geminiKey) {
-        console.warn("[Netlify Function] GEMINI_API_KEY not found, responses will not be AI-formatted");
+        console.warn(
+          "[Netlify Function] GEMINI_API_KEY not found, responses will not be AI-formatted",
+        );
       }
 
       const parsedBody = body ? JSON.parse(body) : {};
-      
+
       const mockReq = {
         body: parsedBody,
         query: queryStringParameters || {},
@@ -109,9 +116,9 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         error: "Internal Server Error",
-        message: error.message 
+        message: error.message,
       }),
     };
   }

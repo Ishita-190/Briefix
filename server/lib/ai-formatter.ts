@@ -7,7 +7,7 @@ export async function formatLegalResponse(
   userQuery: string,
   level: string,
   category?: string,
-  sources?: any[]
+  sources?: any[],
 ): Promise<string> {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
@@ -62,7 +62,7 @@ Remember to:
 export async function formatEmergencyResponse(
   rawAnswer: string,
   userQuery: string,
-  level: string
+  level: string,
 ): Promise<string> {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
