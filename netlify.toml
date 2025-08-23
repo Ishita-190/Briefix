@@ -5,7 +5,7 @@
 
 
 [functions]
-  external_node_modules = ["express", "@google/generative-ai", "zod"]
+  external_node_modules = ["express", "@google/generative-ai", "zod", "zenscroll"]
   node_bundler = "esbuild"
   directory = "netlify/functions"
   
