@@ -26,6 +26,20 @@ export default async (req: Request, context: Context) => {
   }
 
   try {
+    // ---- TEST ENDPOINT ----
+    if (path === "/test" && method === "GET") {
+      console.log("Handling /test request");
+      return new Response(JSON.stringify({ 
+        message: "Netlify function is working!",
+        timestamp: new Date().toISOString(),
+        path: path,
+        method: method
+      }), {
+        status: 200,
+        headers: { ...headers, "Content-Type": "application/json" },
+      });
+    }
+
     // ---- PING ----
     if (path === "/ping" && method === "GET") {
       console.log("Handling /ping request");
