@@ -1,6 +1,4 @@
 import type { Context } from "@netlify/functions";
-import { handleDemo } from "../../server/routes/demo.js";
-import { handleAnswer } from "../../server/routes/answer.js";
 
 export default async (req: Request, context: Context) => {
   const url = new URL(req.url);
@@ -31,8 +29,10 @@ export default async (req: Request, context: Context) => {
 
     // ---- DEMO ----
     if (path === "/demo" && method === "GET") {
-      const data = await handleDemo();
-      return new Response(JSON.stringify(data), {
+      const response = {
+        message: "Hello from Netlify Function",
+      };
+      return new Response(JSON.stringify(response), {
         status: 200,
         headers: { ...headers, "Content-Type": "application/json" },
       });
@@ -53,22 +53,18 @@ export default async (req: Request, context: Context) => {
 
       console.log("Incoming /answer body:", body);
 
-      try {
-        const data = await handleAnswer(body);
-        return new Response(JSON.stringify(data), {
-          status: 200,
-          headers: { ...headers, "Content-Type": "application/json" },
-        });
-      } catch (err) {
-        console.error("handleAnswer failed:", err);
-        return new Response(
-          JSON.stringify({ error: "Internal Server Error" }),
-          {
-            status: 500,
-            headers: { ...headers, "Content-Type": "application/json" },
-          }
-        );
-      }
+      // Simple response for now - you can expand this later
+      const response = {
+        answer: "This is a placeholder response. The full legal AI functionality will be implemented soon.",
+        sources: [],
+        category: "general",
+        urgency: "medium",
+      };
+
+      return new Response(JSON.stringify(response), {
+        status: 200,
+        headers: { ...headers, "Content-Type": "application/json" },
+      });
     }
 
     // ---- NOT FOUND ----

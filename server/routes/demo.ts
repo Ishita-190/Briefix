@@ -1,7 +1,6 @@
-import type { Handler } from "@netlify/functions";
 import { DemoResponse } from "@shared/api";
 
-export const handler: Handler = async (event, context) => {
+export async function handler(event: any) {
   const response: DemoResponse = {
     message: "Hello from Netlify Function",
   };
@@ -10,4 +9,4 @@ export const handler: Handler = async (event, context) => {
     statusCode: 200,
     body: JSON.stringify(response),
   };
-};
+}
