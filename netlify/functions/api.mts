@@ -57,6 +57,15 @@ export default async (req: Request, context: Context) => {
     if (path === "/answer" && method === "POST") {
       const body = await req.json();
 
+      // Ensure Gemini API key is available
+      const geminiKey = Netlify.env.get("GEMINI_API_KEY");
+      if (!geminiKey) {
+        console.warn("[Netlify Function] GEMINI_API_KEY not found, responses will not be AI-formatted");
+      }
+
+      // Set up environment for the handler
+      process.env.GEMINI_API_KEY = geminiKey;
+
       const mockReq = {
         body,
         query: {},
