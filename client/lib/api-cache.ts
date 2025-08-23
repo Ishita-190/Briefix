@@ -99,7 +99,7 @@ function getFallbackResponse(query: string, level: string = "15-year-old") {
         .replace(/crore/g, 'crore (₹10,000,000)');
     }
     return adultResponse; // Keep original for lawyer level
-
+  };
   
   // ===== GENERAL RIGHTS & CRIMINAL LAW =====
   if (queryLower.includes("arrested") && queryLower.includes("rights")) {
