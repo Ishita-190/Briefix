@@ -210,12 +210,10 @@ export default function ExplainPage() {
               </CardHeader>
               <CardContent className="space-y-3">
                 {[
-                  "What is a contract and when is it legally binding?",
-                  "How does the court system work?",
-                  "What are my rights during a police stop?",
-                  "How does bankruptcy protect me from debt?",
-                  "What's the difference between a misdemeanor and felony?",
-                  "How do I file a small claims lawsuit?",
+                  "Is a verbal agreement legally binding?",
+                  "Is it legal for an employer to withhold my salary?",
+                  "What are the grounds for divorce in India?",
+                  "What should I do if I receive a legal notice?",
                 ].map((example, index) => (
                   <Button
                     key={index}
