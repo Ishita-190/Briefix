@@ -19,6 +19,7 @@ import {
   needsExtraSimplification,
 } from "../lib/age-simplification";
 import { loadCorpusData, type CorpusItem } from "../lib/corpus-data";
+import { formatLegalResponse, formatEmergencyResponse } from "../lib/ai-formatter";
 
 function score(text: string, terms: string[]): number {
   const hay = text.toLowerCase();
@@ -209,13 +210,35 @@ export const handleAnswer: RequestHandler = (req, res) => {
       ];
     }
 
+    // Get the base answer from existing logic
+    const baseAnswer = rewriteForLevel(
+      knowledgeAnswer.answer,
+      level,
+      knowledgeAnswer.category,
+      query, // Pass query to get constitutional references
+    );
+
+    // Format with AI for structured response
+    let formattedAnswer: string;
+    try {
+      if (knowledgeAnswer.urgency === "high") {
+        formattedAnswer = await formatEmergencyResponse(baseAnswer, query, level);
+      } else {
+        formattedAnswer = await formatLegalResponse(
+          baseAnswer,
+          query,
+          level,
+          knowledgeAnswer.category,
+          enhancedSources
+        );
+      }
+    } catch (error) {
+      console.error("[Answer API] AI formatting failed, using base answer:", error);
+      formattedAnswer = baseAnswer;
+    }
+
     return res.json({
-      answer: rewriteForLevel(
-        knowledgeAnswer.answer,
-        level,
-        knowledgeAnswer.category,
-        query, // Pass query to get constitutional references
-      ),
+      answer: formattedAnswer,
       sources: enhancedSources.map((source) => ({
         title: source.title,
         type: source.type,
@@ -242,8 +265,29 @@ export const handleAnswer: RequestHandler = (req, res) => {
         queryIntent.specificGuidance as keyof typeof ENHANCED_LEGAL_GUIDANCE
       ];
 
+    // Get base guidance answer
+    const baseGuidance = rewriteForLevel(specificGuidance, level);
+
+    // Format with AI
+    let formattedGuidance: string;
+    try {
+      if (queryIntent.urgency === "high") {
+        formattedGuidance = await formatEmergencyResponse(baseGuidance, query, level);
+      } else {
+        formattedGuidance = await formatLegalResponse(
+          baseGuidance,
+          query,
+          level,
+          queryIntent.intent
+        );
+      }
+    } catch (error) {
+      console.error("[Answer API] AI formatting failed for guidance, using base:", error);
+      formattedGuidance = baseGuidance;
+    }
+
     return res.status(200).json({
-      answer: rewriteForLevel(specificGuidance, level),
+      answer: formattedGuidance,
       sources: [
         {
           title: `${queryIntent.intent === "emergency" ? "Emergency " : ""}Legal Guidance`,
@@ -330,8 +374,29 @@ ${specificGuidance}
 - Researching relevant state or federal regulations
 - Contacting appropriate government agencies if applicable`;
 
+    // Get contextual answer
+    const baseContextual = rewriteForLevel(contextualAnswer, level);
+
+    // Format with AI
+    let formattedContextual: string;
+    try {
+      if (queryIntent.urgency === "high") {
+        formattedContextual = await formatEmergencyResponse(baseContextual, query, level);
+      } else {
+        formattedContextual = await formatLegalResponse(
+          baseContextual,
+          query,
+          level,
+          queryIntent.intent
+        );
+      }
+    } catch (error) {
+      console.error("[Answer API] AI formatting failed for contextual, using base:", error);
+      formattedContextual = baseContextual;
+    }
+
     return res.status(200).json({
-      answer: rewriteForLevel(contextualAnswer, level),
+      answer: formattedContextual,
       sources: [
         {
           title: "Legal Guidance - No Direct Match",
@@ -346,7 +411,23 @@ ${specificGuidance}
   }
 
   const cleanText = summarize(bestMatch.item.text, level === "lawyer" ? 3 : 2);
-  const answer = rewriteForLevel(cleanText, level, "Indian Penal Code", query);
+  const baseIPCAnswer = rewriteForLevel(cleanText, level, "Indian Penal Code", query);
+
+  // Format IPC answer with AI
+  let formattedIPCAnswer: string;
+  try {
+    formattedIPCAnswer = await formatLegalResponse(
+      baseIPCAnswer,
+      query,
+      level,
+      "Indian Penal Code",
+      [bestMatch.item]
+    );
+  } catch (error) {
+    console.error("[Answer API] AI formatting failed for IPC, using base:", error);
+    formattedIPCAnswer = baseIPCAnswer;
+  }
+
   const sources = [
     {
       id: bestMatch.item.id,
@@ -381,7 +462,7 @@ ${specificGuidance}
   });
 
   res.json({
-    answer,
+    answer: formattedIPCAnswer,
     sources,
     category: "Indian Penal Code",
     urgency: "medium",
