@@ -27,6 +27,8 @@ import {
   DollarSign,
   FileSignature,
   Image,
+  ChevronRight,
+  ArrowLeft,
 } from "lucide-react";
 
 export default function DocumentsPage() {
@@ -35,6 +37,8 @@ export default function DocumentsPage() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<any>(null);
   const [activeTab, setActiveTab] = useState("upload");
+  const [showAnalysis, setShowAnalysis] = useState(false);
+  const [selectedSample, setSelectedSample] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Sample documents with images
@@ -293,11 +297,14 @@ export default function DocumentsPage() {
     }
     setUploadedFile(file);
     setAnalysis(null);
+    setShowAnalysis(false);
   };
 
   const analyzeDocument = async () => {
     if (!uploadedFile) return;
     setIsAnalyzing(true);
+    setShowAnalysis(false);
+    
     // Simulate document analysis
     await new Promise((resolve) => setTimeout(resolve, 3000));
     
@@ -309,6 +316,7 @@ export default function DocumentsPage() {
     if (sampleDoc) {
       // Use the mock analysis for the sample document
       setAnalysis(sampleDoc.mockAnalysis);
+      setSelectedSample(sampleDoc);
     } else {
       // Mock analysis results for uploaded document
       const mockAnalysis = {
@@ -358,8 +366,12 @@ export default function DocumentsPage() {
         readingTime: "15-20 minutes",
       };
       setAnalysis(mockAnalysis);
+      setSelectedSample(null);
     }
+    
     setIsAnalyzing(false);
+    // Add a slight delay before showing analysis for smoother transition
+    setTimeout(() => setShowAnalysis(true), 100);
   };
 
   const getConcernColor = (level: string) => {
@@ -383,7 +395,28 @@ export default function DocumentsPage() {
       { type: "application/pdf" },
     );
     setUploadedFile(file);
+    setSelectedSample(doc);
     setActiveTab("upload");
+  };
+
+  const resetDocument = () => {
+    setUploadedFile(null);
+    setAnalysis(null);
+    setShowAnalysis(false);
+    setSelectedSample(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const goBackToSamples = () => {
+    setActiveTab("samples");
+    setShowAnalysis(false);
+    setTimeout(() => {
+      setAnalysis(null);
+      setUploadedFile(null);
+      setSelectedSample(null);
+    }, 300);
   };
 
   return (
@@ -407,7 +440,7 @@ export default function DocumentsPage() {
           
           <TabsContent value="upload" className="space-y-6">
             {/* Upload Section */}
-            <Card>
+            <Card className={`transition-all duration-300 ${uploadedFile ? 'opacity-100' : 'opacity-100'}`}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Upload className="h-5 w-5" />
@@ -419,9 +452,9 @@ export default function DocumentsPage() {
               </CardHeader>
               <CardContent>
                 <div
-                  className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+                  className={`border-2 border-dashed rounded-lg p-8 text-center transition-all duration-300 ${
                     dragActive
-                      ? "border-accent bg-accent/10"
+                      ? "border-accent bg-accent/10 scale-[1.02]"
                       : "border-muted-foreground/25 hover:border-accent/50"
                   }`}
                   onDragEnter={handleDrag}
@@ -438,15 +471,24 @@ export default function DocumentsPage() {
                   />
                   {uploadedFile ? (
                     <div className="space-y-4">
-                      <FileText className="h-12 w-12 text-accent mx-auto" />
+                      <div className="relative">
+                        <FileText className="h-16 w-16 text-accent mx-auto transition-transform duration-300 hover:scale-110" />
+                        <div className="absolute -top-2 -right-2 bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                          <CheckCircle className="h-4 w-4" />
+                        </div>
+                      </div>
                       <div>
-                        <p className="font-medium">{uploadedFile.name}</p>
+                        <p className="font-medium text-lg">{uploadedFile.name}</p>
                         <p className="text-sm text-muted-foreground">
                           {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
                         </p>
                       </div>
                       <div className="flex gap-2 justify-center">
-                        <Button onClick={analyzeDocument} disabled={isAnalyzing}>
+                        <Button 
+                          onClick={analyzeDocument} 
+                          disabled={isAnalyzing}
+                          className="transition-all duration-300 hover:scale-105"
+                        >
                           {isAnalyzing ? (
                             <>
                               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -461,13 +503,8 @@ export default function DocumentsPage() {
                         </Button>
                         <Button
                           variant="outline"
-                          onClick={() => {
-                            setUploadedFile(null);
-                            setAnalysis(null);
-                            if (fileInputRef.current) {
-                              fileInputRef.current.value = "";
-                            }
-                          }}
+                          onClick={resetDocument}
+                          className="transition-all duration-300 hover:scale-105"
                         >
                           <FileX className="mr-2 h-4 w-4" />
                           Remove
@@ -476,7 +513,7 @@ export default function DocumentsPage() {
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      <Upload className="h-12 w-12 text-muted-foreground mx-auto" />
+                      <Upload className="h-16 w-16 text-muted-foreground mx-auto transition-transform duration-300 hover:scale-110" />
                       <div>
                         <p className="text-lg font-medium">
                           Drop your document here
@@ -485,7 +522,10 @@ export default function DocumentsPage() {
                           or click to browse files
                         </p>
                       </div>
-                      <Button onClick={() => fileInputRef.current?.click()}>
+                      <Button 
+                        onClick={() => fileInputRef.current?.click()}
+                        className="transition-all duration-300 hover:scale-105"
+                      >
                         Select File
                       </Button>
                     </div>
@@ -496,7 +536,7 @@ export default function DocumentsPage() {
           </TabsContent>
           
           <TabsContent value="samples" className="space-y-6">
-            <Card>
+            <Card className="transition-all duration-300">
               <CardHeader>
                 <CardTitle>Sample Documents</CardTitle>
                 <CardDescription>
@@ -508,24 +548,27 @@ export default function DocumentsPage() {
                   {sampleDocuments.map((doc) => (
                     <Card 
                       key={doc.id} 
-                      className="cursor-pointer transition-all hover:shadow-md"
+                      className="cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group overflow-hidden"
                       onClick={() => loadSampleDocument(doc)}
                     >
-                      <div className="aspect-[3/4] overflow-hidden rounded-t-lg">
+                      <div className="aspect-[3/4] overflow-hidden rounded-t-lg transition-transform duration-300 group-hover:scale-105">
                         <img 
                           src={doc.imageUrl} 
                           alt={doc.name}
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <CardContent className="p-4">
-                        <h3 className="font-medium mb-1">{doc.name}</h3>
+                      <CardContent className="p-4 transition-colors duration-300 group-hover:bg-muted/50">
+                        <h3 className="font-medium mb-1 group-hover:text-accent transition-colors duration-300">{doc.name}</h3>
                         <Badge variant="secondary" className="mb-2">
                           {doc.type}
                         </Badge>
                         <p className="text-sm text-muted-foreground">
                           {doc.description}
                         </p>
+                        <div className="mt-3 flex items-center text-sm text-accent font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          Analyze <ChevronRight className="h-4 w-4 ml-1" />
+                        </div>
                       </CardContent>
                     </Card>
                   ))}
@@ -535,11 +578,46 @@ export default function DocumentsPage() {
           </TabsContent>
         </Tabs>
 
+        {/* Loading State */}
+        {isAnalyzing && (
+          <div className="mt-8">
+            <Card className="overflow-hidden">
+              <CardContent className="p-8">
+                <div className="flex flex-col items-center justify-center space-y-4">
+                  <div className="relative">
+                    <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center">
+                      <Brain className="h-8 w-8 text-accent animate-pulse" />
+                    </div>
+                    <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-accent animate-spin"></div>
+                  </div>
+                  <h3 className="text-xl font-medium">Analyzing Document</h3>
+                  <p className="text-muted-foreground text-center max-w-md">
+                    Our AI is examining your document to identify key clauses, potential issues, and provide recommendations.
+                  </p>
+                  <div className="w-full max-w-xs bg-muted rounded-full h-2.5 mt-4">
+                    <div className="bg-accent h-2.5 rounded-full animate-pulse"></div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
         {/* Analysis Results */}
         {analysis && (
-          <div className="space-y-6 mt-8">
+          <div className={`mt-8 space-y-6 transition-all duration-500 ${showAnalysis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            {/* Back button */}
+            <Button 
+              variant="outline" 
+              onClick={goBackToSamples}
+              className="mb-4 transition-all duration-300 hover:scale-105"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Samples
+            </Button>
+            
             {/* Document Overview */}
-            <Card>
+            <Card className="transition-all duration-300 hover:shadow-md">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Eye className="h-5 w-5 text-accent" />
@@ -548,27 +626,29 @@ export default function DocumentsPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="outline">Type: {analysis.documentType}</Badge>
-                  <Badge variant="outline">
+                  <Badge variant="outline" className="transition-all duration-300 hover:bg-accent hover:text-accent-foreground">
+                    Type: {analysis.documentType}
+                  </Badge>
+                  <Badge variant="outline" className="transition-all duration-300 hover:bg-accent hover:text-accent-foreground">
                     Complexity: {analysis.complexity}
                   </Badge>
-                  <Badge variant="outline">
+                  <Badge variant="outline" className="transition-all duration-300 hover:bg-accent hover:text-accent-foreground">
                     Reading Time: {analysis.readingTime}
                   </Badge>
                   {analysis.parties && (
-                    <Badge variant="outline">
+                    <Badge variant="outline" className="transition-all duration-300 hover:bg-accent hover:text-accent-foreground">
                       <User className="h-3 w-3 mr-1" />
                       {analysis.parties.join(" & ")}
                     </Badge>
                   )}
                   {analysis.effectiveDate && (
-                    <Badge variant="outline">
+                    <Badge variant="outline" className="transition-all duration-300 hover:bg-accent hover:text-accent-foreground">
                       <Calendar className="h-3 w-3 mr-1" />
                       {analysis.effectiveDate}
                     </Badge>
                   )}
                   {analysis.jurisdiction && (
-                    <Badge variant="outline">
+                    <Badge variant="outline" className="transition-all duration-300 hover:bg-accent hover:text-accent-foreground">
                       <Shield className="h-3 w-3 mr-1" />
                       {analysis.jurisdiction}
                     </Badge>
@@ -581,7 +661,11 @@ export default function DocumentsPage() {
                     <h4 className="font-medium mb-2">Key Clauses</h4>
                     <div className="flex flex-wrap gap-2">
                       {analysis.keyClauses.map((clause: string, index: number) => (
-                        <Badge key={index} variant="outline" className="text-xs">
+                        <Badge 
+                          key={index} 
+                          variant="outline" 
+                          className="text-xs transition-all duration-300 hover:bg-accent hover:text-accent-foreground"
+                        >
                           {clause}
                         </Badge>
                       ))}
@@ -592,7 +676,7 @@ export default function DocumentsPage() {
             </Card>
             
             {/* Key Points */}
-            <Card>
+            <Card className="transition-all duration-300 hover:shadow-md">
               <CardHeader>
                 <CardTitle>Key Points</CardTitle>
                 <CardDescription>
@@ -602,7 +686,10 @@ export default function DocumentsPage() {
               <CardContent>
                 <ul className="space-y-3">
                   {analysis.keyPoints.map((point: string, index: number) => (
-                    <li key={index} className="flex items-start gap-3">
+                    <li 
+                      key={index} 
+                      className="flex items-start gap-3 transition-all duration-300 hover:bg-muted/50 p-2 rounded-lg"
+                    >
                       <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
                       <span>{point}</span>
                     </li>
@@ -612,7 +699,7 @@ export default function DocumentsPage() {
             </Card>
             
             {/* Potential Concerns */}
-            <Card>
+            <Card className="transition-all duration-300 hover:shadow-md">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <AlertTriangle className="h-5 w-5 text-amber-500" />
@@ -625,7 +712,14 @@ export default function DocumentsPage() {
               <CardContent className="space-y-4">
                 {analysis.potentialConcerns.map(
                   (concern: any, index: number) => (
-                    <Alert key={index}>
+                    <Alert 
+                      key={index} 
+                      className={`transition-all duration-300 hover:shadow-sm ${
+                        concern.level === 'high' ? 'border-red-200 bg-red-50 dark:bg-red-950/20' : 
+                        concern.level === 'medium' ? 'border-amber-200 bg-amber-50 dark:bg-amber-950/20' : 
+                        'border-blue-200 bg-blue-50 dark:bg-blue-950/20'
+                      }`}
+                    >
                       <AlertTriangle className="h-4 w-4" />
                       <div>
                         <div className="flex items-center gap-2 mb-1">
@@ -647,7 +741,7 @@ export default function DocumentsPage() {
             </Card>
             
             {/* Recommendations */}
-            <Card>
+            <Card className="transition-all duration-300 hover:shadow-md">
               <CardHeader>
                 <CardTitle>Recommendations</CardTitle>
                 <CardDescription>
@@ -658,7 +752,10 @@ export default function DocumentsPage() {
                 <ul className="space-y-3">
                   {analysis.recommendations.map(
                     (rec: string, index: number) => (
-                      <li key={index} className="flex items-start gap-3">
+                      <li 
+                        key={index} 
+                        className="flex items-start gap-3 transition-all duration-300 hover:bg-muted/50 p-2 rounded-lg"
+                      >
                         <div className="bg-accent text-accent-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-medium mt-0.5 flex-shrink-0">
                           {index + 1}
                         </div>
@@ -671,10 +768,8 @@ export default function DocumentsPage() {
             </Card>
             
             {/* Sample Document Preview */}
-            {sampleDocuments.find(doc => 
-              uploadedFile && uploadedFile.name.toLowerCase().includes(doc.name.toLowerCase().replace(/\s+/g, "-"))
-            ) && (
-              <Card>
+            {selectedSample && (
+              <Card className="transition-all duration-300 hover:shadow-md">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Image className="h-5 w-5 text-accent" />
@@ -684,11 +779,9 @@ export default function DocumentsPage() {
                 <CardContent>
                   <div className="flex justify-center">
                     <img 
-                      src={sampleDocuments.find(doc => 
-                        uploadedFile && uploadedFile.name.toLowerCase().includes(doc.name.toLowerCase().replace(/\s+/g, "-"))
-                      )?.imageUrl} 
+                      src={selectedSample.imageUrl} 
                       alt="Document preview"
-                      className="max-w-md rounded-lg shadow-md"
+                      className="max-w-md rounded-lg shadow-md transition-transform duration-300 hover:scale-105"
                     />
                   </div>
                 </CardContent>
@@ -698,7 +791,7 @@ export default function DocumentsPage() {
         )}
         
         {/* Disclaimer */}
-        <div className="mt-8 p-6 bg-muted/50 rounded-lg">
+        <div className="mt-8 p-6 bg-muted/50 rounded-lg transition-all duration-300 hover:bg-muted/70">
           <p className="text-sm text-muted-foreground text-center">
             ⚠️ <strong>Important:</strong> This analysis is for educational
             purposes only. AI-generated insights should be verified by a
