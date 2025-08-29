@@ -22,7 +22,12 @@ import {
   MapPin,
   Search,
   X,
+  Home,
+  Heart,
+  Gavel,
+  FileCheck,
 } from "lucide-react";
+
 type ProcedureStep = {
   id: number;
   title: string;
@@ -32,6 +37,7 @@ type ProcedureStep = {
   completed: boolean;
   optional?: boolean;
 };
+
 type LegalProcedure = {
   id: string;
   title: string;
@@ -42,6 +48,7 @@ type LegalProcedure = {
   cost: string;
   steps: ProcedureStep[];
 };
+
 export default function ProceduresPage() {
   const [selectedProcedure, setSelectedProcedure] =
     useState<LegalProcedure | null>(null);
@@ -252,6 +259,294 @@ export default function ProceduresPage() {
         },
       ],
     },
+    {
+      id: "partition-property",
+      title: "Partition of Property",
+      description: "Legal process for dividing property among co-owners",
+      category: "Property Law",
+      estimatedTime: "6-12 months",
+      complexity: "Advanced",
+      cost: "₹25,000-₹1,00,000",
+      steps: [
+        {
+          id: 1,
+          title: "Verify ownership documents",
+          description:
+            "Collect all property documents including title deeds, sale agreements, and mutation records",
+          estimatedTime: "1-2 weeks",
+          difficulty: "Medium",
+          completed: false,
+        },
+        {
+          id: 2,
+          title: "Determine share of each co-owner",
+          description:
+            "Calculate the exact share of each owner based on ownership type and contribution",
+          estimatedTime: "1-2 weeks",
+          difficulty: "Medium",
+          completed: false,
+        },
+        {
+          id: 3,
+          title: "Send legal notice to co-owners",
+          description:
+            "Formally notify all co-owners about your intention to partition the property",
+          estimatedTime: "1 week",
+          difficulty: "Medium",
+          completed: false,
+        },
+        {
+          id: 4,
+          title: "Attempt amicable settlement",
+          description:
+            "Negotiate with co-owners for a mutual agreement on property division",
+          estimatedTime: "2-4 weeks",
+          difficulty: "Hard",
+          completed: false,
+          optional: true,
+        },
+        {
+          id: 5,
+          title: "File partition suit in court",
+          description:
+            "If no agreement, file a partition suit in the appropriate civil court",
+          estimatedTime: "1-2 weeks",
+          difficulty: "Hard",
+          completed: false,
+        },
+        {
+          id: 6,
+          title: "Attend court proceedings",
+          description:
+            "Participate in court hearings and provide necessary evidence",
+          estimatedTime: "3-6 months",
+          difficulty: "Hard",
+          completed: false,
+        },
+        {
+          id: 7,
+          title: "Comply with court order",
+          description:
+            "Follow the court's decision for property division and execute the partition",
+          estimatedTime: "2-4 weeks",
+          difficulty: "Medium",
+          completed: false,
+        },
+      ],
+    },
+    {
+      id: "marriage-registration",
+      title: "Marriage Registration",
+      description: "Process for legally registering your marriage in India",
+      category: "Family Law",
+      estimatedTime: "2-4 weeks",
+      complexity: "Beginner",
+      cost: "₹100-₹500",
+      steps: [
+        {
+          id: 1,
+          title: "Determine registration type",
+          description:
+            "Decide between Hindu Marriage Act, Special Marriage Act, or other applicable acts",
+          estimatedTime: "30 minutes",
+          difficulty: "Easy",
+          completed: false,
+        },
+        {
+          id: 2,
+          title: "Collect required documents",
+          description:
+            "Gather age proof, address proof, marriage photos, and witness documents",
+          estimatedTime: "1-2 days",
+          difficulty: "Easy",
+          completed: false,
+        },
+        {
+          id: 3,
+          title: "Fill application form",
+          description:
+            "Complete the marriage registration form available at the registrar's office",
+          estimatedTime: "1-2 hours",
+          difficulty: "Easy",
+          completed: false,
+        },
+        {
+          id: 4,
+          title: "Submit application with fees",
+          description:
+            "Submit the completed form along with required documents and fees",
+          estimatedTime: "1-2 hours",
+          difficulty: "Easy",
+          completed: false,
+        },
+        {
+          id: 5,
+          title: "Schedule appointment",
+          description:
+            "Book an appointment for the registrar to visit and verify the marriage",
+          estimatedTime: "1-2 weeks",
+          difficulty: "Medium",
+          completed: false,
+        },
+        {
+          id: 6,
+          title: "Attend verification",
+          description:
+            "Both spouses and witnesses must be present during the registrar's visit",
+          estimatedTime: "1-2 hours",
+          difficulty: "Easy",
+          completed: false,
+        },
+        {
+          id: 7,
+          title: "Collect marriage certificate",
+          description:
+            "Receive the official marriage certificate after verification is complete",
+          estimatedTime: "1-2 weeks",
+          difficulty: "Easy",
+          completed: false,
+        },
+      ],
+    },
+    {
+      id: "recovery-money",
+      title: "Recovery of Money",
+      description: "Legal process for recovering money through cheque bounce or debt recovery",
+      category: "Financial Law",
+      estimatedTime: "3-6 months",
+      complexity: "Intermediate",
+      cost: "₹5,000-₹20,000",
+      steps: [
+        {
+          id: 1,
+          title: "Send legal notice",
+          description:
+            "For cheque bounce: Send a legal notice under Section 138 of NI Act within 30 days of bounce",
+          estimatedTime: "1 week",
+          difficulty: "Medium",
+          completed: false,
+        },
+        {
+          id: 2,
+          title: "Wait for response",
+          description:
+            "Allow 15 days for the recipient to respond to the legal notice",
+          estimatedTime: "15 days",
+          difficulty: "Easy",
+          completed: false,
+        },
+        {
+          id: 3,
+          title: "File complaint in court",
+          description:
+            "If no payment is received, file a complaint in the appropriate court",
+          estimatedTime: "1-2 weeks",
+          difficulty: "Hard",
+          completed: false,
+        },
+        {
+          id: 4,
+          title: "Attend court hearings",
+          description:
+            "Appear for all court hearings and present your case with evidence",
+          estimatedTime: "2-4 months",
+          difficulty: "Hard",
+          completed: false,
+        },
+        {
+          id: 5,
+          title: "Obtain court order",
+          description:
+            "Receive the court judgment in your favor with payment directions",
+          estimatedTime: "1-2 months",
+          difficulty: "Medium",
+          completed: false,
+        },
+        {
+          id: 6,
+          title: "Execute the order",
+          description:
+            "If the defaulter still doesn't pay, take steps to execute the court order",
+          estimatedTime: "1-2 months",
+          difficulty: "Hard",
+          completed: false,
+        },
+      ],
+    },
+    {
+      id: "file-case-court",
+      title: "How to File a Case in Court",
+      description: "Complete guide to filing a civil or criminal case in Indian courts",
+      category: "Court Proceedings",
+      estimatedTime: "1-2 weeks",
+      complexity: "Intermediate",
+      cost: "₹2,000-₹10,000",
+      steps: [
+        {
+          id: 1,
+          title: "Consult a lawyer",
+          description:
+            "Seek legal advice to understand the merits of your case and appropriate court",
+          estimatedTime: "1-2 hours",
+          difficulty: "Easy",
+          completed: false,
+        },
+        {
+          id: 2,
+          title: "Gather evidence",
+          description:
+            "Collect all relevant documents, photos, videos, and witness statements",
+          estimatedTime: "2-5 days",
+          difficulty: "Medium",
+          completed: false,
+        },
+        {
+          id: 3,
+          title: "Draft plaint/complaint",
+          description:
+            "Prepare the legal document stating facts, grounds, and relief sought",
+          estimatedTime: "2-3 days",
+          difficulty: "Hard",
+          completed: false,
+        },
+        {
+          id: 4,
+          title: "Pay court fees",
+          description:
+            "Calculate and pay the required court fees based on the case value",
+          estimatedTime: "1 day",
+          difficulty: "Easy",
+          completed: false,
+        },
+        {
+          id: 5,
+          title: "File the case",
+          description:
+            "Submit all documents to the appropriate court and get the case registered",
+          estimatedTime: "1-2 days",
+          difficulty: "Medium",
+          completed: false,
+        },
+        {
+          id: 6,
+          title: "Serve notice to opposite party",
+          description:
+            "Ensure the opposite party receives legal notice of the case",
+          estimatedTime: "1-2 weeks",
+          difficulty: "Medium",
+          completed: false,
+        },
+        {
+          id: 7,
+          title: "Prepare for first hearing",
+          description:
+            "Organize your documents and prepare arguments for the first court appearance",
+          estimatedTime: "2-3 days",
+          difficulty: "Medium",
+          completed: false,
+        },
+      ],
+    },
   ];
   
   // Filter procedures based on search query
@@ -277,6 +572,7 @@ export default function ProceduresPage() {
         : [...prev, stepId],
     );
   };
+  
   const getCompletionPercentage = (procedure: LegalProcedure) => {
     const totalSteps = procedure.steps.length;
     const completed = procedure.steps.filter((step) =>
@@ -284,6 +580,7 @@ export default function ProceduresPage() {
     ).length;
     return Math.round((completed / totalSteps) * 100);
   };
+  
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case "Easy":
@@ -296,6 +593,7 @@ export default function ProceduresPage() {
         return "bg-gray-500";
     }
   };
+  
   const getComplexityVariant = (complexity: string) => {
     switch (complexity) {
       case "Beginner":
@@ -308,6 +606,24 @@ export default function ProceduresPage() {
         return "default";
     }
   };
+  
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case "Property Law":
+        return <Home className="h-4 w-4" />;
+      case "Family Law":
+        return <Heart className="h-4 w-4" />;
+      case "Financial Law":
+        return <IndianRupee className="h-4 w-4" />;
+      case "Court Proceedings":
+        return <Gavel className="h-4 w-4" />;
+      case "Estate Planning":
+        return <FileCheck className="h-4 w-4" />;
+      default:
+        return <FileText className="h-4 w-4" />;
+    }
+  };
+  
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-6xl mx-auto">
@@ -401,7 +717,7 @@ export default function ProceduresPage() {
                           {procedure.cost}
                         </div>
                         <div className="flex items-center gap-1">
-                          <FileText className="h-4 w-4" />
+                          {getCategoryIcon(procedure.category)}
                           {procedure.category}
                         </div>
                       </div>
@@ -436,6 +752,7 @@ export default function ProceduresPage() {
               )}
             </div>
           </div>
+          
           {/* Procedure Details */}
           <div>
             {selectedProcedure ? (
@@ -467,6 +784,7 @@ export default function ProceduresPage() {
                     </div>
                   </CardHeader>
                 </Card>
+                
                 <Card>
                   <CardHeader>
                     <CardTitle>Steps to Complete</CardTitle>
@@ -540,6 +858,7 @@ export default function ProceduresPage() {
                     ))}
                   </CardContent>
                 </Card>
+                
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
@@ -583,6 +902,7 @@ export default function ProceduresPage() {
             )}
           </div>
         </div>
+        
         {/* Disclaimer */}
         <div className="mt-12 p-6 bg-muted/50 rounded-lg">
           <p className="text-sm text-muted-foreground text-center">
