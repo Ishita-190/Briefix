@@ -17,11 +17,12 @@ import {
   ArrowRight,
   FileText,
   Users,
-  DollarSign,
+  IndianRupee,
   Calendar,
   MapPin,
+  Search,
+  X,
 } from "lucide-react";
-
 type ProcedureStep = {
   id: number;
   title: string;
@@ -31,7 +32,6 @@ type ProcedureStep = {
   completed: boolean;
   optional?: boolean;
 };
-
 type LegalProcedure = {
   id: string;
   title: string;
@@ -42,12 +42,12 @@ type LegalProcedure = {
   cost: string;
   steps: ProcedureStep[];
 };
-
 export default function ProceduresPage() {
   const [selectedProcedure, setSelectedProcedure] =
     useState<LegalProcedure | null>(null);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
-
+  const [searchQuery, setSearchQuery] = useState("");
+  
   const procedures: LegalProcedure[] = [
     {
       id: "small-claims",
@@ -57,13 +57,13 @@ export default function ProceduresPage() {
       category: "Court Proceedings",
       estimatedTime: "2-4 weeks",
       complexity: "Beginner",
-      cost: "$30-$75 filing fee",
+      cost: "₹2,000-₹5,000 filing fee",
       steps: [
         {
           id: 1,
           title: "Determine if your case qualifies",
           description:
-            "Verify your claim amount is within your state's small claims limit (typically $2,500-$10,000)",
+            "Verify your claim amount is within your state's small claims limit (typically ₹20,000-₹75,000)",
           estimatedTime: "30 minutes",
           difficulty: "Easy",
           completed: false,
@@ -131,7 +131,7 @@ export default function ProceduresPage() {
       category: "Personal Legal",
       estimatedTime: "4-8 weeks",
       complexity: "Intermediate",
-      cost: "$150-$500",
+      cost: "₹10,000-₹35,000",
       steps: [
         {
           id: 1,
@@ -180,7 +180,7 @@ export default function ProceduresPage() {
           id: 6,
           title: "Update your documents",
           description:
-            "Update Social Security card, driver's license, passport, and other official documents",
+            "Update Aadhaar card, driver's license, passport, and other official documents",
           estimatedTime: "2-4 weeks",
           difficulty: "Hard",
           completed: false,
@@ -194,7 +194,7 @@ export default function ProceduresPage() {
       category: "Estate Planning",
       estimatedTime: "2-3 weeks",
       complexity: "Intermediate",
-      cost: "$100-$1,000",
+      cost: "₹7,000-₹70,000",
       steps: [
         {
           id: 1,
@@ -253,7 +253,23 @@ export default function ProceduresPage() {
       ],
     },
   ];
-
+  
+  // Filter procedures based on search query
+  const filteredProcedures = procedures.filter((procedure) => {
+    if (!searchQuery) return true;
+    
+    const query = searchQuery.toLowerCase();
+    return (
+      procedure.title.toLowerCase().includes(query) ||
+      procedure.description.toLowerCase().includes(query) ||
+      procedure.category.toLowerCase().includes(query) ||
+      procedure.steps.some(step => 
+        step.title.toLowerCase().includes(query) || 
+        step.description.toLowerCase().includes(query)
+      )
+    );
+  });
+  
   const toggleStepCompletion = (stepId: number) => {
     setCompletedSteps((prev) =>
       prev.includes(stepId)
@@ -261,7 +277,6 @@ export default function ProceduresPage() {
         : [...prev, stepId],
     );
   };
-
   const getCompletionPercentage = (procedure: LegalProcedure) => {
     const totalSteps = procedure.steps.length;
     const completed = procedure.steps.filter((step) =>
@@ -269,7 +284,6 @@ export default function ProceduresPage() {
     ).length;
     return Math.round((completed / totalSteps) * 100);
   };
-
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case "Easy":
@@ -282,7 +296,6 @@ export default function ProceduresPage() {
         return "bg-gray-500";
     }
   };
-
   const getComplexityVariant = (complexity: string) => {
     switch (complexity) {
       case "Beginner":
@@ -295,7 +308,6 @@ export default function ProceduresPage() {
         return "default";
     }
   };
-
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-6xl mx-auto">
@@ -308,76 +320,122 @@ export default function ProceduresPage() {
             instructions and timelines.
           </p>
         </div>
-
+        
+        {/* Search Box */}
+        <div className="mb-8 max-w-2xl mx-auto">
+          <div className="relative">
+            <Search className="absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search for legal procedures..."
+              className="w-full p-3 pl-10 pr-10 rounded-lg border border-border bg-background text-foreground"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-3.5 text-muted-foreground hover:text-foreground"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+          {searchQuery && (
+            <p className="text-sm text-muted-foreground mt-2">
+              Found {filteredProcedures.length} procedure{filteredProcedures.length !== 1 ? 's' : ''} matching "{searchQuery}"
+            </p>
+          )}
+        </div>
+        
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Procedures List */}
           <div>
-            <h2 className="text-2xl font-bold mb-6">Available Procedures</h2>
+            <h2 className="text-2xl font-bold mb-6">
+              Available Procedures
+              {searchQuery && (
+                <span className="text-sm font-normal text-muted-foreground ml-2">
+                  ({filteredProcedures.length} results)
+                </span>
+              )}
+            </h2>
             <div className="space-y-4">
-              {procedures.map((procedure) => (
-                <Card
-                  key={procedure.id}
-                  className={`cursor-pointer transition-colors ${
-                    selectedProcedure?.id === procedure.id
-                      ? "border-accent shadow-lg"
-                      : "hover:border-accent/50"
-                  }`}
-                  onClick={() => setSelectedProcedure(procedure)}
-                >
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <CardTitle className="text-lg">
-                          {procedure.title}
-                        </CardTitle>
-                        <CardDescription className="mt-2">
-                          {procedure.description}
-                        </CardDescription>
-                      </div>
-                      <Badge
-                        variant={
-                          getComplexityVariant(procedure.complexity) as any
-                        }
-                      >
-                        {procedure.complexity}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Clock className="h-4 w-4" />
-                        {procedure.estimatedTime}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <DollarSign className="h-4 w-4" />
-                        {procedure.cost}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <FileText className="h-4 w-4" />
-                        {procedure.category}
-                      </div>
-                    </div>
-                    {selectedProcedure?.id === procedure.id && (
-                      <div className="mt-4">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-medium">Progress</span>
-                          <span className="text-sm text-muted-foreground">
-                            {getCompletionPercentage(procedure)}%
-                          </span>
+              {filteredProcedures.length > 0 ? (
+                filteredProcedures.map((procedure) => (
+                  <Card
+                    key={procedure.id}
+                    className={`cursor-pointer transition-colors ${
+                      selectedProcedure?.id === procedure.id
+                        ? "border-accent shadow-lg"
+                        : "hover:border-accent/50"
+                    }`}
+                    onClick={() => setSelectedProcedure(procedure)}
+                  >
+                    <CardHeader>
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <CardTitle className="text-lg">
+                            {procedure.title}
+                          </CardTitle>
+                          <CardDescription className="mt-2">
+                            {procedure.description}
+                          </CardDescription>
                         </div>
-                        <Progress
-                          value={getCompletionPercentage(procedure)}
-                          className="h-2"
-                        />
+                        <Badge
+                          variant={
+                            getComplexityVariant(procedure.complexity) as any
+                          }
+                        >
+                          {procedure.complexity}
+                        </Badge>
                       </div>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-4 w-4" />
+                          {procedure.estimatedTime}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <IndianRupee className="h-4 w-4" />
+                          {procedure.cost}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <FileText className="h-4 w-4" />
+                          {procedure.category}
+                        </div>
+                      </div>
+                      {selectedProcedure?.id === procedure.id && (
+                        <div className="mt-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-medium">Progress</span>
+                            <span className="text-sm text-muted-foreground">
+                              {getCompletionPercentage(procedure)}%
+                            </span>
+                          </div>
+                          <Progress
+                            value={getCompletionPercentage(procedure)}
+                            className="h-2"
+                          />
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-muted-foreground">No procedures found matching your search.</p>
+                  <Button 
+                    variant="outline" 
+                    className="mt-4"
+                    onClick={() => setSearchQuery("")}
+                  >
+                    Clear search
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
-
           {/* Procedure Details */}
           <div>
             {selectedProcedure ? (
@@ -394,7 +452,7 @@ export default function ProceduresPage() {
                         {selectedProcedure.estimatedTime}
                       </Badge>
                       <Badge variant="outline">
-                        <DollarSign className="h-3 w-3 mr-1" />
+                        <IndianRupee className="h-3 w-3 mr-1" />
                         {selectedProcedure.cost}
                       </Badge>
                       <Badge
@@ -409,7 +467,6 @@ export default function ProceduresPage() {
                     </div>
                   </CardHeader>
                 </Card>
-
                 <Card>
                   <CardHeader>
                     <CardTitle>Steps to Complete</CardTitle>
@@ -440,7 +497,6 @@ export default function ProceduresPage() {
                             <CheckCircle className="h-4 w-4" />
                           )}
                         </button>
-
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-2">
                             <h4
@@ -458,7 +514,6 @@ export default function ProceduresPage() {
                               </Badge>
                             )}
                           </div>
-
                           <p
                             className={`text-sm text-muted-foreground mb-2 ${
                               completedSteps.includes(step.id)
@@ -468,7 +523,6 @@ export default function ProceduresPage() {
                           >
                             {step.description}
                           </p>
-
                           <div className="flex items-center gap-4 text-xs text-muted-foreground">
                             <div className="flex items-center gap-1">
                               <Clock className="h-3 w-3" />
@@ -486,7 +540,6 @@ export default function ProceduresPage() {
                     ))}
                   </CardContent>
                 </Card>
-
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
@@ -530,7 +583,6 @@ export default function ProceduresPage() {
             )}
           </div>
         </div>
-
         {/* Disclaimer */}
         <div className="mt-12 p-6 bg-muted/50 rounded-lg">
           <p className="text-sm text-muted-foreground text-center">
