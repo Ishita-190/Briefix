@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { handler as demoHandler } from "./routes/demo";
 import { handler as answerHandler } from "./routes/answer";
+import { handler as geminiHandler } from "./routes/gemini";
 
 export function createServer() {
   const app = express();
@@ -34,6 +35,31 @@ export function createServer() {
       res.status(result.statusCode).json(JSON.parse(result.body));
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Gemini API route
+  app.post("/api/gemini", async (req, res) => {
+    try {
+      const result = await geminiHandler({ 
+        body: JSON.stringify(req.body),
+        headers: req.headers 
+      });
+      
+      // Set CORS headers
+      res.set({
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS'
+      });
+      
+      res.status(result.statusCode).json(JSON.parse(result.body));
+    } catch (error) {
+      console.error('Error in Gemini handler:', error);
+      res.status(500).json({ 
+        error: "Failed to process request with Gemini API",
+        fallback: true
+      });
     }
   });
 
