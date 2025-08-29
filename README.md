@@ -50,7 +50,7 @@ Briefix combines the gravitas of legal tradition with modern, accessible design 
 
 ### Backend
 - **Runtime**: Node.js with Express.js
-- **API**: RESTful endpoints
+- **API**: Gemini API
 - **Serverless**: Netlify Functions
 
 ### Development
