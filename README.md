@@ -91,6 +91,43 @@ Visit `http://localhost:8080` in your browser.
 | `pnpm typecheck` | TypeScript type checking |
 | `pnpm format` | Format code with Prettier |
 
+
+## 📁 Project Diagram
+
+                ┌─────────────────────────┐
+                │       Client (React)    │
+                │  Vite + Tailwind + UI   │
+                │ Pages & Components      │
+                └───────────┬─────────────┘
+                            │  API Calls (REST/Fetch)
+                            ▼
+     ┌────────────────────────────┐         ┌────────────────────────────┐
+     │  Server (Express Backend) │◄────────►│  Netlify Functions (API)   │
+     │  server/routes/demo.ts     │         │  netlify/functions/api.mts │
+     └───────────┬────────────────┘         └─────────────┬──────────────┘
+                 │ Shared Interfaces (TypeScript API contracts)
+                 ▼
+           ┌──────────────┐
+           │  shared/     │
+           │  api.ts      │
+           └──────────────┘
+
+     ┌─────────────────────────────┐
+     │ Utilities / Data Processing │
+     │  extract_ipc.py, json, etc. │
+     └─────────────────────────────┘
+
+     ┌─────────────────────────────┐
+     │  Config & Deployment        │
+     │  vite, tsconfig, tailwind,  │
+     │  netlify.toml, env          │
+     └─────────────────────────────┘
+
+     ┌─────────────────────────────┐
+     │ Docs & Assets               │
+     │  README, blueprint, pdfs    │
+     │  public/ (static files)     │
+     └─────────────────────────────┘
 ## 🗂 Project Structure
 
 ```
