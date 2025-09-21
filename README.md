@@ -199,5 +199,5 @@ We welcome contributions! Here's how you can help:
 
 <div align="center">
   <p>Made with ❤️ for legal education and accessibility</p>
-  <p>© 2024 Briefix. All rights reserved.</p>
+  <p>© 2025 Briefix. All rights reserved.</p>
 </div>
