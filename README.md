@@ -18,7 +18,6 @@
 - [Project Structure](#project-structure)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
 - [Disclaimer](#disclaimer)
 
 ## 🎯 About Briefix
@@ -194,9 +193,6 @@ We welcome contributions! Here's how you can help:
 - Update documentation as needed
 - Never commit sensitive information
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## ⚠️ Disclaimer
 
