@@ -94,40 +94,49 @@ Visit `http://localhost:8080` in your browser.
 
 ## 📁 Project Diagram
 
-                ┌─────────────────────────┐
-                │       Client (React)    │
-                │  Vite + Tailwind + UI   │
-                │ Pages & Components      │
-                └───────────┬─────────────┘
-                            │  API Calls (REST/Fetch)
-                            ▼
-     ┌────────────────────────────┐         ┌────────────────────────────┐
-     │  Server (Express Backend) │◄────────►│  Netlify Functions (API)   │
-     │  server/routes/demo.ts     │         │  netlify/functions/api.mts │
-     └───────────┬────────────────┘         └─────────────┬──────────────┘
-                 │ Shared Interfaces (TypeScript API contracts)
-                 ▼
-           ┌──────────────┐
-           │  shared/     │
-           │  api.ts      │
-           └──────────────┘
+                           ┌─────────────────────────┐
+            │       Client (React)    │
+            │  Vite + Tailwind + UI   │
+            │ Pages & Components      │
+            └───────────┬─────────────┘
+                        │  API Calls (REST/Fetch)
+                        ▼
+ ┌────────────────────────────┐         ┌────────────────────────────┐
+ │  Server (Express Backend)  │◄────────►│  Netlify Functions (API)   │
+ │  server/routes/demo.ts      │         │  netlify/functions/api.mts │
+ └───────┬────────────────────┘         └─────────────┬──────────────┘
+         │ Shared Interfaces (TypeScript API contracts)
+         ▼
+   ┌──────────────┐
+   │  shared/     │
+   │  api.ts      │
+   └──────────────┘
+         │
+         ▼
+ ┌─────────────────────────────┐
+ │     PostgreSQL Database     │
+ │  (Hosted e.g. Supabase,     │
+ │   Railway, Neon, RDS, etc.) │
+ └─────────────────────────────┘
+         │
+         ▼
+ ┌─────────────────────────────┐
+ │ Utilities / Data Processing │
+ │ extract_ipc.py, json, etc.  │
+ └─────────────────────────────┘
 
-     ┌─────────────────────────────┐
-     │ Utilities / Data Processing │
-     │  extract_ipc.py, json, etc. │
-     └─────────────────────────────┘
+ ┌─────────────────────────────┐
+ │  Config & Deployment        │
+ │  vite, tsconfig, tailwind,  │
+ │  netlify.toml, env          │
+ └─────────────────────────────┘
 
-     ┌─────────────────────────────┐
-     │  Config & Deployment        │
-     │  vite, tsconfig, tailwind,  │
-     │  netlify.toml, env          │
-     └─────────────────────────────┘
+ ┌─────────────────────────────┐
+ │ Docs & Assets               │
+ │ README, blueprint, pdfs     │
+ │ public/ (static files)      │
+ └─────────────────────────────┘
 
-     ┌─────────────────────────────┐
-     │ Docs & Assets               │
-     │  README, blueprint, pdfs    │
-     │  public/ (static files)     │
-     └─────────────────────────────┘
 ## 🗂 Project Structure
 
 ```
