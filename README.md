@@ -93,8 +93,8 @@ Visit `http://localhost:8080` in your browser.
 
 
 ## 📁 Project Diagram
-
-                           ┌─────────────────────────┐
+```
+            ┌─────────────────────────┐
             │       Client (React)    │
             │  Vite + Tailwind + UI   │
             │ Pages & Components      │
@@ -136,7 +136,7 @@ Visit `http://localhost:8080` in your browser.
  │ README, blueprint, pdfs     │
  │ public/ (static files)      │
  └─────────────────────────────┘
-
+```
 ## 🗂 Project Structure
 
 ```
