@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>Briefix API Test</h1>
+    
+    <div>
+        <h2>Test Chat API</h2>
+        <button onclick="testChat()">Test Chat</button>
+        <div id="chatResult"></div>
+    </div>
+    
+    <div>
+        <h2>Test Document Analysis API</h2>
+        <button onclick="testDocument()">Test Document Analysis</button>
+        <div id="docResult"></div>
+    </div>
+
+    <script>
+        async function testChat() {
+            const result = document.getElementById('chatResult');
+            result.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch('/.netlify/functions/api/gemini', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: 'What are my rights when arrested?',
+                        level: '15-year-old'
+                    }),
+                });
+                
+                const data = await response.json();
+                result.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                result.innerHTML = `Error: ${error.message}`;
+            }
+        }
+        
+        async function testDocument() {
+            const result = document.getElementById('docResult');
+            result.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch('/.netlify/functions/api/analyze-document', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        fileName: 'employment-contract.pdf',
+                        fileType: 'application/pdf'
+                    }),
+                });
+                
+                const data = await response.json();
+                result.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                result.innerHTML = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

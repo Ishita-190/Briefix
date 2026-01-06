@@ -64,9 +64,9 @@ export default async (req: Request, context: Context) => {
       });
     }
 
-    // ---- ANSWER ----
-    if (path === "/answer" && method === "POST") {
-      console.log("Handling /answer request");
+    // ---- GEMINI ----
+    if (path === "/gemini" && method === "POST") {
+      console.log("Handling /gemini request");
       
       let body: any;
       try {
@@ -122,7 +122,216 @@ The main differences are:
           category: "criminal_law",
           urgency: "medium"
         };
-      } else if (queryLower.includes("lawyer") || queryLower.includes("attorney")) {
+      } else {
+        // General legal guidance for other questions
+        response = {
+          answer: `I understand you're asking about "${query}". This is an important legal question that deserves a thorough answer.
+
+**Here's what I can tell you:**
+Legal matters can be complex and the specific answer depends on your unique situation, location, and circumstances. What might be true in one case may not apply to another.
+
+**My recommendation:**
+1. **Consult with a qualified lawyer** who specializes in this area of law
+2. **Research your specific jurisdiction's laws** - laws vary by state/country
+3. **Document everything** related to your situation
+4. **Don't rely solely on online information** for important legal decisions
+
+**For your specific question about "${query}":**
+- This may involve multiple areas of law
+- The answer could depend on your specific facts
+- There might be recent changes in the law
+- Your location could affect the outcome
+
+**Next steps:**
+- Schedule a consultation with a lawyer
+- Bring all relevant documents
+- Be prepared to discuss your specific situation
+- Ask about costs and payment options
+
+Remember: While I can provide general information, legal advice should come from a qualified attorney who knows your specific circumstances.`,
+          sources: [
+            { title: "Legal Consultation Guide", type: "guidance" },
+            { title: "General Legal Information", type: "resource" }
+          ],
+          category: "general_guidance",
+          urgency: "medium"
+        };
+      }
+
+      console.log("Sending response:", response);
+      return new Response(JSON.stringify(response), {
+        status: 200,
+        headers,
+      });
+    }
+
+    // ---- DOCUMENT ANALYSIS ----
+    if (path === "/analyze-document" && method === "POST") {
+      console.log("Handling /analyze-document request");
+      
+      let body: any;
+      try {
+        body = await req.json();
+        console.log("Request body:", body);
+      } catch (err) {
+        console.error("Invalid JSON:", err);
+        return new Response(JSON.stringify({ 
+          error: "Invalid JSON",
+          details: err instanceof Error ? err.message : "Unknown error"
+        }), {
+          status: 400,
+          headers,
+        });
+      }
+
+      const { fileName, fileContent, fileType } = body;
+      console.log("Document analysis request:", { fileName, fileType });
+
+      if (!fileName) {
+        return new Response(JSON.stringify({
+          error: "File name is required"
+        }), {
+          status: 400,
+          headers,
+        });
+      }
+
+      // Mock document analysis based on file name
+      const fileNameLower = fileName.toLowerCase();
+      let analysis: any;
+
+      if (fileNameLower.includes("contract") || fileNameLower.includes("agreement")) {
+        analysis = {
+          documentType: "Contract/Agreement",
+          summary: "This document establishes a legal relationship between parties with specific terms, conditions, and obligations that must be fulfilled by each party.",
+          keyPoints: [
+            "Defines the primary obligations and responsibilities of each party",
+            "Establishes specific deadlines and timelines for performance",
+            "Includes termination clauses and conditions for ending the agreement",
+            "Specifies dispute resolution procedures and governing law",
+            "Contains standard legal protections and liability limitations"
+          ],
+          potentialConcerns: [
+            {
+              level: "high",
+              issue: "Unusual termination clause",
+              description: "The termination conditions may be more restrictive than typical industry standards."
+            },
+            {
+              level: "medium",
+              issue: "Liability limitations",
+              description: "Some liability protections may be asymmetrical between parties."
+            }
+          ],
+          recommendations: [
+            "Consider consulting with a legal professional before signing",
+            "Review all financial obligations and payment terms carefully",
+            "Understand the termination process and any associated penalties",
+            "Clarify any ambiguous language with the other party"
+          ],
+          complexity: "Moderate",
+          readingTime: "15-20 minutes"
+        };
+      } else if (fileNameLower.includes("lease") || fileNameLower.includes("rental")) {
+        analysis = {
+          documentType: "Lease Agreement",
+          summary: "This lease agreement establishes the terms under which a tenant may occupy a residential property, including rent, duration, and responsibilities.",
+          keyPoints: [
+            "Property description and rental terms",
+            "Lease duration and renewal options",
+            "Rent amount and payment schedule",
+            "Security deposit requirements",
+            "Maintenance and repair responsibilities"
+          ],
+          potentialConcerns: [
+            {
+              level: "medium",
+              issue: "Automatic renewal clause",
+              description: "The lease may automatically renew unless proper notice is given."
+            }
+          ],
+          recommendations: [
+            "Document property condition before moving in",
+            "Understand notice requirements for termination",
+            "Review maintenance responsibilities clearly",
+            "Consider renter's insurance"
+          ],
+          complexity: "Simple",
+          readingTime: "10-15 minutes"
+        };
+      } else {
+        analysis = {
+          documentType: "Legal Document",
+          summary: "This appears to be a legal document that requires careful review to understand its implications and requirements.",
+          keyPoints: [
+            "Contains legal terms and conditions",
+            "May have binding obligations",
+            "Requires careful review before signing"
+          ],
+          potentialConcerns: [
+            {
+              level: "medium",
+              issue: "Complex legal language",
+              description: "The document may contain complex legal terms that require professional interpretation."
+            }
+          ],
+          recommendations: [
+            "Consult with a qualified attorney",
+            "Read all terms carefully",
+            "Ask questions about unclear provisions"
+          ],
+          complexity: "Moderate",
+          readingTime: "10-20 minutes"
+        };
+      }
+
+      console.log("Sending document analysis:", analysis);
+      return new Response(JSON.stringify(analysis), {
+        status: 200,
+        headers,
+      });
+    }
+
+    // ---- ANSWER ----
+    if (path === "/answer" && method === "POST") {
+      console.log("Handling /answer request");
+      
+      let body: any;
+      try {
+        body = await req.json();
+        console.log("Request body:", body);
+      } catch (err) {
+        console.error("Invalid JSON:", err);
+        return new Response(JSON.stringify({ 
+          error: "Invalid JSON",
+          details: err instanceof Error ? err.message : "Unknown error"
+        }), {
+          status: 400,
+          headers,
+        });
+      }
+
+      const { query, level = "15-year-old" } = body;
+      console.log("Query:", query, "Level:", level);
+
+      if (!query || query.trim().length < 3) {
+        console.log("Query too short, returning error");
+        return new Response(JSON.stringify({
+          answer: "Please provide a more specific question about legal concepts or procedures.",
+          sources: [],
+          category: "general",
+          urgency: "low"
+        }), {
+          status: 200,
+          headers,
+        });
+      }
+
+      // Enhanced response based on query content
+      const queryLower = query.toLowerCase();
+      let response: any;
+
+      if (queryLower.includes("lawyer") || queryLower.includes("attorney")) {
         response = {
           answer: `You typically need a lawyer when:
 
@@ -373,7 +582,7 @@ Remember: While I can provide general information, legal advice should come from
     return new Response(JSON.stringify({ 
       error: "Not Found",
       message: "The requested endpoint was not found",
-      availableEndpoints: ["/test", "/ping", "/demo", "/answer"]
+      availableEndpoints: ["/test", "/ping", "/demo", "/answer", "/gemini", "/analyze-document"]
     }), { 
       status: 404, 
       headers 

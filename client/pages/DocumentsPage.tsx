@@ -305,20 +305,31 @@ export default function DocumentsPage() {
     setIsAnalyzing(true);
     setShowAnalysis(false);
     
-    // Simulate document analysis
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    
-    // Check if this is a sample document
-    const sampleDoc = sampleDocuments.find(doc => 
-      uploadedFile.name.toLowerCase().includes(doc.name.toLowerCase().replace(/\s+/g, "-"))
-    );
-    
-    if (sampleDoc) {
-      // Use the mock analysis for the sample document
-      setAnalysis(sampleDoc.mockAnalysis);
-      setSelectedSample(sampleDoc);
-    } else {
-      // Mock analysis results for uploaded document
+    try {
+      // Call the document analysis API
+      const response = await fetch('/.netlify/functions/api/analyze-document', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fileName: uploadedFile.name,
+          fileType: uploadedFile.type,
+          fileSize: uploadedFile.size
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+
+      const analysisResult = await response.json();
+      setAnalysis(analysisResult);
+      setSelectedSample(null);
+    } catch (error) {
+      console.error('Error analyzing document:', error);
+      
+      // Fallback to mock analysis if API fails
       const mockAnalysis = {
         documentType: uploadedFile.name.includes("contract")
           ? "Employment Contract"
@@ -397,6 +408,19 @@ export default function DocumentsPage() {
     setUploadedFile(file);
     setSelectedSample(doc);
     setActiveTab("upload");
+    
+    // Automatically analyze sample document
+    setTimeout(() => {
+      setIsAnalyzing(true);
+      setShowAnalysis(false);
+      
+      // Use the mock analysis for the sample document
+      setTimeout(() => {
+        setAnalysis(doc.mockAnalysis);
+        setIsAnalyzing(false);
+        setTimeout(() => setShowAnalysis(true), 100);
+      }, 2000);
+    }, 100);
   };
 
   const resetDocument = () => {

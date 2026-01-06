@@ -1097,8 +1097,8 @@ export async function getCachedAnswer(
     }
   }
   try {
-    // Try to fetch from Gemini API
-    const response = await fetch('/api/gemini', {
+    // Try to fetch from API
+    const response = await fetch('/.netlify/functions/api/gemini', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1108,15 +1108,12 @@ export async function getCachedAnswer(
         level: level
       }),
     });
+
     if (!response.ok) {
       throw new Error(`API request failed with status ${response.status}`);
     }
+
     const data = await response.json();
-    
-    // If the response indicates a fallback, throw to use the local fallback
-    if (data.fallback) {
-      throw new Error('Gemini API returned fallback flag');
-    }
     
     // Cache the successful response
     if (useCache) {
@@ -1130,7 +1127,7 @@ export async function getCachedAnswer(
       urgency: data.urgency
     };
   } catch (error) {
-    console.error('Error calling Gemini API, using fallback:', error);
+    console.error('Error calling API, using fallback:', error);
     
     // Get fallback response when API fails
     const fallbackResponse = getFallbackResponse(question, level);
