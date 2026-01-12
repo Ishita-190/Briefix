@@ -4,7 +4,6 @@
   <h3>🏛️ AI-Powered Legal Guidance for Everyone</h3>
   <p>Get clear, level-appropriate legal explanations instantly</p>
   
-  [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
   [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
   [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/Ishita-190/Briefix/)
 </div>
