@@ -147,26 +147,26 @@ We welcome contributions! Here's how you can help:
 - Update documentation as needed
 - Never commit sensitive information
 
-### 🔮 Future Work
-# Advanced Legal Reasoning
+# 🔮 Future Work
+### Advanced Legal Reasoning
 Integrate domain-specific LLM fine-tuning for deeper, jurisdiction-aware legal analysis.
 
-# Multilingual Support
+### Multilingual Support
 Expand accessibility by supporting regional languages and localized legal frameworks.
 
-# Document Intelligence Upgrade
+### Document Intelligence Upgrade
 Enable clause-level extraction, risk highlighting, and contract comparison.
 
-# Personalized Legal Assistant
+### Personalized Legal Assistant
 Context-aware recommendations based on user history and intent modeling.
 
-# Real-time Legal Updates
+### Real-time Legal Updates
 Integrate APIs for tracking changes in laws, regulations, and case precedents.
 
-# Mobile Application
+### Mobile Application
 Launch a cross-platform mobile app for wider adoption and accessibility.
 
-# Compliance & Security Enhancements
+### Compliance & Security Enhancements
 Strengthen data privacy with encryption, audit logs, and compliance with standards like GDPR.
 
 
