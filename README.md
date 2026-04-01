@@ -147,6 +147,7 @@ We welcome contributions! Here's how you can help:
 - Update documentation as needed
 - Never commit sensitive information
 
+
 # 🔮 Future Work
 ### Advanced Legal Reasoning
 Integrate domain-specific LLM fine-tuning for deeper, jurisdiction-aware legal analysis.
